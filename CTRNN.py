@@ -171,13 +171,13 @@ class CTRNN(nn.Module):
 
     # --- Save/Load like the article showed ---
     def save(self, path: str):
-        torch.save({"state": self.state_dict(),
-                    "meta": {"I": self.I, "H": self.H, "O": self.O,
-                             "act": self._activation_name}}, path)
+        # Save only tensors (state_dict) — safe & future-proof
+        torch.save(self.state_dict(), path)
 
-    def load(self, path: str, map_location: Optional[str] = None):
-        ckpt = torch.load(path, map_location=map_location or "cpu")
-        self.load_state_dict(ckpt["state"])
+    def load(self, path: str, map_location: str = "cpu"):
+        # Use weights_only=True to avoid unpickling arbitrary objects
+        state = torch.load(path, map_location=map_location, weights_only=True)
+        self.load_state_dict(state)
 
 
 # -----------------------------
