@@ -276,15 +276,15 @@ def prune_recurrent_unstructured(model: CTRNN, amount: float = 0.5):
 # -----------------------------
 # Demo run (train + prune + eval)
 # -----------------------------
-if __name__ == "__main__":
+def main():
     torch.manual_seed(0); np.random.seed(0)
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # Build CTRNN in *one line* (inspired by the article)
+    # Build CTRNN
     model = CTRNN(
         input_dim=3, hidden_size=64, output_dim=3,
         dt=100, tau=100, activation="relu",
-        preact_noise=0.05, postact_noise=0.0,     # noise ON in train(), OFF in eval()
+        preact_noise=0.05, postact_noise=0.0,
         use_dale=False, no_self_connections=True, scaling=1.0
     ).to(device)
 
@@ -292,12 +292,11 @@ if __name__ == "__main__":
     cfg = SynthCfg(T=60, B=64, coh_levels=(0.0, 0.05, 0.1, 0.2), stim_std=0.6)
     data = SyntheticDM(cfg)
 
-    # Train
+    # Training
     opt = torch.optim.Adam(model.parameters(), lr=1e-2)
     criterion = nn.CrossEntropyLoss()
 
     print(model)
-    # quick baseline before training
     va0_loss, va0_acc = evaluate(model, data, device, criterion, steps=50, last_only=True)
     print(f"before training | valid loss {va0_loss:.4f} | acc {va0_acc*100:.1f}%")
 
@@ -306,20 +305,21 @@ if __name__ == "__main__":
         va_loss, va_acc = evaluate(model, data, device, criterion, steps=50, last_only=True)
         print(f"epoch {ep:02d} | train {tr_loss:.4f} | valid {va_loss:.4f} | acc {va_acc*100:.1f}%")
 
-    # Save / Load demo (optional)
+    # Save / Load demo
     model.save("my_ctrnn.pth")
-    # (To demonstrate load:)
     _tmp = CTRNN(input_dim=3, hidden_size=64, output_dim=3)
     _tmp.load("my_ctrnn.pth")
 
-    # ---- Pruning experiment ----
+    # Pruning experiment
     va_pre_loss, va_pre_acc = evaluate(model, data, device, criterion, steps=100, last_only=True)
     print(f"[pre-prune]  valid loss {va_pre_loss:.4f} | acc {va_pre_acc*100:.1f}%")
 
-    prune_recurrent_unstructured(model, amount=0.5)  # prune 50% of recurrent synapses
-    # (optional) brief finetune after pruning
+    prune_recurrent_unstructured(model, amount=0.5)
     for _ in range(3):
         _ = train_epoch(model, data, device, opt, criterion, steps=20, last_only=True)
 
     va_post_loss, va_post_acc = evaluate(model, data, device, criterion, steps=100, last_only=True)
     print(f"[post-prune] valid loss {va_post_loss:.4f} | acc {va_post_acc*100:.1f}%")
+
+if __name__ == "__main__":
+    main()
