@@ -73,8 +73,13 @@ def run_prune_experiment(strategy: str, amount: float,
         score = PR.movement_scores(model, data, device, criterion, batches=20, last_only=last_only)
         PR.prune_movement_recurrent(model, score, amount)
     elif strategy == "imp":
-        PR.iterative_magnitude_pruning(model, opt, data, device, criterion,
-                                       rounds=5, prune_each=amount/5, ft_steps=50, last_only=last_only)
+        R = 5
+        prune_each = 1 - (1 - amount) ** (1 / R)  # lands near final 'amount' after R rounds
+        PR.iterative_magnitude_pruning(
+            model, opt, data, device, criterion,
+            rounds=R, prune_each=prune_each, ft_steps=50, last_only=last_only
+    )
+
     else:
         raise ValueError(f"Unknown strategy: {strategy}")
 
