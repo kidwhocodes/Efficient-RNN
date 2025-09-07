@@ -22,3 +22,20 @@ def ctrnn_stability_proxy(model: CTRNN):
     W = model.hidden_layer.weight.detach()
     rho = spectral_radius(W)
     return model.alpha * rho
+
+@torch.no_grad()
+def neuron_pruning_stats(model: CTRNN):
+    """
+    Returns counts for neuron-level pruning on the recurrent matrix (H x H).
+
+    rows_zero: neurons whose outgoing weights are all zero (row == 0)
+    cols_zero: neurons whose incoming weights are all zero (col == 0)
+    isolated:  neurons that are both rows_zero AND cols_zero (fully disconnected)
+    """
+    W = model.hidden_layer.weight.detach()
+    row_zero = (W.abs().sum(dim=1) == 0)  # shape [H]
+    col_zero = (W.abs().sum(dim=0) == 0)  # shape [H]
+    rows_zero = int(row_zero.sum().item())
+    cols_zero = int(col_zero.sum().item())
+    isolated  = int((row_zero & col_zero).sum().item())
+    return {"rows_zero": rows_zero, "cols_zero": cols_zero, "isolated": isolated}
