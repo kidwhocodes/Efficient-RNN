@@ -8,9 +8,10 @@ class SynthCfg:
     T: int = 60
     B: int = 64
     input_dim: int = 3      # [bias, left, right]
-    output_dim: int = 3     # [left,right,no-go]
+    output_dim: int = 2     # ← was 3; now matches labels 0/1
     coh_levels: Tuple[float, ...] = (0.0, 0.05, 0.1, 0.2)
     stim_std: float = 0.6
+
 
 class SyntheticDM:
     def __init__(self, cfg: SynthCfg):

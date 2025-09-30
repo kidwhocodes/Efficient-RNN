@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from .pruning import enforce_constraints
 
 def train_epoch(model, data, device, opt, criterion, steps=50, last_only=True, clip=1.0):
     model.train()
@@ -18,6 +19,7 @@ def train_epoch(model, data, device, opt, criterion, steps=50, last_only=True, c
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
         opt.step()
+        enforce_constraints(model)  
         total_loss += float(loss) * N
         total_count += N
     return total_loss / max(1, total_count)

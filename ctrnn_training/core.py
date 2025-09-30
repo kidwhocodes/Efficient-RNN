@@ -102,29 +102,25 @@ class CTRNN(nn.Module):
         return fr0, v0
 
     def step(self, fr_t: torch.Tensor, v_t: torch.Tensor, u_t: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+        # affine transforms
         w_in_u = self.input_layer(u_t)
         w_h_fr = self.hidden_layer(fr_t)
 
-        # enforce constraints each step (cheap, explicit)
-        if self.use_dale:
-            with torch.no_grad():
-                W = self.hidden_layer.weight.data
-                self.hidden_layer.weight.data = W.abs() * self.dale_sign
-        if self.no_self_connections:
-            with torch.no_grad():
-                self.hidden_layer.weight.data.fill_diagonal_(0.0)
-
+        # continuous-time Euler update
         v_t = self.oneminusalpha * v_t + self.alpha * (w_in_u + w_h_fr)
 
+        # optional pre-activation noise
         if self.preact_noise > 0.0 and bool(self._noise_enabled.item()):
             v_t = v_t + self.alpha * torch.randn_like(v_t) * self.preact_noise
 
-        fr_t = self.act(v_t)
+        # nonlinearity
+        fr = self.act(v_t)
 
+        # optional post-activation noise
         if self.postact_noise > 0.0 and bool(self._noise_enabled.item()):
-            fr_t = fr_t + torch.randn_like(fr_t) * self.postact_noise
+            fr = fr + torch.randn_like(fr) * self.postact_noise
 
-        return fr_t, v_t
+        return fr, v_t
 
     def forward(self, inputs: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
@@ -146,5 +142,5 @@ class CTRNN(nn.Module):
         torch.save(self.state_dict(), path)
 
     def load(self, path: str, map_location: str = "cpu"):
-        state = torch.load(path, map_location=map_location, weights_only=True)
+        state = torch.load(path, map_location=map_location)  # removed weights_only
         self.load_state_dict(state)

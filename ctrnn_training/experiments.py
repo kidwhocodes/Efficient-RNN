@@ -10,12 +10,14 @@ from .metrics import recurrent_sparsity, ctrnn_stability_proxy, neuron_pruning_s
 from . import pruning as PR
 from typing import Optional
 
-def fresh_model(device="cpu"):
+
+def fresh_model(input_dim=3, hidden_size=128, output_dim=2, device="cpu"):
     return CTRNN(
-        input_dim=3, hidden_size=64, output_dim=3,
+        input_dim=input_dim, hidden_size=hidden_size, output_dim=output_dim,
         dt=100, tau=100, activation="relu",
-        preact_noise=0.05, postact_noise=0.0,
-        use_dale=False, no_self_connections=True, scaling=1.0
+        preact_noise=0.0, postact_noise=0.0,
+        use_dale=False, ei_ratio=0.8,
+        no_self_connections=True, scaling=1.0, bias=True
     ).to(device)
 
 def append_results_csv(results_list, csv_path="results.csv"):
@@ -35,32 +37,59 @@ def append_results_csv(results_list, csv_path="results.csv"):
 
 # make sure you have: from typing import Optional  (already in your file)
 def run_prune_experiment(
-    strategy: str,
-    amount: float,
-    *,
-    seed: int = 0,
-    device: Optional[str] = None,
-    last_only: bool = True,
-    global_include_input: bool = False,
-    global_include_readout: bool = False,
-    base_model: Optional[CTRNN] = None,
-    train_steps: int = 300,
-    ft_steps: int = 50,
+    strategy,
+    amount,
+    train_steps=600,
+    ft_steps=200,
+    last_only=True,
+    seed=0,
+    device="cpu",
+    movement_batches=20,   # NEW: minibatches used to compute movement scores
+    base_model=None,       # NEW: optional pre-trained model to clone
+    task: str = "synthetic",
+    **kwargs,              # future-proof: safely ignore extras from callers
 ):
-    # --- setup ---
-    if device is None:
-        device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    torch.manual_seed(seed); np.random.seed(seed)
+    # --- pick data/task ---
+    if task == "synthetic":
+        cfg = SynthCfg(T=60, B=64, coh_levels=(0.0, 0.05, 0.1, 0.2), stim_std=0.6)
+        data = SyntheticDM(cfg)
+        # Prefer attributes if your SyntheticDM exposes them; otherwise fall back to constants
+        input_dim = getattr(cfg, "input_dim", 3)
+        output_dim = getattr(cfg, "output_dim", 2)
 
-    # build model (or deep-copy a provided base model)
-    model = fresh_model(device) if base_model is None else deepcopy(base_model).to(device)
+    elif task.startswith("ng:"):
+        import neurogym as ngym
+        from .neurogym_data import NeuroGymDM
+        task_name = task.split("ng:", 1)[1]
+        env = ngym.make(task_name)
+        T, B = 60, 64     # dev-friendly; raise later for research runs
+        data = NeuroGymDM(env, T=T, B=B, device=device)
+        # NeuroGymDM should expose these:
+        input_dim = getattr(data, "input_dim", None)
+        output_dim = getattr(data, "n_classes", None)
 
-    # data/task
-    cfg = SynthCfg(T=60, B=64, coh_levels=(0.0, 0.05, 0.1, 0.2), stim_std=0.6)
-    data = SyntheticDM(cfg)
+    else:
+        raise ValueError(f"unknown task: {task}")
 
-    opt = torch.optim.Adam(model.parameters(), lr=1e-2)
+    # Final safety: if any dim is still None, infer from a tiny sample
+    if (input_dim is None) or (output_dim is None):
+        X_tmp, Y_tmp = data.sample_batch()
+        input_dim = X_tmp.size(-1)
+        # If labels are last-only, this still works; otherwise you can also do Y_tmp.max()
+        output_dim = int(max(2, int(Y_tmp.max().item()) + 1))
+
+    # --- build model AFTER we know dims ---
+    if base_model is None:
+        model = fresh_model(input_dim=input_dim, hidden_size=64, output_dim=output_dim, device=device)
+    else:
+        model = deepcopy(base_model).to(device)
+
+    PR.enforce_constraints(model)
+
+    # --- Learning setup ---
+    opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+    print("DEBUG lr:", opt.param_groups[0]["lr"])
     criterion = torch.nn.CrossEntropyLoss()
 
     # --- baseline train & pre metrics ---
@@ -77,12 +106,6 @@ def run_prune_experiment(
         PR.prune_random_recurrent(model, amount)
     elif strategy == "l1_unstructured":
         PR.prune_l1_recurrent(model, amount)
-    elif strategy == "global_unstructured":
-        PR.prune_global_unstructured(
-            model, amount,
-            include_readout=global_include_readout,
-            include_input=global_include_input
-        )
     elif strategy == "structured_out":
         PR.prune_structured_recurrent(model, amount, dim=0)
     elif strategy == "structured_in":
@@ -97,11 +120,32 @@ def run_prune_experiment(
             model, opt, data, device, criterion,
             rounds=R, prune_each=prune_each, ft_steps=ft_steps, last_only=last_only
         )
+    elif strategy == "random_neuron":
+        PR.prune_neurons_random(model, amount)
+    elif strategy == "l1_neuron":
+        PR.prune_neurons_l1(model, amount, combine="max")
+    elif strategy == "movement_neuron":
+        score = PR.movement_scores(
+            model, data, device, criterion,
+            batches=movement_batches,     # use the new argument
+            last_only=last_only
+        )
+        PR.prune_neurons_movement(model, score, amount, combine="max")
+        PR.enforce_constraints(model)
+    elif strategy == "noise_synapse":
+        PR.prune_noise_synapse(
+            model, amount,
+            leak=1.0,
+            sigma=1.0,
+            sim_dt=1e-2, sim_steps=20_000, sim_burnin=2_000,
+            seed=seed,
+            match_diagonal=True,
+        )
     else:
         raise ValueError(f"unknown strategy: {strategy}")
 
     # keep masks during fine-tune so zeros can't regrow
-    PR._enforce_no_self_connections(model)
+    PR.enforce_constraints(model)
     _ = train_epoch(model, data, device, opt, criterion, steps=ft_steps, last_only=last_only)
 
     # --- post metrics ---
@@ -110,7 +154,18 @@ def run_prune_experiment(
     post_alpha_rho = ctrnn_stability_proxy(model)
     post_np = neuron_pruning_stats(model)
 
-    return {
+    PR.finalize_pruning(model)
+
+    # after you compute post_* metrics and PR.finalize_pruning(model)
+    def _tensor_sparsity(x):
+        n = x.numel()
+        return 0.0 if n == 0 else float((x == 0).sum().item() / n)
+
+    rec_sp = _tensor_sparsity(model.hidden_layer.weight)
+    in_sp  = _tensor_sparsity(model.input_layer.weight)   if hasattr(model, "input_layer")  else None
+    out_sp = _tensor_sparsity(model.readout_layer.weight) if hasattr(model, "readout_layer") else None
+
+    row = {
         "seed": seed,
         "strategy": strategy,
         "amount": amount,
@@ -120,46 +175,8 @@ def run_prune_experiment(
         "pre_alpha_rho": pre_alpha_rho, "post_alpha_rho": post_alpha_rho,
         "pre_rows_zero": pre_np["rows_zero"], "pre_cols_zero": pre_np["cols_zero"], "pre_isolated": pre_np["isolated"],
         "post_rows_zero": post_np["rows_zero"], "post_cols_zero": post_np["cols_zero"], "post_isolated": post_np["isolated"],
+        "rec_sparsity": rec_sp,
     }
-
-
-
-if __name__ == "__main__":
-    import argparse
-
-    p = argparse.ArgumentParser(description="Run pruning sweeps and log to CSV")
-    p.add_argument("--strategies", type=str,
-                   default="none,random,l1_unstructured,global_unstructured,structured_out,structured_in,movement,imp")
-    p.add_argument("--amounts", type=float, nargs="+", default=[0.1, 0.2, 0.3, 0.5, 0.8])
-    p.add_argument("--seeds", type=int, nargs="+", default=[0])
-    p.add_argument("--csv", type=str, default="results.csv")
-    p.add_argument("--train-steps", type=int, default=300)
-    p.add_argument("--ft-steps", type=int, default=50)
-    p.add_argument("--global-include-input", action="store_true")
-    p.add_argument("--global-include-readout", action="store_true")
-    args = p.parse_args()
-
-    strategies = [s.strip() for s in args.strategies.split(",") if s.strip()]
-    results = []
-
-    for seed in args.seeds:
-        for strat in strategies:
-            for amount in args.amounts:
-                kwargs = {}
-                if strat == "global_unstructured":
-                    kwargs["global_include_input"] = args.global_include_input
-                    kwargs["global_include_readout"] = args.global_include_readout
-
-                res = run_prune_experiment(
-                    strat,
-                    amount,
-                    seed=seed,
-                    train_steps=args.train_steps,
-                    ft_steps=args.ft_steps,
-                    **kwargs,
-                )
-                print(res)
-                results.append(res)
-
-    append_results_csv(results, csv_path=args.csv)
-    print(f"→ Appended {len(results)} rows to {args.csv}")
+    if in_sp  is not None: row["in_sparsity"]  = in_sp
+    if out_sp is not None: row["out_sparsity"] = out_sp
+    return row

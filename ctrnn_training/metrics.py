@@ -24,6 +24,33 @@ def ctrnn_stability_proxy(model: CTRNN):
     return model.alpha * rho
 
 @torch.no_grad()
+def layer_sparsities(model: CTRNN):
+    """Sparsity per layer (fraction of zeros)."""
+    layers = {
+        "input": model.input_layer.weight,
+        "recurrent": model.hidden_layer.weight,
+        "readout": model.readout_layer.weight,
+    }
+    out = {}
+    for name, W in layers.items():
+        nz = int((W != 0).sum().item())
+        tot = W.numel()
+        out[name] = 1.0 - (nz / tot)
+    return out
+
+@torch.no_grad()
+def neuron_keep_fraction(model: CTRNN):
+    """Fraction of hidden neurons effectively kept (not isolated)."""
+    W = model.hidden_layer.weight.detach()
+    row_zero = (W.abs().sum(dim=1) == 0)
+    col_zero = (W.abs().sum(dim=0) == 0)
+    removed = int((row_zero & col_zero).sum().item())
+    H = W.size(0)
+    kept = H - removed
+    return kept / max(1, H)
+
+
+@torch.no_grad()
 def neuron_pruning_stats(model: CTRNN):
     """
     Returns counts for neuron-level pruning on the recurrent matrix (H x H).
