@@ -1,44 +1,85 @@
 # ctrnn_training/sweeps.py
-import os, time, csv
-from typing import Sequence
-from .experiments import run_prune_experiment
+from __future__ import annotations
+import os, time
+from typing import Iterable
+from .experiments import run_prune_experiment, append_results_csv
 
 def run_sweep(
     out_csv: str,
-    strategies: Sequence[str] = ("l1_neuron", "movement_neuron", "random_neuron", "noise_synapse"),
-    amounts: Sequence[float] = (0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-    seeds: Sequence[int] = (0,1,2,3,4),
-    train_steps: int = 600,
-    ft_steps: int = 400,
+    strategies: Iterable[str] = ("l1_neuron", "movement_neuron", "random_neuron", "noise_synapse"),
+    amounts: Iterable[float] = (0.1, 0.3, 0.5),
+    seeds: Iterable[int] = (0, 1),
+    *,
+    train_steps: int = 120,
+    ft_steps: int = 40,
     last_only: bool = True,
     device: str = "cpu",
-    movement_batches: int = 50,
-    task: str = "synthetic",     
-):
+    movement_batches: int = 10,
+    task: str = "synthetic",
+) -> str:
+    """
+    Run (strategy × amount × seed) and append results to `out_csv`.
+    Returns the path to the CSV.
+    """
     os.makedirs(os.path.dirname(out_csv) or ".", exist_ok=True)
-    fieldnames = None
-    with open(out_csv, "w", newline="") as f:
-        writer = None
-        for strat in strategies:
-            for amt in amounts:
-                for seed in seeds:
-                    t0 = time.time()
-                    res = run_prune_experiment(
+    results = []
+    started = time.time()
+
+    strategies = tuple(strategies)
+    amounts    = tuple(amounts)
+    seeds      = tuple(seeds)
+
+    print(f"[sweep] task={task} device={device} "
+          f"strategies={strategies} amounts={amounts} seeds={seeds}")
+    print(f"[sweep] steps: train={train_steps}, ft={ft_steps}, last_only={last_only}, "
+          f"movement_batches={movement_batches}")
+
+    total = len(strategies) * len(amounts) * len(seeds)
+    idx = 0
+
+    for strat in strategies:
+        for amt in amounts:
+            for seed in seeds:
+                idx += 1
+                tag = f"[{idx}/{total}] {strat} amt={amt} seed={seed}"
+                try:
+                    row = run_prune_experiment(
                         strategy=strat,
-                        amount=amt,
+                        amount=float(amt),
                         train_steps=train_steps,
                         ft_steps=ft_steps,
                         last_only=last_only,
-                        seed=seed,
+                        seed=int(seed),
                         device=device,
-                        movement_batches=movement_batches,  # optional passthrough
-                        task = task,
+                        movement_batches=movement_batches,
+                        task=task,
                     )
-                    res["runtime_s"] = round(time.time() - t0, 2)
-                    if fieldnames is None:
-                        fieldnames = list(res.keys())
-                        writer = csv.DictWriter(f, fieldnames=fieldnames)
-                        writer.writeheader()
-                    writer.writerow(res)
-                    f.flush()
+                    # Ensure key fields
+                    row.setdefault("task", task)
+                    row.setdefault("strategy", strat)
+                    row.setdefault("amount", float(amt))
+                    row.setdefault("seed", int(seed))
+                    results.append(row)
+
+                    # Write periodically so kills don't lose progress
+                    if len(results) >= 5:
+                        append_results_csv(results, out_csv)
+                        results.clear()
+
+                    print(f"{tag} ✓")
+                except Exception as e:
+                    err_row = {
+                        "task": task, "strategy": strat, "amount": float(amt), "seed": int(seed),
+                        "error": repr(e),
+                    }
+                    results.append(err_row)
+                    append_results_csv(results, out_csv)
+                    results.clear()
+                    print(f"{tag} ✗  {e}")
+
+    if results:
+        append_results_csv(results, out_csv)
+
+    elapsed = time.time() - started
+    print(f"[sweep] wrote: {out_csv}  (elapsed {elapsed:.1f}s)")
     return out_csv

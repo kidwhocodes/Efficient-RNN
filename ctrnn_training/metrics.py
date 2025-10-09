@@ -1,5 +1,6 @@
 import torch
 from .core import CTRNN
+import numpy as np 
 
 def count_nonzero_and_total(t: torch.Tensor):
     nz = int((t != 0).sum().item())
@@ -13,9 +14,14 @@ def recurrent_sparsity(model: CTRNN):
     return 1.0 - (nz / tot)
 
 @torch.no_grad()
-def spectral_radius(W: torch.Tensor):
-    ev = torch.linalg.eigvals(W.float().cpu())
-    return float(ev.abs().max().item())
+def spectral_radius(W: torch.Tensor) -> float:
+    W = W.detach().to("cpu", dtype=torch.float32)
+    W = torch.nan_to_num(W, nan=0.0, posinf=0.0, neginf=0.0)  # NEW
+    try:
+        eigvals = np.linalg.eigvals(W.numpy())
+        return float(np.max(np.abs(eigvals)))
+    except Exception:
+        return float("nan")
 
 @torch.no_grad()
 def ctrnn_stability_proxy(model: CTRNN):

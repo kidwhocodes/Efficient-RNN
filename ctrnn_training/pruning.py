@@ -118,6 +118,64 @@ def movement_scores(model: CTRNN, data, device, criterion, batches=10, last_only
     scores = (g * W).abs().detach().clone()
     return scores
 
+@torch.no_grad()
+def _keep_mask_from_scores(score: torch.Tensor, amount: float, *, seed: int = 0) -> torch.Tensor:
+    n = score.numel()
+    k_prune = int(round(amount * n))
+    if k_prune <= 0:
+        return torch.ones_like(score, dtype=torch.uint8)
+    if k_prune >= n:
+        return torch.zeros_like(score, dtype=torch.uint8)
+
+    flat = score.flatten()
+    # tiny noise to break ties deterministically
+    g = torch.Generator(device=flat.device)
+    g.manual_seed(seed)
+    noise = 1e-12 * torch.rand_like(flat, generator=g)
+
+    idx = torch.argsort(flat + noise, descending=True)
+    keep_n = n - k_prune
+    keep_idx = idx[:keep_n]
+
+    mask = torch.zeros(n, dtype=torch.uint8, device=score.device)
+    mask[keep_idx] = 1
+    return mask.view_as(score)
+
+
+def snip_scores(model: CTRNN, data, device, criterion, batches: int = 1, last_only: bool = True) -> torch.Tensor:
+    """
+    SNIP-style saliency for recurrent weights: |∂L/∂W * W|.
+    Compute on a few mini-batches without optimizer steps.
+    """
+    model.train()
+    layer = model.hidden_layer
+    # zero just in case
+    if layer.weight.grad is not None:
+        layer.weight.grad.zero_()
+
+    with torch.enable_grad():
+        for _ in range(batches):
+            x, y = data.sample_batch()
+            x, y = x.to(device), y.to(device)
+            logits, _ = model(x)
+            loss = criterion(logits[-1], y[-1]) if last_only else \
+                   criterion(logits.view(-1, logits.size(-1)), y.view(-1))
+            model.zero_grad(set_to_none=True)
+            loss.backward(retain_graph=False)
+
+    W = layer.weight
+    g = W.grad if W.grad is not None else torch.zeros_like(W)
+    score = (g * W).abs().detach().clone()
+    # clean up
+    layer.weight.grad = None
+    return score
+
+@torch.no_grad()
+def prune_snip_recurrent(model: CTRNN, score: torch.Tensor, amount: float, *, seed: int = 0):
+    import torch.nn.utils.prune as P
+    keep = _keep_mask_from_scores(score, amount, seed=seed).to(dtype=model.hidden_layer.weight.dtype)
+    P.custom_from_mask(model.hidden_layer, name="weight", mask=keep)
+    enforce_constraints(model)
 
 
 def prune_movement_recurrent(model: CTRNN, score: torch.Tensor, amount: float):
@@ -137,6 +195,86 @@ def prune_movement_recurrent(model: CTRNN, score: torch.Tensor, amount: float):
     # NEW: clean diagonal / apply Dale on the underlying weight_orig & mask
     enforce_constraints(model)
 
+def synflow_scores(model: nn.Module):
+    # make all params positive and turn off nonlinearity saturation
+    was_training = model.training
+    model.eval()
+    # 1) Temporarily abs() the weights
+    backup = []
+    for p in model.parameters():
+        backup.append(p.data.clone())
+        p.data = p.data.abs()
+    # 2) Feed a ones input through and sum outputs
+    with torch.no_grad():
+        I = model.input_dim
+        B = 1
+        x = torch.ones(1, B, I, device=next(model.parameters()).device)
+    # need gradients on
+    for p in model.parameters():
+        if p.grad is not None:
+            p.grad.zero_()
+    y = model.forward_sequence(x)  # uses your sequence API; if you have forward(x) only, adapt to shape
+    loss = y.abs().sum()
+    loss.backward()
+    # 3) score = |grad * weight|
+    scores = {}
+    for name, p in model.named_parameters():
+        if p.grad is None: continue
+        scores[name] = (p.grad * p).detach().abs()
+    # restore weights
+    for p, b in zip(model.parameters(), backup):
+        p.data = b
+    if was_training:
+        model.train()
+    return scores
+
+def fisher_diag_scores(model, data_loader_fn, batches=4):
+    # Accumulate squared grads as Fisher diagonal proxy
+    device = next(model.parameters()).device
+    scores = {n: torch.zeros_like(p, device=device) for n,p in model.named_parameters() if p.requires_grad}
+    was_training = model.training
+    model.train()
+    for _ in range(batches):
+        X, Y = data_loader_fn()  # returns [T,B,I], [T,B] or [B] depending on last_only
+        model.zero_grad(set_to_none=True)
+        logits = model.forward_sequence(X)  # adapt if your API differs
+        # use final step targets if last_only, else full sequence CE
+        if logits.dim()==3:  # [T,B,C]
+            loss = nn.CrossEntropyLoss()(logits[-1], Y[-1])
+        else:                # [B,C]
+            loss = nn.CrossEntropyLoss()(logits, Y[-1] if Y.dim()==2 else Y)
+        loss.backward()
+        for (n,p) in model.named_parameters():
+            if p.grad is None: continue
+            scores[n] += (p.grad.detach() ** 2)
+    if was_training is False:
+        model.eval()
+    return {n: s / float(batches) for n,s in scores.items()}
+
+def activity_neuron_scores(model, data_loader_fn, batches=4):
+    # score each hidden unit by its activity variance across time/batch
+    device = next(model.parameters()).device
+    H = model.hidden_size
+    act_sum = torch.zeros(H, device=device)
+    act_sq_sum = torch.zeros(H, device=device)
+    count = 0
+    was_training = model.training
+    model.eval()
+    with torch.no_grad():
+        for _ in range(batches):
+            X, _ = data_loader_fn()
+            h = model.hidden_sequence(X)  # return [T,B,H]; implement wrapper if needed
+            T,B,_ = h.shape
+            h = h.reshape(T*B, H)
+            act_sum += h.abs().sum(dim=0)
+            act_sq_sum += (h ** 2).sum(dim=0)
+            count += T*B
+    if was_training: model.train()
+    mean = act_sum / count
+    var = (act_sq_sum / count) - (mean ** 2)
+    # low variance (or low mean) → prune first
+    neuron_score = var.clamp_min(0)
+    return neuron_score
 
 # -------- Neuron-level pruning helpers --------
 
