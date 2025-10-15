@@ -80,6 +80,8 @@ def run_prune_experiment(
         # ----- allow T/B overrides; choose harder defaults -----
         T = kwargs.pop("ng_T", None)
         B = kwargs.pop("ng_B", None)
+        hidden_size_override = kwargs.pop("hidden_size", None)
+
         if T is None: T = 400
         if B is None: B = 64
 
@@ -99,7 +101,13 @@ def run_prune_experiment(
 
     # ---------- build model AFTER we know dims ----------
     if base_model is None:
-        model = fresh_model(input_dim=input_dim, hidden_size=128, output_dim=output_dim, device=device)
+        hs = 128 if hidden_size_override is None else int(hidden_size_override)
+        model = fresh_model(
+            input_dim=input_dim,
+            hidden_size=hs,
+            output_dim=output_dim,
+            device=device,
+        )
     else:
         model = deepcopy(base_model).to(device)
     PR.enforce_constraints(model)

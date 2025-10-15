@@ -4,7 +4,7 @@ import torch.nn.utils.prune as P
 from .core import CTRNN
 import math
 from typing import Optional
-
+import contextlib
 
 # ---------- helpers ----------
 
@@ -24,6 +24,52 @@ def enforce_constraints(model: CTRNN):
         M = getattr(layer, "weight_mask", None)
         if M is not None:
             M.fill_diagonal_(0.0)
+
+
+def _global_threshold_from_tensors(tensors, amount: float) -> float:
+    """Return a value 'thresh' such that ~`amount` fraction will be pruned (score <= thresh)."""
+    flat = torch.cat([t.reshape(-1) for t in tensors if t is not None])
+    k_prune = int(round(amount * flat.numel()))
+    if k_prune <= 0:
+        return float(-1e30)
+    if k_prune >= flat.numel():
+        return float(+1e30)
+    # smallest k_prune elements → pruned
+    thresh = torch.topk(flat, k_prune, largest=False).values.max().item()
+    return float(thresh)
+
+@torch.no_grad()
+def mask_from_scores(model: CTRNN, scores: dict, amount: float,
+                     structured: bool = False, global_: bool = True):
+    """
+    Apply an unstructured mask to the recurrent weights using a dict of per-param scores.
+    Only 'hidden_layer.weight' is used (clean + matches your metrics).
+    """
+    layer = model.hidden_layer
+    s = None
+    # scores keys come from model.named_parameters() in synflow_scores
+    for name, t in scores.items():
+        if name.endswith("hidden_layer.weight"):
+            s = t
+            break
+    if s is None:
+        # fallback: try attribute
+        s = getattr(layer, "weight")
+        s = s.new_ones(s.shape)
+
+    thresh = _global_threshold_from_tensors([s], amount)
+    keep = (s > thresh).to(dtype=layer.weight.dtype)
+    P.custom_from_mask(layer, name="weight", mask=keep)
+    enforce_constraints(model)  # keep your diagonal/Dale constraints
+
+@torch.no_grad()
+def neuron_mask_from_scores(model: CTRNN, neuron_scores: torch.Tensor, amount: float):
+    """
+    Expand per-neuron scores [H] into consistent masks for in/rec/out and apply.
+    """
+    keep = _neuron_keep_mask_from_scores(neuron_scores, amount)
+    _apply_neuron_keep_mask(model, keep)
+    enforce_constraints(model)
 
 def _consolidate_if_pruned(layer: nn.Module):
     try:
@@ -195,38 +241,61 @@ def prune_movement_recurrent(model: CTRNN, score: torch.Tensor, amount: float):
     # NEW: clean diagonal / apply Dale on the underlying weight_orig & mask
     enforce_constraints(model)
 
-def synflow_scores(model: nn.Module):
-    # make all params positive and turn off nonlinearity saturation
+def _infer_input_dim(model):
+    # Try common attribute names first
+    for name in ("I", "input_dim"):
+        if hasattr(model, name):
+            return int(getattr(model, name))
+    # Fall back to the first Linear we can find
+    for m in model.modules():
+        if isinstance(m, torch.nn.Linear):
+            return int(m.in_features)
+    raise AttributeError("Could not infer input dimension for SynFlow scoring.")
+
+def synflow_scores(model):
+    """
+    Data-free SynFlow: score params by |grad * weight| after making all weights positive.
+    Returns a dict mapping param names -> score tensors with same shapes.
+    """
     was_training = model.training
     model.eval()
-    # 1) Temporarily abs() the weights
-    backup = []
-    for p in model.parameters():
-        backup.append(p.data.clone())
+
+    # 1) make all params positive and stash originals
+    backups = {}
+    for n, p in model.named_parameters():
+        backups[n] = p.data.clone()
         p.data = p.data.abs()
-    # 2) Feed a ones input through and sum outputs
-    with torch.no_grad():
-        I = model.input_dim
-        B = 1
-        x = torch.ones(1, B, I, device=next(model.parameters()).device)
-    # need gradients on
+
+    # 2) forward ones input (T=1, B=1, I=in_features)
+    device = next(model.parameters()).device
+    I = _infer_input_dim(model)
+    x = torch.ones(1, 1, I, device=device)
+
+    # zero grads
     for p in model.parameters():
         if p.grad is not None:
             p.grad.zero_()
-    y = model.forward_sequence(x)  # uses your sequence API; if you have forward(x) only, adapt to shape
-    loss = y.abs().sum()
+
+    # Your CTRNN forward returns (logits, hidden) when given [T,B,I]
+    logits, _ = model(x)
+    loss = logits.abs().sum()
     loss.backward()
-    # 3) score = |grad * weight|
-    scores = {}
-    for name, p in model.named_parameters():
-        if p.grad is None: continue
-        scores[name] = (p.grad * p).detach().abs()
-    # restore weights
-    for p, b in zip(model.parameters(), backup):
-        p.data = b
+
+    # 3) collect scores: |grad * weight|
+    out = {}
+    for n, p in model.named_parameters():
+        if p.grad is None:
+            continue
+        out[n] = (p.grad * p).detach().abs().clone()
+
+    # 4) restore weights & mode
+    for n, p in model.named_parameters():
+        p.data.copy_(backups[n])
     if was_training:
         model.train()
-    return scores
+
+    return out
+
 
 def fisher_diag_scores(model, data_loader_fn, batches=4):
     # Accumulate squared grads as Fisher diagonal proxy

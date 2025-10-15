@@ -14,7 +14,8 @@ def main():
                    choices=[
                             "none","random_neuron","l1_neuron","movement_neuron","imp",
                             "random","l1_unstructured","structured_out","structured_in",
-                            "global_unstructured","movement","noise_synapse"
+                            "global_unstructured","movement","noise_synapse", "synflow", 
+                            "fisher", "activity_neuron",
                             ]
                 )
     p.add_argument("--amount", type=float, default=0.5)
@@ -41,6 +42,7 @@ def main():
     p.add_argument("--ng_B", type=int, default=None, help="Override batch size B for NeuroGym tasks")
     p.add_argument("--score_batches", type=int, default=4,
                help="Mini-batches to estimate Fisher/activity scores")
+    p.add_argument("--hidden_size", type=int, default=None, help="RNN hidden size")
 
     args = p.parse_args()
 
@@ -62,7 +64,7 @@ def main():
         res = run_prune_experiment(strategy=args.strategy, amount=args.amount,
                                train_steps=args.train_steps, ft_steps=args.ft_steps,
                                last_only=args.last_only, seed=args.seed, task=args.task, no_prune=args.no_prune,
-                               ng_kwargs=args.ng_kwargs, ng_T=args.ng_T, ng_B=args.ng_B,)
+                               ng_kwargs=args.ng_kwargs, ng_T=args.ng_T, ng_B=args.ng_B,hidden_size=args.hidden_size,)
         print(res)
 
 if __name__ == "__main__":

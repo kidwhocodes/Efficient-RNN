@@ -137,6 +137,14 @@ class CTRNN(nn.Module):
         logits = self.readout_layer(hidden_seq)
         return logits, hidden_seq
 
+    def forward_sequence(self, x):
+        logits, _ = self.forward(x)
+        return logits
+
+    def hidden_sequence(self, x):
+        _, h = self.forward(x)
+        return h
+
     # save/load
     def save(self, path: str):
         torch.save(self.state_dict(), path)
