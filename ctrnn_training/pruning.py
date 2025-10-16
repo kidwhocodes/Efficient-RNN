@@ -323,27 +323,37 @@ def fisher_diag_scores(model, data_loader_fn, batches=4):
 def activity_neuron_scores(model, data_loader_fn, batches=4):
     # score each hidden unit by its activity variance across time/batch
     device = next(model.parameters()).device
-    H = model.hidden_size
+    # infer H from model
+    H = getattr(model, "H", None)
+    if H is None:
+        H = model.hidden_layer.weight.shape[0]
+
     act_sum = torch.zeros(H, device=device)
     act_sq_sum = torch.zeros(H, device=device)
     count = 0
+
     was_training = model.training
     model.eval()
     with torch.no_grad():
         for _ in range(batches):
             X, _ = data_loader_fn()
-            h = model.hidden_sequence(X)  # return [T,B,H]; implement wrapper if needed
-            T,B,_ = h.shape
-            h = h.reshape(T*B, H)
+            # get hidden sequence [T,B,H]
+            try:
+                h = model.hidden_sequence(X)
+            except AttributeError:
+                _, h = model(X)  # your forward returns (logits, hidden_seq)
+            T, B, _ = h.shape
+            h = h.reshape(T * B, H)
             act_sum += h.abs().sum(dim=0)
             act_sq_sum += (h ** 2).sum(dim=0)
-            count += T*B
-    if was_training: model.train()
+            count += T * B
+    if was_training:
+        model.train()
+
     mean = act_sum / count
     var = (act_sq_sum / count) - (mean ** 2)
-    # low variance (or low mean) → prune first
-    neuron_score = var.clamp_min(0)
-    return neuron_score
+    # low-variance units are least useful → prune them first
+    return var.clamp_min(0)
 
 # -------- Neuron-level pruning helpers --------
 
