@@ -105,6 +105,102 @@ def _simulate_covariance(
             cnt += 1
     return S / max(1, cnt)
 
+def _get_rec_name_and_tensor(model, scores_dict):
+    """Find the recurrent weight name/tensor in a score dict."""
+    rec_name = None
+    for n in scores_dict.keys():
+        if n.endswith("hidden_layer.weight"):
+            rec_name = n
+            break
+    if rec_name is None:
+        # fall back to model attr; synthesize scores if needed
+        rec_name = "hidden_layer.weight"
+        scores_dict[rec_name] = model.hidden_layer.weight.detach().abs().clone()
+    return rec_name, scores_dict[rec_name]
+
+def _synapse_scores_to_neuron(scores_tensor: torch.Tensor, reduce="sumabs"):
+    """
+    Collapse synapse scores (H x H) to per-neuron scores [H].
+    Combine in+out connections to reflect neuron importance.
+    """
+    # scores_tensor shape: [H, H] (row: out, col: in) for recurrent matrix
+    if reduce == "sumabs":
+        row = scores_tensor.abs().sum(dim=1)  # outgoing
+        col = scores_tensor.abs().sum(dim=0)  # incoming
+        return row + col
+    elif reduce == "l2":
+        row = torch.linalg.vector_norm(scores_tensor, ord=2, dim=1)
+        col = torch.linalg.vector_norm(scores_tensor, ord=2, dim=0)
+        return row + col
+    else:
+        raise ValueError(f"Unknown reduce mode: {reduce}")
+
+def _zscore(x: torch.Tensor, eps=1e-8):
+    m = x.mean()
+    s = x.std(unbiased=False)
+    return (x - m) / (s + eps)
+
+def combined_noise_neuron_scores(
+    model,
+    data_loader_fn,
+    batches=4,
+    sigma=0.05,
+    last_only=True,
+    fisher_w=1.0,
+    noiseprobe_w=1.0,
+    activity_w=1.0,
+    reduce="sumabs",
+):
+    """
+    Build a neuron score by z-scored weighted combo of:
+      - Fisher diagonal (synapse -> neuron)
+      - Noise probe synapse scores (synapse -> neuron)
+      - Activity variance (already neuron-level)
+    Returns: [H] neuron scores (higher = keep).
+    """
+    device = next(model.parameters()).device
+    H = getattr(model, "H", model.hidden_layer.weight.shape[0])
+
+    # 1) Fisher (synapse -> neuron)
+    fisher = None
+    if fisher_w != 0.0:
+        fs = fisher_diag_scores(model, data_loader_fn=data_loader_fn, batches=batches)
+        _, fW = _get_rec_name_and_tensor(model, fs)
+        fisher = _synapse_scores_to_neuron(fW, reduce=reduce)
+
+    # 2) Noise probe (synapse -> neuron)
+    nprobe = None
+    if noiseprobe_w != 0.0:
+        ns = noise_probe_scores(model, data_loader_fn=data_loader_fn, batches=batches, sigma=sigma, last_only=last_only)
+        _, nW = _get_rec_name_and_tensor(model, ns)
+        nprobe = _synapse_scores_to_neuron(nW, reduce=reduce)
+
+    # 3) Activity variance (neuron)
+    act = None
+    if activity_w != 0.0:
+        act = activity_neuron_scores(model, data_loader_fn=data_loader_fn, batches=batches)
+        # ensure shape [H]
+        if act.numel() != H:
+            act = act.view(H)
+
+    # Combine (z-score each non-None and weight)
+    parts = []
+    if fisher is not None:
+        parts.append(fisher_w * _zscore(fisher.to(device)))
+    if nprobe is not None:
+        parts.append(noiseprobe_w * _zscore(nprobe.to(device)))
+    if act is not None:
+        parts.append(activity_w * _zscore(act.to(device)))
+
+    if len(parts) == 0:
+        # fallback: keep all
+        return torch.ones(H, device=device)
+
+    combo = torch.stack(parts).sum(dim=0)
+    # higher score = more important; neuron_mask_from_scores will prune the lowest
+    return combo
+
+
 # ---------- strategies ----------
 def prune_random_recurrent(model: CTRNN, amount: float):
     P.random_unstructured(model.hidden_layer, name="weight", amount=amount)
@@ -295,6 +391,59 @@ def synflow_scores(model):
         model.train()
 
     return out
+
+def noise_probe_scores(model, data_loader_fn, batches=2, sigma=0.05, last_only=True):
+    """
+    Data-aware 'noise probing' scorer:
+    - Add small Gaussian noise to inputs twice (independent draws)
+    - Measure output disagreement (variance proxy)
+    - Backprop disagreement to accumulate |grad| as importance
+    Returns: dict name->score tensor (same shapes as params)
+    """
+    device = next(model.parameters()).device
+    was_training = model.training
+    model.train()  # enable grads
+
+    # init accumulators
+    scores = {n: torch.zeros_like(p, device=device) for n, p in model.named_parameters() if p.requires_grad}
+
+    for _ in range(batches):
+        X, Y = data_loader_fn()  # X: [T,B,I], Y: [T,B] or [B]
+        X = X.to(device)
+
+        # two independent noise draws (same shape as X)
+        eps1 = torch.randn_like(X) * sigma
+        eps2 = torch.randn_like(X) * sigma
+
+        # forward 1
+        model.zero_grad(set_to_none=True)
+        logits1, _ = model(X + eps1)
+        # forward 2 (no grad clear yet, we’ll recompute)
+        logits2, _ = model(X + eps2)
+
+        # compare final-step logits (last_only) or full sequence
+        if logits1.dim() == 3:  # [T,B,C]
+            diff = logits1[-1] - logits2[-1] if last_only else (logits1 - logits2).view(-1, logits1.size(-1))
+        else:  # [B,C]
+            diff = logits1 - logits2
+
+        # disagreement loss ~ variance proxy
+        loss = (diff ** 2).mean()
+        loss.backward()
+
+        # accumulate |grad| (or |grad*weight|)
+        for n, p in model.named_parameters():
+            if p.grad is None: 
+                continue
+            scores[n] += p.grad.detach().abs()
+
+    if not was_training:
+        model.eval()
+    # average across batches
+    for n in scores:
+        scores[n] /= float(batches)
+    return scores
+
 
 
 def fisher_diag_scores(model, data_loader_fn, batches=4):

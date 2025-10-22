@@ -15,7 +15,7 @@ def main():
                             "none","random_neuron","l1_neuron","movement_neuron","imp",
                             "random","l1_unstructured","structured_out","structured_in",
                             "global_unstructured","movement","noise_synapse", "synflow", 
-                            "fisher", "activity_neuron",
+                            "fisher", "activity_neuron", "noise_probe", "noise_combo"
                             ]
                 )
     p.add_argument("--amount", type=float, default=0.5)
@@ -43,6 +43,10 @@ def main():
     p.add_argument("--score_batches", type=int, default=4,
                help="Mini-batches to estimate Fisher/activity scores")
     p.add_argument("--hidden_size", type=int, default=None, help="RNN hidden size")
+    p.add_argument("--fisher_w", type=float, default=1.0)
+    p.add_argument("--noiseprobe_w", type=float, default=1.0)
+    p.add_argument("--activity_w", type=float, default=1.0)
+
 
     args = p.parse_args()
 
@@ -64,7 +68,8 @@ def main():
         res = run_prune_experiment(strategy=args.strategy, amount=args.amount,
                                train_steps=args.train_steps, ft_steps=args.ft_steps,
                                last_only=args.last_only, seed=args.seed, task=args.task, no_prune=args.no_prune,
-                               ng_kwargs=args.ng_kwargs, ng_T=args.ng_T, ng_B=args.ng_B,hidden_size=args.hidden_size,)
+                               ng_kwargs=args.ng_kwargs, ng_T=args.ng_T, ng_B=args.ng_B,hidden_size=args.hidden_size,
+                               fisher_w=args.fisher_w, noiseprobe_w=args.noiseprobe_w, activity_w=args.activity_w,)
         print(res)
 
 if __name__ == "__main__":

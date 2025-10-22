@@ -166,6 +166,31 @@ def run_prune_experiment(
             PR.prune_snip_recurrent(model, score, amount)
         elif strategy == "global_unstructured_all":
             PR.prune_global_unstructured(model, amount, include_readout=True, include_input=True)
+        elif strategy == "noise_probe":
+            from .pruning import noise_probe_scores, mask_from_scores
+            batches = kwargs.get("score_batches", 4)
+            scores = noise_probe_scores(model, data_loader_fn=lambda: data.sample_batch(), batches=batches, sigma=0.05, last_only=kwargs.get("last_only", True))
+            mask_from_scores(model, scores, amount)
+        elif strategy == "noise_combo":
+            from .pruning import combined_noise_neuron_scores, neuron_mask_from_scores
+            batches = kwargs.get("score_batches", 4)
+            last_only = kwargs.get("last_only", True)
+            # weights (pull from kwargs if you expose them on CLI; else default equal)
+            fisher_w = kwargs.get("fisher_w", 1.0)
+            noiseprobe_w = kwargs.get("noiseprobe_w", 1.0)
+            activity_w = kwargs.get("activity_w", 1.0)
+            ns = combined_noise_neuron_scores(
+                model,
+                data_loader_fn=lambda: data.sample_batch(),
+                batches=batches,
+                sigma=0.05,
+                last_only=last_only,
+                fisher_w=fisher_w,
+                noiseprobe_w=noiseprobe_w,
+                activity_w=activity_w,
+                reduce="sumabs",
+            )
+            neuron_mask_from_scores(model, ns, amount)
         else:
             raise ValueError(f"unknown strategy: {strategy}")
         PR.enforce_constraints(model)
