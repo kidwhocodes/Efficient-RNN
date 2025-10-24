@@ -1,3 +1,5 @@
+"""Convenience metrics for characterising pruned CTRNNs."""
+
 import torch
 from .core import CTRNN
 import numpy as np 

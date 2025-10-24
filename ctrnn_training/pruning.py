@@ -1,3 +1,5 @@
+"""Pruning utilities for CTRNN models."""
+
 import torch
 import torch.nn as nn
 import torch.nn.utils.prune as P
@@ -150,6 +152,7 @@ def combined_noise_neuron_scores(
     noiseprobe_w=1.0,
     activity_w=1.0,
     reduce="sumabs",
+    debug=False, 
 ):
     """
     Build a neuron score by z-scored weighted combo of:
@@ -183,21 +186,29 @@ def combined_noise_neuron_scores(
         if act.numel() != H:
             act = act.view(H)
 
-    # Combine (z-score each non-None and weight)
     parts = []
+    parts_dict = {}  # <--- add
     if fisher is not None:
-        parts.append(fisher_w * _zscore(fisher.to(device)))
+        zf = _zscore(fisher.to(device))
+        parts.append(fisher_w * zf)
+        parts_dict["fisher_z"] = zf
     if nprobe is not None:
-        parts.append(noiseprobe_w * _zscore(nprobe.to(device)))
+        zn = _zscore(nprobe.to(device))
+        parts.append(noiseprobe_w * zn)
+        parts_dict["noiseprobe_z"] = zn
     if act is not None:
-        parts.append(activity_w * _zscore(act.to(device)))
+        za = _zscore(act.to(device))
+        parts.append(activity_w * za)
+        parts_dict["activity_z"] = za
 
     if len(parts) == 0:
-        # fallback: keep all
-        return torch.ones(H, device=device)
+        combo = torch.ones(H, device=device)
+    else:
+        combo = torch.stack(parts).sum(dim=0)
 
-    combo = torch.stack(parts).sum(dim=0)
-    # higher score = more important; neuron_mask_from_scores will prune the lowest
+    # If debug, also return the z-scored components
+    if debug:
+        return combo, parts_dict
     return combo
 
 
@@ -271,9 +282,12 @@ def _keep_mask_from_scores(score: torch.Tensor, amount: float, *, seed: int = 0)
 
     flat = score.flatten()
     # tiny noise to break ties deterministically
-    g = torch.Generator(device=flat.device)
+    if flat.numel() == 0:
+        return torch.zeros_like(score, dtype=torch.uint8)
+    g = torch.Generator(device="cpu")
     g.manual_seed(seed)
-    noise = 1e-12 * torch.rand_like(flat, generator=g)
+    noise = 1e-12 * torch.rand(flat.shape, dtype=flat.dtype, device="cpu", generator=g)
+    noise = noise.to(flat.device)
 
     idx = torch.argsort(flat + noise, descending=True)
     keep_n = n - k_prune
@@ -504,6 +518,266 @@ def activity_neuron_scores(model, data_loader_fn, batches=4):
     # low-variance units are least useful → prune them first
     return var.clamp_min(0)
 
+
+def homeostatic_neuron_scores(
+    model,
+    data_loader_fn,
+    batches: int = 4,
+    target: float = 0.05,
+    activity_mode: str = "relu",
+    var_weight: float = 0.0,
+    eps: float = 1e-6,
+):
+    """
+    Score neurons by how close their mean activity is to a target firing rate.
+    Higher scores keep neurons whose activity sits near the target.
+    """
+    device = next(model.parameters()).device
+    H = getattr(model, "H", model.hidden_layer.weight.shape[0])
+
+    mean_sum = torch.zeros(H, device=device)
+    mean_sq_sum = torch.zeros(H, device=device)
+    count = 0
+
+    was_training = model.training
+    model.eval()
+    with torch.no_grad():
+        for _ in range(batches):
+            X, _ = data_loader_fn()
+            try:
+                h = model.hidden_sequence(X)
+            except AttributeError:
+                _, h = model(X)
+            T, B, _ = h.shape
+            activations = h.reshape(T * B, H)
+            if activity_mode == "relu":
+                activations = activations.clamp_min(0.0)
+            elif activity_mode == "abs":
+                activations = activations.abs()
+            elif activity_mode == "raw":
+                pass
+            else:
+                raise ValueError(f"Unknown activity_mode: {activity_mode}")
+            mean_sum += activations.sum(dim=0)
+            mean_sq_sum += (activations ** 2).sum(dim=0)
+            count += activations.size(0)
+    if was_training:
+        model.train()
+
+    if count == 0:
+        return torch.ones(H, device=device)
+
+    mean = mean_sum / float(count)
+    var = (mean_sq_sum / float(count)) - (mean ** 2)
+    deviation = (mean - target).abs()
+    score = 1.0 / (deviation + eps)
+    if var_weight != 0.0:
+        score = score * torch.exp(-var_weight * var.relu())
+    return score
+
+
+@torch.no_grad()
+def oja_synapse_scores(
+    model: CTRNN,
+    data_loader_fn,
+    batches: int = 4,
+    last_only: bool = True,
+):
+    """
+    Estimate per-synapse plasticity pressure using an Oja-style local rule.
+    Scores reflect |E[y_i x_j] - E[y_i^2] * w_ij|, i.e. expected update magnitude.
+    """
+    device = next(model.parameters()).device
+    layer = model.hidden_layer
+    W = layer.weight.detach()
+    H = W.size(0)
+
+    cross = torch.zeros_like(W, device=device)
+    post_sq = torch.zeros(H, device=device)
+    sample_count = 0
+
+    was_training = model.training
+    model.eval()
+    for _ in range(batches):
+        X, _ = data_loader_fn()
+        X = X.to(device)
+        with torch.no_grad():
+            logits, hidden_seq = model(X)
+        h = hidden_seq  # [T,B,H]
+        T, B, _ = h.shape
+        pre = torch.zeros_like(h)
+        pre[1:] = h[:-1]
+        pre = pre.reshape(T * B, H)
+        post = h.reshape(T * B, H)
+
+        cross += torch.einsum("ni,nj->ij", post, pre)
+        post_sq += (post ** 2).sum(dim=0)
+        sample_count += post.shape[0]
+
+    if sample_count > 0:
+        cross /= float(sample_count)
+        post_sq /= float(sample_count)
+    else:
+        cross.zero_()
+        post_sq.zero_()
+
+    if was_training:
+        model.train()
+
+    # Expected Oja update magnitude
+    oja_drift = cross - post_sq.view(-1, 1) * W
+    return oja_drift.abs()
+
+
+def variational_dropout_scores(
+    model: CTRNN,
+    data_loader_fn,
+    batches: int = 4,
+    last_only: bool = True,
+    eps: float = 1e-8,
+):
+    """
+    Approximate log-alpha from variational dropout: logα = log(E[g^2]) - log(w^2).
+    Higher score (-logα) keeps weights with strong signal relative to gradient noise.
+    """
+    layer = model.hidden_layer
+    device = layer.weight.device
+    grad_sq = torch.zeros_like(layer.weight, device=device)
+
+    was_training = model.training
+    model.train()
+
+    criterion = nn.CrossEntropyLoss()
+    for _ in range(batches):
+        X, Y = data_loader_fn()
+        X, Y = X.to(device), Y.to(device)
+        model.zero_grad(set_to_none=True)
+        logits, _ = model(X)
+        if last_only:
+            loss = criterion(logits[-1], Y[-1])
+        else:
+            loss = criterion(logits.view(-1, logits.size(-1)), Y.view(-1))
+        loss.backward()
+        if layer.weight.grad is not None:
+            grad_sq += (layer.weight.grad.detach() ** 2)
+
+    grad_sq /= max(1, batches)
+    layer.weight.grad = None
+    if not was_training:
+        model.eval()
+
+    W = layer.weight.detach()
+    log_alpha = torch.log(grad_sq + eps) - torch.log(W.pow(2) + eps)
+    scores = (-log_alpha).clamp_min(-1e6)
+    return scores
+
+
+@torch.no_grad()
+def stdp_synapse_scores(
+    model: CTRNN,
+    data_loader_fn,
+    batches: int = 4,
+    lag: int = 1,
+    center: bool = True,
+    combine: str = "causal",
+):
+    """
+    Estimate synapse importance from spike-timing-like correlations.
+    combine:
+        - 'causal': ReLU(E[post_t * pre_{t-lag}] - E[pre_t * post_{t-lag}])
+        - 'absolute': |E[post_t * pre_{t-lag}] - E[pre_t * post_{t-lag}]|
+        - 'signed': raw difference (can be negative)
+    """
+    assert lag >= 1, "lag must be >= 1"
+    device = next(model.parameters()).device
+    layer = model.hidden_layer
+    H = layer.weight.shape[0]
+    forward = torch.zeros_like(layer.weight, device=device)
+    backward = torch.zeros_like(layer.weight, device=device)
+    count = 0
+
+    was_training = model.training
+    model.eval()
+    for _ in range(batches):
+        X, _ = data_loader_fn()
+        X = X.to(device)
+        h = model.hidden_sequence(X)
+        T, B, _ = h.shape
+        if T <= lag:
+            continue
+        pre = h[:-lag].reshape(-1, H)
+        post = h[lag:].reshape(-1, H)
+        if center:
+            pre = pre - pre.mean(dim=0, keepdim=True)
+            post = post - post.mean(dim=0, keepdim=True)
+        forward += torch.matmul(post.t(), pre)
+        backward += torch.matmul(pre.t(), post)
+        count += pre.size(0)
+
+    if count > 0:
+        forward /= float(count)
+        backward /= float(count)
+    else:
+        forward.zero_()
+        backward.zero_()
+
+    if was_training:
+        model.train()
+
+    diff = forward - backward
+    if combine == "causal":
+        return torch.relu(diff)
+    if combine == "absolute":
+        return diff.abs()
+    if combine == "signed":
+        return diff
+    raise ValueError(f"Unknown combine mode: {combine}")
+
+
+@torch.no_grad()
+def energy_neuron_scores(
+    model: CTRNN,
+    data_loader_fn,
+    batches: int = 4,
+    beta: float = 0.5,
+    eps: float = 1e-6,
+):
+    """
+    Score neurons by utility-per-energy:
+        utility ~ readout strength
+        energy  ~ mean activity + beta * synaptic load
+    """
+    device = next(model.parameters()).device
+    H = getattr(model, "H", model.hidden_layer.weight.shape[0])
+    activity_sum = torch.zeros(H, device=device)
+    count = 0
+
+    was_training = model.training
+    model.eval()
+    with torch.no_grad():
+        for _ in range(batches):
+            X, _ = data_loader_fn()
+            X = X.to(device)
+            h = model.hidden_sequence(X)
+            T, B, _ = h.shape
+            reshaped = h.reshape(T * B, H)
+            activity_sum += reshaped.abs().sum(dim=0)
+            count += reshaped.size(0)
+    if was_training:
+        model.train()
+
+    activity_mean = activity_sum / max(1, count)
+    W = model.hidden_layer.weight.detach()
+    syn_load = W.abs().sum(dim=1) + W.abs().sum(dim=0)
+
+    if hasattr(model, "readout_layer"):
+        readout = model.readout_layer.weight.detach().abs().sum(dim=0)
+    else:
+        readout = torch.ones(H, device=device)
+
+    score = readout / (activity_mean + beta * syn_load + eps)
+    return score
+
 # -------- Neuron-level pruning helpers --------
 
 def _neuron_keep_mask_from_scores(scores: torch.Tensor, amount: float) -> torch.Tensor:
@@ -588,6 +862,168 @@ def prune_neurons_movement(model: CTRNN, score_matrix: torch.Tensor, amount: flo
     keep = _neuron_keep_mask_from_scores(scores, amount)
     _apply_neuron_keep_mask(model, keep)
 
+
+def prune_neurons_homeostatic(
+    model: CTRNN,
+    data_loader_fn,
+    amount: float,
+    *,
+    batches: int = 4,
+    target: float = 0.05,
+    activity_mode: str = "relu",
+    var_weight: float = 0.0,
+):
+    scores = homeostatic_neuron_scores(
+        model,
+        data_loader_fn=data_loader_fn,
+        batches=batches,
+        target=target,
+        activity_mode=activity_mode,
+        var_weight=var_weight,
+    )
+    keep = _neuron_keep_mask_from_scores(scores, amount)
+    _apply_neuron_keep_mask(model, keep)
+
+
+@torch.no_grad()
+def prune_oja_recurrent(
+    model: CTRNN,
+    data_loader_fn,
+    amount: float,
+    *,
+    batches: int = 4,
+    last_only: bool = True,
+):
+    scores = oja_synapse_scores(
+        model,
+        data_loader_fn=data_loader_fn,
+        batches=batches,
+        last_only=last_only,
+    )
+    keep = _keep_mask_from_scores(scores, amount).to(dtype=model.hidden_layer.weight.dtype)
+    P.custom_from_mask(model.hidden_layer, name="weight", mask=keep)
+    enforce_constraints(model)
+
+
+def prune_variational_dropout(
+    model: CTRNN,
+    data_loader_fn,
+    amount: float,
+    *,
+    batches: int = 4,
+    last_only: bool = True,
+    eps: float = 1e-8,
+):
+    scores = variational_dropout_scores(
+        model,
+        data_loader_fn=data_loader_fn,
+        batches=batches,
+        last_only=last_only,
+        eps=eps,
+    )
+    keep = _keep_mask_from_scores(scores, amount).to(dtype=model.hidden_layer.weight.dtype)
+    P.custom_from_mask(model.hidden_layer, name="weight", mask=keep)
+    enforce_constraints(model)
+
+
+@torch.no_grad()
+def prune_stdp_synapse(
+    model: CTRNN,
+    data_loader_fn,
+    amount: float,
+    *,
+    batches: int = 4,
+    lag: int = 1,
+    combine: str = "causal",
+    center: bool = True,
+):
+    scores = stdp_synapse_scores(
+        model,
+        data_loader_fn=data_loader_fn,
+        batches=batches,
+        lag=lag,
+        center=center,
+        combine=combine,
+    )
+    if combine == "signed":
+        scores = scores.abs()
+    keep = _keep_mask_from_scores(scores, amount).to(dtype=model.hidden_layer.weight.dtype)
+    P.custom_from_mask(model.hidden_layer, name="weight", mask=keep)
+    enforce_constraints(model)
+
+
+def prune_turnover_synapse(
+    model: CTRNN,
+    amount: float,
+    *,
+    regrow_frac: float = 0.1,
+    regrow_scale: float = 0.1,
+    seed: Optional[int] = None,
+):
+    layer = model.hidden_layer
+    _consolidate_if_pruned(layer)
+    W = layer.weight.detach()
+    scores = W.abs()
+    keep_mask = _keep_mask_from_scores(scores, amount)
+
+    zeros = (keep_mask == 0).nonzero(as_tuple=False)
+    if zeros.numel() == 0:
+        mask = keep_mask.to(dtype=W.dtype)
+        P.custom_from_mask(layer, name="weight", mask=mask)
+        enforce_constraints(model)
+        return
+
+    if regrow_frac > 0.0:
+        regrow_num = int(round(regrow_frac * zeros.size(0)))
+        regrow_num = min(regrow_num, zeros.size(0))
+    else:
+        regrow_num = 0
+
+    if regrow_num > 0:
+        if seed is not None:
+            g = torch.Generator(device=zeros.device)
+            g.manual_seed(seed)
+            perm = torch.randperm(zeros.size(0), generator=g, device=zeros.device)[:regrow_num]
+        else:
+            perm = torch.randperm(zeros.size(0), device=zeros.device)[:regrow_num]
+        regrow_idx = zeros[perm]
+        keep_mask[regrow_idx[:, 0], regrow_idx[:, 1]] = 1
+    else:
+        regrow_idx = None
+
+    mask = keep_mask.to(dtype=W.dtype)
+    P.custom_from_mask(layer, name="weight", mask=mask)
+
+    if regrow_idx is not None and regrow_idx.numel() > 0:
+        weight_orig = getattr(layer, "weight_orig")
+        current_std = float(weight_orig.data.std().item()) if weight_orig.data.numel() > 1 else 0.0
+        base_scale = current_std if current_std > 1e-6 else 1e-2
+        scale = regrow_scale * base_scale
+        new_vals = torch.randn(regrow_idx.size(0), device=weight_orig.device, dtype=weight_orig.dtype) * scale
+        weight_orig.data[regrow_idx[:, 0], regrow_idx[:, 1]] = new_vals
+
+    enforce_constraints(model)
+
+
+@torch.no_grad()
+def prune_energy_neuron(
+    model: CTRNN,
+    data_loader_fn,
+    amount: float,
+    *,
+    batches: int = 4,
+    beta: float = 0.5,
+    eps: float = 1e-6,
+):
+    scores = energy_neuron_scores(
+        model,
+        data_loader_fn=data_loader_fn,
+        batches=batches,
+        beta=beta,
+        eps=eps,
+    )
+    keep = _neuron_keep_mask_from_scores(scores, amount)
+    _apply_neuron_keep_mask(model, keep)
 @torch.no_grad()
 def prune_noise_synapse(
     model,

@@ -1,3 +1,5 @@
+"""Training and evaluation loops shared across experiments."""
+
 import torch
 import torch.nn as nn
 from .pruning import enforce_constraints

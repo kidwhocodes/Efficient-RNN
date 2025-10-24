@@ -1,3 +1,5 @@
+"""Experiment runners for evaluating pruning strategies on CTRNNs."""
+
 from copy import deepcopy
 import numpy as np
 import torch
@@ -10,6 +12,9 @@ from .train_eval import train_epoch, evaluate
 from .metrics import recurrent_sparsity, ctrnn_stability_proxy, neuron_pruning_stats
 from . import pruning as PR
 from typing import Optional
+
+from .config import ExperimentConfig
+from .utils import make_run_id, set_global_seed
 
 
 def fresh_model(input_dim=3, hidden_size=128, output_dim=2, device="cpu"):
@@ -28,6 +33,7 @@ def append_results_csv(results_list, csv_path="results.csv"):
     # union of keys across rows (so adding new fields later is fine)
     keys = sorted({k for r in results_list for k in r.keys()})
     new_file = not os.path.exists(csv_path)
+    os.makedirs(os.path.dirname(csv_path) or ".", exist_ok=True)
     with open(csv_path, "a", newline="") as f:
         w = csv.DictWriter(f, fieldnames=keys)
         if new_file:
@@ -48,8 +54,41 @@ def run_prune_experiment(
     base_model=None,
     task: str = "synthetic",
     no_prune: bool = False,
+    run_id: Optional[str] = None,
     **kwargs,
 ):
+    extra_kwargs = dict(kwargs)
+    extra_kwargs.pop("run_id", None)
+    kw_run_id = kwargs.pop("run_id", None)
+    config = ExperimentConfig(
+        strategy=strategy,
+        amount=amount,
+        train_steps=train_steps,
+        ft_steps=ft_steps,
+        last_only=last_only,
+        seed=seed,
+        device=device,
+        movement_batches=movement_batches,
+        task=task,
+        no_prune=no_prune,
+        run_id=run_id or kw_run_id or make_run_id(),
+        extra=extra_kwargs,
+    )
+    set_global_seed(config.seed)
+    # align local variables with the normalized config
+    strategy = config.strategy
+    amount = config.amount
+    train_steps = config.train_steps
+    ft_steps = config.ft_steps
+    last_only = config.last_only
+    seed = config.seed
+    device = config.device
+    movement_batches = config.movement_batches
+    task = config.task
+    no_prune = config.no_prune
+    run_id = config.run_id
+
+    hidden_size_override = kwargs.pop("hidden_size", None)
     # ---------- pick data/task ----------
     if task == "synthetic":
         cfg = SynthCfg(T=60, B=64, coh_levels=(0.0, 0.05, 0.1, 0.2), stim_std=0.6)
@@ -80,7 +119,6 @@ def run_prune_experiment(
         # ----- allow T/B overrides; choose harder defaults -----
         T = kwargs.pop("ng_T", None)
         B = kwargs.pop("ng_B", None)
-        hidden_size_override = kwargs.pop("hidden_size", None)
 
         if T is None: T = 400
         if B is None: B = 64
@@ -128,6 +166,7 @@ def run_prune_experiment(
 
     # ---------- PHASE C: prune (or skip) and measure POST0 ----------
     if not no_prune and strategy != "none":
+        prune_last_only = kwargs.get("last_only", last_only)
         if strategy == "l1_neuron":
             PR.prune_neurons_l1(model, amount, combine="max")
         elif strategy == "movement_neuron":
@@ -169,28 +208,101 @@ def run_prune_experiment(
         elif strategy == "noise_probe":
             from .pruning import noise_probe_scores, mask_from_scores
             batches = kwargs.get("score_batches", 4)
-            scores = noise_probe_scores(model, data_loader_fn=lambda: data.sample_batch(), batches=batches, sigma=0.05, last_only=kwargs.get("last_only", True))
+            scores = noise_probe_scores(model, data_loader_fn=lambda: data.sample_batch(), batches=batches, sigma=0.05, last_only=prune_last_only)
             mask_from_scores(model, scores, amount)
+        elif strategy == "oja_synapse":
+            PR.prune_oja_recurrent(
+                model,
+                data_loader_fn=lambda: data.sample_batch(),
+                amount=amount,
+                batches=kwargs.get("score_batches", 4),
+                last_only=prune_last_only,
+            )
+        elif strategy == "variational_dropout":
+            PR.prune_variational_dropout(
+                model,
+                data_loader_fn=lambda: data.sample_batch(),
+                amount=amount,
+                batches=kwargs.get("score_batches", 4),
+                last_only=prune_last_only,
+                eps=kwargs.get("vd_eps", 1e-8),
+            )
+        elif strategy == "stdp_synapse":
+            PR.prune_stdp_synapse(
+                model,
+                data_loader_fn=lambda: data.sample_batch(),
+                amount=amount,
+                batches=kwargs.get("score_batches", 4),
+                lag=kwargs.get("stdp_lag", 1),
+                combine=kwargs.get("stdp_mode", "causal"),
+                center=bool(kwargs.get("stdp_center", True)),
+            )
+        elif strategy == "turnover_synapse":
+            PR.prune_turnover_synapse(
+                model,
+                amount=amount,
+                regrow_frac=kwargs.get("turnover_regrow", 0.1),
+                regrow_scale=kwargs.get("turnover_scale", 0.1),
+                seed=seed,
+            )
+        elif strategy == "energy_neuron":
+            PR.prune_energy_neuron(
+                model,
+                data_loader_fn=lambda: data.sample_batch(),
+                amount=amount,
+                batches=kwargs.get("score_batches", 4),
+                beta=kwargs.get("energy_beta", 0.5),
+                eps=kwargs.get("energy_eps", 1e-6),
+            )
         elif strategy == "noise_combo":
             from .pruning import combined_noise_neuron_scores, neuron_mask_from_scores
             batches = kwargs.get("score_batches", 4)
-            last_only = kwargs.get("last_only", True)
-            # weights (pull from kwargs if you expose them on CLI; else default equal)
+            last_only = prune_last_only
             fisher_w = kwargs.get("fisher_w", 1.0)
             noiseprobe_w = kwargs.get("noiseprobe_w", 1.0)
             activity_w = kwargs.get("activity_w", 1.0)
-            ns = combined_noise_neuron_scores(
+            reduce = kwargs.get("reduce", "sumabs")
+            debug_scores = kwargs.get("debug_scores", False)
+
+            if debug_scores:
+                combo, parts = combined_noise_neuron_scores(
+                    model, data_loader_fn=lambda: data.sample_batch(),
+                    batches=batches, sigma=0.05, last_only=last_only,
+                    fisher_w=fisher_w, noiseprobe_w=noiseprobe_w, activity_w=activity_w,
+                    reduce=reduce, debug=True
+                )
+                # simple stats
+                for k, v in parts.items():
+                    print(f"[noise_combo] {k}: mean={v.mean().item():.4f}, std={v.std(unbiased=False).item():.4f}")
+                # pairwise correlations (Pearson)
+                pk = list(parts.keys())
+                for i in range(len(pk)):
+                    for j in range(i+1, len(pk)):
+                        vi, vj = parts[pk[i]], parts[pk[j]]
+                        # corrcoef on centered
+                        ci = (vi - vi.mean())
+                        cj = (vj - vj.mean())
+                        corr = (ci * cj).mean() / (ci.std(unbiased=False) * cj.std(unbiased=False) + 1e-8)
+                        print(f"[noise_combo] corr({pk[i]}, {pk[j]}) = {corr.item():.4f}")
+                ns = combo
+            else:
+                ns = combined_noise_neuron_scores(
+                    model, data_loader_fn=lambda: data.sample_batch(),
+                    batches=batches, sigma=0.05, last_only=last_only,
+                    fisher_w=fisher_w, noiseprobe_w=noiseprobe_w, activity_w=activity_w,
+                    reduce=reduce, debug=False
+                )
+            neuron_mask_from_scores(model, ns, amount)
+        elif strategy == "homeostatic_neuron":
+            PR.prune_neurons_homeostatic(
                 model,
                 data_loader_fn=lambda: data.sample_batch(),
-                batches=batches,
-                sigma=0.05,
-                last_only=last_only,
-                fisher_w=fisher_w,
-                noiseprobe_w=noiseprobe_w,
-                activity_w=activity_w,
-                reduce="sumabs",
+                amount=amount,
+                batches=kwargs.get("score_batches", 4),
+                target=kwargs.get("homeo_target", 0.05),
+                activity_mode=kwargs.get("homeo_mode", "relu"),
+                var_weight=kwargs.get("homeo_var_weight", 0.0),
             )
-            neuron_mask_from_scores(model, ns, amount)
         else:
             raise ValueError(f"unknown strategy: {strategy}")
         PR.enforce_constraints(model)
@@ -227,6 +339,7 @@ def run_prune_experiment(
         "task": task,
         "strategy": strategy if not no_prune else f"{strategy}+no_prune",
         "amount": amount,
+        "run_id": run_id,
         "pre0_loss": pre0_loss, "pre0_acc": pre0_acc,
         "pre_loss": pre_loss,   "pre_acc": pre_acc,
         "post0_loss": post0_loss, "post0_acc": post0_acc,
@@ -239,4 +352,6 @@ def run_prune_experiment(
     }
     if in_sp  is not None: row["in_sparsity"]  = in_sp
     if out_sp is not None: row["out_sparsity"] = out_sp
+    if config.extra:
+        row["config_extra"] = json.dumps(config.extra, default=str, sort_keys=True)
     return row

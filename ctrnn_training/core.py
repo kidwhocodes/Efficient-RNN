@@ -1,3 +1,5 @@
+"""Core CTRNN definition and utility helpers."""
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

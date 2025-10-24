@@ -1,4 +1,5 @@
-# neurogym_data.py
+"""Helpers to sample NeuroGym environments into RNN-ready tensors."""
+
 import torch
 import numpy as np
 from typing import Tuple

@@ -1,8 +1,11 @@
+"""Batch sweep runner for pruning experiments."""
+
 # ctrnn_training/sweeps.py
 from __future__ import annotations
 import os, time
-from typing import Iterable
+from typing import Iterable, Optional
 from .experiments import run_prune_experiment, append_results_csv
+from .utils import make_run_id
 
 def run_sweep(
     out_csv: str,
@@ -16,6 +19,7 @@ def run_sweep(
     device: str = "cpu",
     movement_batches: int = 10,
     task: str = "synthetic",
+    run_id: Optional[str] = None,
 ) -> str:
     """
     Run (strategy × amount × seed) and append results to `out_csv`.
@@ -29,7 +33,9 @@ def run_sweep(
     amounts    = tuple(amounts)
     seeds      = tuple(seeds)
 
-    print(f"[sweep] task={task} device={device} "
+    sweep_id = run_id or make_run_id("sweep")
+
+    print(f"[sweep] id={sweep_id} task={task} device={device} "
           f"strategies={strategies} amounts={amounts} seeds={seeds}")
     print(f"[sweep] steps: train={train_steps}, ft={ft_steps}, last_only={last_only}, "
           f"movement_batches={movement_batches}")
@@ -42,6 +48,7 @@ def run_sweep(
             for seed in seeds:
                 idx += 1
                 tag = f"[{idx}/{total}] {strat} amt={amt} seed={seed}"
+                run_tag = f"{sweep_id}_{idx}"
                 try:
                     row = run_prune_experiment(
                         strategy=strat,
@@ -53,12 +60,14 @@ def run_sweep(
                         device=device,
                         movement_batches=movement_batches,
                         task=task,
+                        run_id=run_tag,
                     )
                     # Ensure key fields
                     row.setdefault("task", task)
                     row.setdefault("strategy", strat)
                     row.setdefault("amount", float(amt))
                     row.setdefault("seed", int(seed))
+                    row.setdefault("run_id", run_tag)
                     results.append(row)
 
                     # Write periodically so kills don't lose progress
