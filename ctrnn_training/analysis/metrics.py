@@ -96,6 +96,27 @@ def snapshot_model(model: CTRNN) -> Dict[str, float]:
         "alpha_rho": ctrnn_stability_proxy(model),
         "neuron_keep_fraction": neuron_keep_fraction(model),
     }
+    layer_stats = layer_sparsities(model)
+    for layer_name, value in layer_stats.items():
+        stats[f"sparsity_{layer_name}"] = float(value)
+
+    W = model.hidden_layer.weight.detach()
+    abs_w = W.abs()
+    stats["rec_weight_abs_mean"] = float(abs_w.mean())
+    stats["rec_weight_abs_std"] = float(abs_w.std(unbiased=False))
+    stats["rec_weight_l2"] = float(torch.linalg.vector_norm(W, ord=2))
+
+    if hasattr(model, "readout_layer"):
+        readout_abs = model.readout_layer.weight.detach().abs()
+        stats["readout_weight_abs_mean"] = float(readout_abs.mean())
+        stats["readout_weight_abs_std"] = float(readout_abs.std(unbiased=False))
+
+    if getattr(model, "use_dale", False) and hasattr(model, "dale_sign"):
+        excit = abs_w[:, model.dale_sign.squeeze() > 0]
+        inhib = abs_w[:, model.dale_sign.squeeze() < 0]
+        stats["dale_excit_mean"] = float(excit.mean()) if excit.numel() else 0.0
+        stats["dale_inhib_mean"] = float(inhib.mean()) if inhib.numel() else 0.0
+
     for key, value in neuron_pruning_stats(model).items():
         stats[f"neurons_{key}"] = float(value)
     return {k: float(v) for k, v in stats.items()}
@@ -142,6 +163,7 @@ __all__ = [
     "compile_run_metrics",
     "count_nonzero_and_total",
     "ctrnn_stability_proxy",
+    "layer_sparsities",
     "neuron_keep_fraction",
     "neuron_pruning_stats",
     "recurrent_sparsity",

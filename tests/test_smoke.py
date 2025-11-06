@@ -123,3 +123,22 @@ def test_save_and_load_model(tmp_path):
         return_model=True,
     )
     assert abs(row["pre_acc"] - row["pre0_acc"]) < 1e-8
+
+
+def test_pruning_strategies_smoke():
+    set_global_seed(0)
+    strategies = ["movement", "movement_neuron", "snip", "synflow", "fisher"]
+    for strat in strategies:
+        row = run_prune_experiment(
+            strategy=strat,
+            amount=0.2,
+            train_steps=1,
+            ft_steps=0,
+            last_only=True,
+            seed=0,
+            device="cpu",
+            movement_batches=1,
+            task="synthetic",
+            run_id=f"smoke_{strat}",
+        )
+        assert "post_acc" in row

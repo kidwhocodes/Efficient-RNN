@@ -4,7 +4,7 @@ from typing import Tuple
 
 from .analysis.summary import summarize_csv
 from .analysis.plots import plot_metrics
-from .experiments import run_prune_experiment, run_suite_from_config, run_sweep
+from .experiments import run_prune_experiment, run_suite_from_config, run_sweep, train_baselines
 from .pruning import available_pruning_strategies
 from .utils import make_run_id, set_global_seed
 
@@ -55,7 +55,7 @@ def main():
         default=20,
         help="Retained for backwards compatibility; unused by current strategies.",
     )
-    parser.add_argument("--mode", choices=["single", "sweep", "suite", "summary", "plot"], default="single")
+    parser.add_argument("--mode", choices=["single", "sweep", "suite", "summary", "plot", "baseline"], default="single")
     parser.add_argument("--out_csv", default=None)
     parser.add_argument(
         "--task",
@@ -167,6 +167,12 @@ def main():
         help="Optional path to load a pre-trained model before running the experiment",
     )
     parser.add_argument(
+        "--baseline_config",
+        type=str,
+        default=None,
+        help="Path to a baseline-training configuration file (mode=baseline)",
+    )
+    parser.add_argument(
         "--run_id",
         type=str,
         default=None,
@@ -178,6 +184,14 @@ def main():
     set_global_seed(args.seed)
     run_id = args.run_id or make_run_id()
     out_csv = args.out_csv or f"results/{run_id}.csv"
+
+    if args.mode == "baseline":
+        if args.baseline_config is None:
+            raise ValueError("--baseline_config is required when mode=baseline")
+        checkpoints = train_baselines(args.baseline_config, overwrite=args.skip_training)
+        for path in checkpoints:
+            print(path)
+        return
 
     if args.mode == "sweep":
         strategies = _parse_comma_strs(args.strategies)

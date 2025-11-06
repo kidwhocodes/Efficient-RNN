@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import math
-from typing import Dict, Optional
+from typing import Dict, Iterable, Optional
 
 import numpy as np
 import torch
@@ -67,6 +67,32 @@ def _neuron_keep_mask_from_scores(scores: torch.Tensor, amount: float) -> torch.
     return keep
 
 
+def _weight_scores_to_mask(scores: torch.Tensor, amount: float) -> torch.Tensor:
+    amount = validate_prune_fraction(float(amount))
+    flat = scores.flatten()
+    k_prune = int(round(amount * flat.numel()))
+    if k_prune <= 0:
+        return torch.ones_like(scores, dtype=torch.uint8)
+    if k_prune >= flat.numel():
+        return torch.zeros_like(scores, dtype=torch.uint8)
+    sorted_vals, sorted_idx = torch.sort(flat)
+    thresh = sorted_vals[k_prune - 1]
+    mask = (scores > thresh).to(torch.uint8)
+    # bring mask exactly to target sparsity if many scores equal threshold
+    current_kept = mask.sum().item()
+    target_kept = scores.numel() - k_prune
+    if current_kept < target_kept:
+        equal_mask = (scores == thresh).flatten()
+        equal_indices = torch.nonzero(equal_mask, as_tuple=False).view(-1)
+        needed = target_kept - current_kept
+        if needed > 0 and equal_indices.numel() > 0:
+            keep_indices = equal_indices[:needed]
+            flat_mask = mask.view(-1)
+            flat_mask[keep_indices] = 1
+            mask = flat_mask.view_as(scores)
+    return mask
+
+
 def _apply_neuron_keep_mask(model: CTRNN, keep: torch.Tensor) -> None:
     H = model.H
     if keep.numel() != H:
@@ -118,6 +144,13 @@ def prune_random_unstructured(model: CTRNN, amount: float) -> None:
 def prune_l1_unstructured(model: CTRNN, amount: float) -> None:
     amount = validate_prune_fraction(float(amount))
     prune.l1_unstructured(model.hidden_layer, name="weight", amount=amount)
+    enforce_constraints(model)
+
+
+def prune_scores_unstructured(model: CTRNN, scores: torch.Tensor, amount: float) -> None:
+    mask = _weight_scores_to_mask(scores, amount).to(dtype=model.hidden_layer.weight.dtype)
+    _consolidate_if_pruned(model.hidden_layer)
+    prune.custom_from_mask(model.hidden_layer, name="weight", mask=mask)
     enforce_constraints(model)
 
 
@@ -182,6 +215,150 @@ def noise_prune_recurrent(
     return stats
 
 
+def prune_movement_synapse(model: CTRNN, amount: float, *, scores: torch.Tensor) -> None:
+    prune_scores_unstructured(model, scores, amount)
+
+
+def prune_movement_neuron(model: CTRNN, amount: float, *, scores: torch.Tensor) -> None:
+    row = scores.sum(dim=1)
+    col = scores.sum(dim=0)
+    combined = torch.maximum(row, col)
+    keep = _neuron_keep_mask_from_scores(combined, amount)
+    _apply_neuron_keep_mask(model, keep)
+
+
+def prune_snip_synapse(model: CTRNN, amount: float, *, scores: torch.Tensor) -> None:
+    prune_scores_unstructured(model, scores, amount)
+
+
+def prune_synflow(model: CTRNN, amount: float, *, scores: torch.Tensor) -> None:
+    prune_scores_unstructured(model, scores, amount)
+
+
+def prune_fisher_synapse(model: CTRNN, amount: float, *, scores: torch.Tensor) -> None:
+    prune_scores_unstructured(model, scores, amount)
+
+
+def movement_scores(
+    model: CTRNN,
+    batches: Iterable[tuple[torch.Tensor, torch.Tensor]],
+    criterion: nn.Module,
+    *,
+    last_only: bool = True,
+) -> torch.Tensor:
+    batches = list(batches)
+    was_training = model.training
+    model.train()
+    model.zero_grad(set_to_none=True)
+    with torch.enable_grad():
+        for x_batch, y_batch in batches:
+            logits, _ = model(x_batch)
+            if last_only:
+                loss = criterion(logits[-1], y_batch[-1])
+            else:
+                loss = criterion(logits.view(-1, logits.size(-1)), y_batch.view(-1))
+            loss.backward(retain_graph=False)
+    weight = model.hidden_layer.weight
+    grad = weight.grad if weight.grad is not None else torch.zeros_like(weight)
+    scores = (grad * weight).abs().detach()
+    model.zero_grad(set_to_none=True)
+    if not was_training:
+        model.eval()
+    return scores
+
+
+def snip_scores(
+    model: CTRNN,
+    batches: Iterable[tuple[torch.Tensor, torch.Tensor]],
+    criterion: nn.Module,
+    *,
+    last_only: bool = True,
+) -> torch.Tensor:
+    batches = list(batches)
+    was_training = model.training
+    model.train()
+    model.zero_grad(set_to_none=True)
+    with torch.enable_grad():
+        for x_batch, y_batch in batches:
+            logits, _ = model(x_batch)
+            if last_only:
+                loss = criterion(logits[-1], y_batch[-1])
+            else:
+                loss = criterion(logits.view(-1, logits.size(-1)), y_batch.view(-1))
+            loss.backward(retain_graph=False)
+    weight = model.hidden_layer.weight
+    grad = weight.grad if weight.grad is not None else torch.zeros_like(weight)
+    scores = (grad * weight).abs().detach()
+    model.zero_grad(set_to_none=True)
+    if not was_training:
+        model.eval()
+    return scores
+
+
+def fisher_diag_scores(
+    model: CTRNN,
+    batches: Iterable[tuple[torch.Tensor, torch.Tensor]],
+    criterion: nn.Module,
+    *,
+    last_only: bool = True,
+) -> torch.Tensor:
+    batches = list(batches)
+    was_training = model.training
+    model.train()
+    fisher = torch.zeros_like(model.hidden_layer.weight)
+    with torch.enable_grad():
+        for x_batch, y_batch in batches:
+            model.zero_grad(set_to_none=True)
+            logits, _ = model(x_batch)
+            if last_only:
+                loss = criterion(logits[-1], y_batch[-1])
+            else:
+                loss = criterion(logits.view(-1, logits.size(-1)), y_batch.view(-1))
+            loss.backward(retain_graph=False)
+            grad = model.hidden_layer.weight.grad
+            if grad is not None:
+                fisher += grad.detach() ** 2
+    model.zero_grad(set_to_none=True)
+    if not was_training:
+        model.eval()
+    return fisher / max(1, len(batches))
+
+
+def synflow_scores(model: CTRNN) -> torch.Tensor:
+    was_training = model.training
+    model.eval()
+    backups = {}
+    for name, param in model.named_parameters():
+        backups[name] = param.data.clone()
+        param.data = param.data.abs()
+
+    model.zero_grad(set_to_none=True)
+    input_dim = getattr(model, "I", None)
+    if input_dim is None:
+        raise AttributeError("CTRNN must expose input dimension (I) for SynFlow scoring")
+    device = next(model.parameters()).device
+    x = torch.ones(1, 1, input_dim, device=device)
+
+    with torch.enable_grad():
+        logits, _ = model(x)
+        loss = logits.abs().sum()
+        loss.backward()
+
+    weight = model.hidden_layer.weight
+    grad = weight.grad if weight.grad is not None else torch.zeros_like(weight)
+    scores = (grad * weight).abs().detach()
+
+    for name, param in model.named_parameters():
+        param.data.copy_(backups[name])
+        if param.grad is not None:
+            param.grad.zero_()
+
+    if was_training:
+        model.train()
+
+    return scores
+
+
 def finalize_pruning(model: CTRNN) -> None:
     """Remove pruning reparameterisations so saved checkpoints are dense tensors."""
     for layer in (model.input_layer, model.hidden_layer, model.readout_layer):
@@ -198,12 +375,18 @@ PRUNING_REGISTRY = {
     "random_unstructured": prune_random_unstructured,
     "l1_unstructured": prune_l1_unstructured,
     "noise_prune": noise_prune_recurrent,
+    "movement": prune_movement_synapse,
+    "movement_neuron": prune_movement_neuron,
+    "snip": prune_snip_synapse,
+    "synflow": prune_synflow,
+    "fisher": prune_fisher_synapse,
 }
 
 PRUNING_ALIASES = {
     "random": "random_unstructured",
     "random_prune": "random_neuron",
     "l1": "l1_unstructured",
+    "movement_synapse": "movement",
 }
 
 
@@ -229,10 +412,19 @@ __all__ = [
     "available_pruning_strategies",
     "enforce_constraints",
     "finalize_pruning",
+    "fisher_diag_scores",
+    "movement_scores",
     "noise_prune_recurrent",
     "prune_l1_unstructured",
+    "prune_movement_neuron",
+    "prune_movement_synapse",
     "prune_neurons_l1",
     "prune_neurons_random",
     "prune_random_unstructured",
+    "prune_snip_synapse",
+    "prune_synflow",
+    "prune_fisher_synapse",
+    "snip_scores",
+    "synflow_scores",
     "validate_prune_fraction",
 ]
