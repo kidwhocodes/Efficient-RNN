@@ -27,6 +27,7 @@ These guidelines keep the *Efficient RNN Project* consistent and easy to extend 
 - Wrap runnable scripts with `if __name__ == "__main__":` guards; ensure CLI entry points round-trip through `argparse`.
 - Provide deterministic smoke tests or command examples in PR/commit descriptions, especially for new pruning modes.
 - Record experiment parameters and metrics via `append_results_csv`; new metrics should be added as columns with clear names.
+- Prefer running multi-experiment comparisons through the JSON suite harness (`python -m ctrnn_training --mode suite --config ...`) to ensure consistent logging.
 
 ## Dependencies
 - Prefer standard library + PyTorch/NumPy. Gate optional imports (`neurogym`, etc.) and fail gracefully with clear messages.

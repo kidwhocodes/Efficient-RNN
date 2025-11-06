@@ -2,3 +2,4 @@ torch>=2.0
 numpy>=1.21
 pytest>=7.0
 neurogym>=0.0.2
+matplotlib>=3.5

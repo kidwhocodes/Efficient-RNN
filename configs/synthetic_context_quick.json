@@ -1,0 +1,76 @@
+{
+  "run_id": "synthetic_context_quick",
+  "output_csv": "results/synthetic_context_quick.csv",
+  "defaults": {
+    "reset_results": true,
+    "train_steps": 600,
+    "ft_steps": 0,
+    "eval_steps_pre0": 80,
+    "eval_steps_pre": 80,
+    "eval_steps_post0": 80,
+    "eval_steps_post": 80,
+    "eval_sample_batches": 80,
+    "task": "synthetic_context",
+    "device": "cpu",
+    "eval_seed": 0,
+    "ctx_T": 50,
+    "ctx_B": 64
+  },
+  "runs": [
+    {
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "save_model_path": "checkpoints/synth_context_seed0.pt"
+    },
+    {
+      "strategy": "l1_neuron",
+      "amount": 0.2,
+      "seed": 0,
+      "load_model_path": "checkpoints/synth_context_seed0.pt",
+      "skip_training": true
+    },
+    {
+      "strategy": "l1_neuron",
+      "amount": 0.4,
+      "seed": 0,
+      "load_model_path": "checkpoints/synth_context_seed0.pt",
+      "skip_training": true
+    },
+    {
+      "strategy": "l1_neuron",
+      "amount": 0.6,
+      "seed": 0,
+      "load_model_path": "checkpoints/synth_context_seed0.pt",
+      "skip_training": true
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "seed": 0,
+      "load_model_path": "checkpoints/synth_context_seed0.pt",
+      "skip_training": true,
+      "noise_leak_shift": 0.5,
+      "noise_eps": 1.5
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "seed": 0,
+      "load_model_path": "checkpoints/synth_context_seed0.pt",
+      "skip_training": true,
+      "noise_leak_shift": 0.5,
+      "noise_eps": 2.0
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "seed": 0,
+      "load_model_path": "checkpoints/synth_context_seed0.pt",
+      "skip_training": true,
+      "noise_leak_shift": 0.5,
+      "noise_eps": 2.5
+    }
+  ]
+}

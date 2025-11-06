@@ -1,0 +1,88 @@
+{
+  "run_id": "ng_dualdms",
+  "output_csv": "results/ng_dualdms.csv",
+  "defaults": {
+    "train_steps": 1200,
+    "ft_steps": 300,
+    "last_only": false,
+    "task": "ng:DualDelayMatchSample-v0",
+    "device": "cpu",
+    "movement_batches": 25
+  },
+  "runs": [
+    {
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0
+    },
+    {
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1
+    },
+    {
+      "strategy": "l1_neuron",
+      "amount": 0.1,
+      "seed": 0
+    },
+    {
+      "strategy": "l1_neuron",
+      "amount": 0.3,
+      "seed": 0
+    },
+    {
+      "strategy": "l1_neuron",
+      "amount": 0.5,
+      "seed": 0
+    },
+    {
+      "strategy": "l1_neuron",
+      "amount": 0.7,
+      "seed": 0
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "seed": 0,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "seed": 0,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 1,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 2,
+      "noise_leak_shift": 0.5
+    }
+  ]
+}

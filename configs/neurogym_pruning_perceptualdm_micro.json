@@ -1,0 +1,65 @@
+{
+  "run_id": "ng_perceptualdm_micro",
+  "output_csv": "results/ng_perceptualdm_micro.csv",
+  "defaults": {
+    "train_steps": 200,
+    "ft_steps": 0,
+    "eval_steps_pre0": 10,
+    "eval_steps_pre": 10,
+    "eval_steps_post0": 10,
+    "eval_steps_post": 10,
+    "last_only": false,
+    "task": "ng:PerceptualDecisionMaking-v0",
+    "device": "cpu",
+    "movement_batches": 5,
+    "ng_T": 60,
+    "ng_B": 8
+  },
+  "runs": [
+    {
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "save_model_path": "checkpoints/perceptualdm_micro_seed0.pt"
+    },
+    {
+      "strategy": "l1_neuron",
+      "amount": 0.1,
+      "seed": 0,
+      "load_model_path": "checkpoints/perceptualdm_micro_seed0.pt",
+      "skip_training": true
+    },
+    {
+      "strategy": "l1_neuron",
+      "amount": 0.5,
+      "seed": 0,
+      "load_model_path": "checkpoints/perceptualdm_micro_seed0.pt",
+      "skip_training": true
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "load_model_path": "checkpoints/perceptualdm_micro_seed0.pt",
+      "skip_training": true,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "load_model_path": "checkpoints/perceptualdm_micro_seed0.pt",
+      "skip_training": true,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "load_model_path": "checkpoints/perceptualdm_micro_seed0.pt",
+      "skip_training": true,
+      "noise_leak_shift": 0.5
+    }
+  ]
+}
