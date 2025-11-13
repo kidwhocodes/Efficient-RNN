@@ -48,10 +48,26 @@ def run_suite_from_config(path: str) -> str:
     quick_factor = defaults.pop("train_steps_factor", None)
     eval_steps_factor = defaults.pop("eval_steps_factor", None)
 
+    # Build set of existing run_ids in CSV to support resuming
+    completed_run_ids = set()
+    if os.path.exists(csv_path):
+        import csv
+
+        with open(csv_path, "r") as fh:
+            reader = csv.DictReader(fh)
+            if reader.fieldnames and "run_id" in reader.fieldnames:
+                for row in reader:
+                    completed_run_ids.add(row.get("run_id"))
+
     for idx, spec in enumerate(runs, start=1):
         merged = {**defaults, **spec}
         run_id = merged.get("run_id") or f"{suite_id}_{idx}"
         merged["run_id"] = run_id
+
+        if run_id in completed_run_ids:
+            print(f"[suite:{suite_id}] ({idx}/{len(runs)}) skipping {run_id} (already completed)")
+            continue
+
         if quick_factor is not None:
             if "train_steps" in merged:
                 merged["train_steps"] = max(1, int(round(merged["train_steps"] * quick_factor)))

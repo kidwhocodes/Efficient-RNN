@@ -1,0 +1,56 @@
+{
+  "run_id": "neurosuite_pruning_mini",
+  "output_csv": "results/neurosuite_pruning_mini.csv",
+  "defaults": {
+    "train_steps": 0,
+    "ft_steps": 0,
+    "skip_training": true,
+    "device": "cpu",
+    "movement_batches": 32,
+    "eval_steps_pre0": 100,
+    "eval_steps_pre": 120,
+    "eval_steps_post0": 120,
+    "eval_steps_post": 120,
+    "eval_sample_batches": 64
+  },
+  "runs": [
+    {"task": "synthetic", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed0.pt", "run_id": "baseline_synthetic_0", "strategy": "none", "amount": 0.0, "no_prune": true},
+    {"task": "synthetic", "seed": 1, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed1.pt", "run_id": "baseline_synthetic_1", "strategy": "none", "amount": 0.0, "no_prune": true},
+
+    {"task": "synthetic", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed0.pt", "run_id": "synthetic_noise_prune_a10_s0", "strategy": "noise_prune", "amount": 0.1, "noise_leak_shift": 0.5},
+    {"task": "synthetic", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed0.pt", "run_id": "synthetic_noise_prune_a30_s0", "strategy": "noise_prune", "amount": 0.3, "noise_leak_shift": 0.5},
+    {"task": "synthetic", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed0.pt", "run_id": "synthetic_noise_prune_a50_s0", "strategy": "noise_prune", "amount": 0.5, "noise_leak_shift": 0.5},
+    {"task": "synthetic", "seed": 1, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed1.pt", "run_id": "synthetic_noise_prune_a10_s1", "strategy": "noise_prune", "amount": 0.1, "noise_leak_shift": 0.5},
+    {"task": "synthetic", "seed": 1, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed1.pt", "run_id": "synthetic_noise_prune_a30_s1", "strategy": "noise_prune", "amount": 0.3, "noise_leak_shift": 0.5},
+    {"task": "synthetic", "seed": 1, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed1.pt", "run_id": "synthetic_noise_prune_a50_s1", "strategy": "noise_prune", "amount": 0.5, "noise_leak_shift": 0.5},
+
+    {"task": "synthetic", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed0.pt", "run_id": "synthetic_movement_a10_s0", "strategy": "movement", "amount": 0.1},
+    {"task": "synthetic", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed0.pt", "run_id": "synthetic_movement_a30_s0", "strategy": "movement", "amount": 0.3},
+    {"task": "synthetic", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed0.pt", "run_id": "synthetic_movement_a50_s0", "strategy": "movement", "amount": 0.5},
+
+    {"task": "synthetic", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed0.pt", "run_id": "synthetic_snip_a30_s0", "strategy": "snip", "amount": 0.3},
+    {"task": "synthetic", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed0.pt", "run_id": "synthetic_synflow_a30_s0", "strategy": "synflow", "amount": 0.3},
+    {"task": "synthetic", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_seed0.pt", "run_id": "synthetic_fisher_a30_s0", "strategy": "fisher", "amount": 0.3},
+
+    {"task": "synthetic_context", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_context_seed0.pt", "run_id": "baseline_synthetic_context_0", "strategy": "none", "amount": 0.0, "no_prune": true},
+    {"task": "synthetic_context", "seed": 1, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_context_seed1.pt", "run_id": "baseline_synthetic_context_1", "strategy": "none", "amount": 0.0, "no_prune": true},
+
+    {"task": "synthetic_context", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_context_seed0.pt", "run_id": "synctx_noise_prune_a10_s0", "strategy": "noise_prune", "amount": 0.1, "noise_leak_shift": 0.5},
+    {"task": "synthetic_context", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_context_seed0.pt", "run_id": "synctx_noise_prune_a30_s0", "strategy": "noise_prune", "amount": 0.3, "noise_leak_shift": 0.5},
+    {"task": "synthetic_context", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_context_seed0.pt", "run_id": "synctx_noise_prune_a50_s0", "strategy": "noise_prune", "amount": 0.5, "noise_leak_shift": 0.5},
+
+    {"task": "synthetic_context", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_context_seed0.pt", "run_id": "synctx_movement_a30_s0", "strategy": "movement", "amount": 0.3},
+    {"task": "synthetic_context", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_context_seed0.pt", "run_id": "synctx_snip_a30_s0", "strategy": "snip", "amount": 0.3},
+    {"task": "synthetic_context", "seed": 0, "last_only": true, "load_model_path": "checkpoints/neurosuite/synthetic_context_seed0.pt", "run_id": "synctx_synflow_a30_s0", "strategy": "synflow", "amount": 0.3},
+
+    {"task": "ng:PerceptualDecisionMaking-v0", "seed": 0, "last_only": false, "hidden_size": 256, "load_model_path": "checkpoints/neurosuite/ng_PerceptualDecisionMaking_v0_seed0.pt", "run_id": "baseline_ng_pdm_0", "strategy": "none", "amount": 0.0, "no_prune": true},
+    {"task": "ng:PerceptualDecisionMaking-v0", "seed": 0, "last_only": false, "hidden_size": 256, "load_model_path": "checkpoints/neurosuite/ng_PerceptualDecisionMaking_v0_seed0.pt", "run_id": "ng_pdm_noise_prune_a30_s0", "strategy": "noise_prune", "amount": 0.3, "noise_leak_shift": 0.5},
+    {"task": "ng:PerceptualDecisionMaking-v0", "seed": 0, "last_only": false, "hidden_size": 256, "load_model_path": "checkpoints/neurosuite/ng_PerceptualDecisionMaking_v0_seed0.pt", "run_id": "ng_pdm_movement_a30_s0", "strategy": "movement", "amount": 0.3},
+    {"task": "ng:PerceptualDecisionMaking-v0", "seed": 0, "last_only": false, "hidden_size": 256, "load_model_path": "checkpoints/neurosuite/ng_PerceptualDecisionMaking_v0_seed0.pt", "run_id": "ng_pdm_snip_a30_s0", "strategy": "snip", "amount": 0.3},
+
+    {"task": "ng:ContextDecisionMaking-v0", "seed": 0, "last_only": false, "hidden_size": 256, "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt", "run_id": "baseline_ng_ctxdm_0", "strategy": "none", "amount": 0.0, "no_prune": true},
+    {"task": "ng:ContextDecisionMaking-v0", "seed": 0, "last_only": false, "hidden_size": 256, "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt", "run_id": "ng_ctxdm_noise_prune_a30_s0", "strategy": "noise_prune", "amount": 0.3, "noise_leak_shift": 0.5},
+    {"task": "ng:ContextDecisionMaking-v0", "seed": 0, "last_only": false, "hidden_size": 256, "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt", "run_id": "ng_ctxdm_movement_a30_s0", "strategy": "movement", "amount": 0.3},
+    {"task": "ng:ContextDecisionMaking-v0", "seed": 0, "last_only": false, "hidden_size": 256, "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt", "run_id": "ng_ctxdm_synflow_a30_s0", "strategy": "synflow", "amount": 0.3}
+  ]
+}

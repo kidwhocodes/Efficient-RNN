@@ -3,14 +3,15 @@
   "output_csv": "results/neurosuite_pruning.csv",
   "defaults": {
     "train_steps": 0,
-    "ft_steps": 200,
+    "ft_steps": 0,
     "skip_training": true,
     "device": "cpu",
     "movement_batches": 32,
     "eval_steps_pre0": 100,
     "eval_steps_pre": 120,
     "eval_steps_post0": 120,
-    "eval_steps_post": 120
+    "eval_steps_post": 120,
+    "eval_sample_batches": 64
   },
   "runs": [
     {

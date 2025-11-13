@@ -23,8 +23,12 @@ from ..pruning import (
     PRUNE_AMOUNT_STEP,
     apply_pruning,
     enforce_constraints,
+    fisher_diag_scores,
     finalize_pruning,
+    movement_scores,
     validate_prune_fraction,
+    snip_scores,
+    synflow_scores,
 )
 from ..training import evaluate, train_epoch
 from ..utils import make_run_id, set_global_seed
@@ -309,6 +313,9 @@ def run_prune_experiment(
     normalized_amount = validate_prune_fraction(config.amount) if pruned else 0.0
     config.amount = normalized_amount
 
+    if eval_sample_batches > 0 and eval_seed_base is None:
+        eval_seed_base = config.seed
+
     set_global_seed(config.seed)
     run_dir = _ensure_run_directory(config.run_id)
 
@@ -385,6 +392,17 @@ def run_prune_experiment(
                 x_batch, y_batch = data.sample_batch()
                 fixed_batches.append((x_batch.to(device), y_batch.to(device)))
 
+    state_dict_cached = None
+    if load_model_path is not None:
+        try:
+            state_dict_cached = torch.load(load_model_path, map_location=device, weights_only=True)
+        except TypeError:
+            state_dict_cached = torch.load(load_model_path, map_location=device)
+        if hidden_size_override is None:
+            hh_weight = state_dict_cached.get("hidden_layer.weight")
+            if hh_weight is not None:
+                hidden_size_override = hh_weight.shape[0]
+
     # ------------------------------------------------------------------
     # Build model and optimiser
     # ------------------------------------------------------------------
@@ -400,7 +418,12 @@ def run_prune_experiment(
         model = deepcopy(base_model).to(device)
 
     if load_model_path is not None:
-        state = torch.load(load_model_path, map_location=device, weights_only=True)
+        state = state_dict_cached
+        if state is None:
+            try:
+                state = torch.load(load_model_path, map_location=device, weights_only=True)
+            except TypeError:
+                state = torch.load(load_model_path, map_location=device)
         model.load_state_dict(state)
 
     enforce_constraints(model)
@@ -442,6 +465,26 @@ def run_prune_experiment(
     # Phase C: pruning
     # ------------------------------------------------------------------
     if pruned:
+        score_batches: List[tuple[torch.Tensor, torch.Tensor]] = []
+        needs_batches = strategy in {"movement", "movement_neuron", "snip", "fisher"}
+        if needs_batches:
+            num_batches = max(1, movement_batches)
+            for _ in range(num_batches):
+                xb, yb = data.sample_batch()
+                score_batches.append((xb.to(device), yb.to(device)))
+
+        if strategy in {"movement", "movement_neuron"}:
+            scores = movement_scores(model, score_batches, criterion, last_only=last_only)
+            prune_kwargs["scores"] = scores
+        elif strategy == "snip":
+            scores = snip_scores(model, score_batches, criterion, last_only=last_only)
+            prune_kwargs["scores"] = scores
+        elif strategy == "fisher":
+            scores = fisher_diag_scores(model, score_batches, criterion, last_only=last_only)
+            prune_kwargs["scores"] = scores
+        elif strategy == "synflow":
+            prune_kwargs["scores"] = synflow_scores(model)
+
         prune_stats = apply_pruning(model, strategy, normalized_amount, **prune_kwargs)
         post0_loss, post0_acc = run_eval(eval_steps_post0, 2)
         post0_snapshot = snapshot_model(model)

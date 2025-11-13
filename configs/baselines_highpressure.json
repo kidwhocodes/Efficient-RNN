@@ -1,0 +1,31 @@
+{
+  "output_dir": "checkpoints/highpressure",
+  "defaults": {
+    "train_steps": 1500,
+    "ft_steps": 0,
+    "device": "cpu",
+    "movement_batches": 32,
+    "eval_steps_pre0": 120,
+    "eval_steps_pre": 150,
+    "eval_steps_post0": 0,
+    "eval_steps_post": 0,
+    "last_only": false,
+    "hidden_size": 64
+  },
+  "tasks": [
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "seeds": [0, 1],
+      "ng_T": 700,
+      "ng_kwargs": {"timing": {"delay": [300, 700]}},
+      "checkpoint": "checkpoints/highpressure/ng_ContextDecisionMaking_v0_small_seed{seed}.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "seeds": [0, 1],
+      "ng_T": 600,
+      "ng_kwargs": {"timing": {"delay": [200, 600]}},
+      "checkpoint": "checkpoints/highpressure/ng_DelayMatchSample_v0_small_seed{seed}.pt"
+    }
+  ]
+}

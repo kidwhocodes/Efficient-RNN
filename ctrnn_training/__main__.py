@@ -4,7 +4,13 @@ from typing import Tuple
 
 from .analysis.summary import summarize_csv
 from .analysis.plots import plot_metrics
-from .experiments import run_prune_experiment, run_suite_from_config, run_sweep, train_baselines
+from .experiments import (
+    evaluate_portfolio,
+    run_prune_experiment,
+    run_suite_from_config,
+    run_sweep,
+    train_baselines,
+)
 from .pruning import available_pruning_strategies
 from .utils import make_run_id, set_global_seed
 
@@ -55,7 +61,11 @@ def main():
         default=20,
         help="Retained for backwards compatibility; unused by current strategies.",
     )
-    parser.add_argument("--mode", choices=["single", "sweep", "suite", "summary", "plot", "baseline"], default="single")
+    parser.add_argument(
+        "--mode",
+        choices=["single", "sweep", "suite", "summary", "plot", "baseline", "portfolio"],
+        default="single",
+    )
     parser.add_argument("--out_csv", default=None)
     parser.add_argument(
         "--task",
@@ -173,6 +183,12 @@ def main():
         help="Path to a baseline-training configuration file (mode=baseline)",
     )
     parser.add_argument(
+        "--portfolio_config",
+        type=str,
+        default=None,
+        help="Path to a portfolio evaluation configuration file (mode=portfolio)",
+    )
+    parser.add_argument(
         "--run_id",
         type=str,
         default=None,
@@ -191,6 +207,18 @@ def main():
         checkpoints = train_baselines(args.baseline_config, overwrite=args.skip_training)
         for path in checkpoints:
             print(path)
+        return
+
+    if args.mode == "portfolio":
+        if args.portfolio_config is None:
+            raise ValueError("--portfolio_config is required when mode=portfolio")
+        portfolio_csv = args.out_csv or f"results/portfolio_{run_id}.csv"
+        result_path = evaluate_portfolio(
+            args.portfolio_config,
+            out_csv=portfolio_csv,
+            overwrite=args.skip_training,
+        )
+        print(f"Portfolio summary written to {result_path}")
         return
 
     if args.mode == "sweep":

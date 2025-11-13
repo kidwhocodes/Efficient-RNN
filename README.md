@@ -42,6 +42,11 @@ Train baseline checkpoints for the NeuroSuite benchmark (skips already-existing 
 python3 -m ctrnn_training --mode baseline --baseline_config configs/baselines_neurosuite.json
 ```
 
+Evaluate those checkpoints to verify the task portfolio difficulty:
+```
+python3 -m ctrnn_training --mode portfolio --portfolio_config configs/portfolio_neurosuite.json --out_csv results/neurosuite_portfolio.csv
+```
+
 Launch a sweep across the built-in pruning baselines (good for tables and plots):
 ```
 python3 -m ctrnn_training --mode sweep --strategies l1_neuron,random_neuron,noise_prune,movement,synflow --amounts 0.1,0.3,0.5 --seeds 0,1 --train_steps 200 --ft_steps 50 --task synthetic --out_csv results/demo_sweep.csv
@@ -57,6 +62,10 @@ Run the full NeuroSuite pruning benchmark (assumes baselines have been trained a
 ```
 python3 -m ctrnn_training --mode suite --config configs/pruning_neurosuite.json
 ```
+This suite now enforces the full pruning pipeline:
+- Every strategy/amount reloads the saved checkpoint, so it always starts from the same trained-but-unpruned weights.
+- 64 evaluation batches are sampled once per run (using the training seed), then reused before/after pruning so accuracy deltas reflect pruning only.
+- `ft_steps` defaults to 0; bump it in the config if you want to study post-pruning fine-tuning.
 
 ## Pruning strategies
 

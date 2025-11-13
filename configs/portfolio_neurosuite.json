@@ -1,0 +1,47 @@
+{
+  "output_csv": "results/neurosuite_portfolio.csv",
+  "defaults": {
+    "device": "cpu",
+    "movement_batches": 32,
+    "eval_steps_pre0": 100,
+    "eval_steps_pre": 120,
+    "eval_steps_post0": 0,
+    "eval_steps_post": 0,
+    "hidden_size": 128
+  },
+  "tasks": [
+    {
+      "task": "synthetic",
+      "last_only": true,
+      "seeds": [0, 1],
+      "checkpoint": "checkpoints/neurosuite/synthetic_seed{seed}.pt"
+    },
+    {
+      "task": "synthetic_context",
+      "last_only": true,
+      "seeds": [0, 1],
+      "checkpoint": "checkpoints/neurosuite/synthetic_context_seed{seed}.pt"
+    },
+    {
+      "task": "ng:PerceptualDecisionMaking-v0",
+      "last_only": false,
+      "seeds": [0, 1],
+      "checkpoint": "checkpoints/neurosuite/ng_PerceptualDecisionMaking_v0_seed{seed}.pt",
+      "hidden_size": 256
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "last_only": false,
+      "seeds": [0, 1],
+      "checkpoint": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed{seed}.pt",
+      "hidden_size": 256
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "last_only": false,
+      "seeds": [0, 1],
+      "checkpoint": "checkpoints/neurosuite/ng_DelayMatchSample_v0_seed{seed}.pt",
+      "hidden_size": 256
+    }
+  ]
+}
