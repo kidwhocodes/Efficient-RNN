@@ -1,0 +1,3020 @@
+{
+  "run_id": "delaymatch_pruning_final",
+  "output_csv": "results/delaymatch_pruning_final.csv",
+  "defaults": {
+    "train_steps": 180,
+    "ft_steps": 0,
+    "skip_training": false,
+    "device": "cpu",
+    "movement_batches": 24,
+    "eval_steps_pre0": 60,
+    "eval_steps_pre": 100,
+    "eval_steps_post0": 100,
+    "eval_steps_post": 100,
+    "eval_sample_batches": 40,
+    "last_only": true,
+    "eval_last_only": true,
+    "noise_sigma": 1.0,
+    "noise_eps": 0.3,
+    "noise_leak_shift": 0.5,
+    "resume": false
+  },
+  "runs": [
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_baseline_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "save_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_baseline_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "save_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_baseline_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "save_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_baseline_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "save_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_noise_prune_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_noise_prune_20_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_noise_prune_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_noise_prune_40_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_noise_prune_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_noise_prune_60_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_noise_prune_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_noise_prune_80_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_noise_prune_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_noise_prune_10_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_noise_prune_20_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_noise_prune_30_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_noise_prune_40_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_noise_prune_50_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_noise_prune_60_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_noise_prune_70_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_noise_prune_80_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_noise_prune_90_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_noise_prune_10_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_noise_prune_20_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_noise_prune_30_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_noise_prune_40_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_noise_prune_50_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_noise_prune_60_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_noise_prune_70_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_noise_prune_80_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_noise_prune_90_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_noise_prune_10_seed3",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_noise_prune_20_seed3",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_noise_prune_30_seed3",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_noise_prune_40_seed3",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_noise_prune_50_seed3",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_noise_prune_60_seed3",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_noise_prune_70_seed3",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_noise_prune_80_seed3",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_noise_prune_90_seed3",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt",
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_movement_10_seed0",
+      "strategy": "movement",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_movement_20_seed0",
+      "strategy": "movement",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_movement_30_seed0",
+      "strategy": "movement",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_movement_40_seed0",
+      "strategy": "movement",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_movement_50_seed0",
+      "strategy": "movement",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_movement_60_seed0",
+      "strategy": "movement",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_movement_70_seed0",
+      "strategy": "movement",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_movement_80_seed0",
+      "strategy": "movement",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_movement_90_seed0",
+      "strategy": "movement",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_movement_10_seed1",
+      "strategy": "movement",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_movement_20_seed1",
+      "strategy": "movement",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_movement_30_seed1",
+      "strategy": "movement",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_movement_40_seed1",
+      "strategy": "movement",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_movement_50_seed1",
+      "strategy": "movement",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_movement_60_seed1",
+      "strategy": "movement",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_movement_70_seed1",
+      "strategy": "movement",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_movement_80_seed1",
+      "strategy": "movement",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_movement_90_seed1",
+      "strategy": "movement",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_movement_10_seed2",
+      "strategy": "movement",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_movement_20_seed2",
+      "strategy": "movement",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_movement_30_seed2",
+      "strategy": "movement",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_movement_40_seed2",
+      "strategy": "movement",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_movement_50_seed2",
+      "strategy": "movement",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_movement_60_seed2",
+      "strategy": "movement",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_movement_70_seed2",
+      "strategy": "movement",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_movement_80_seed2",
+      "strategy": "movement",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_movement_90_seed2",
+      "strategy": "movement",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_movement_10_seed3",
+      "strategy": "movement",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_movement_20_seed3",
+      "strategy": "movement",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_movement_30_seed3",
+      "strategy": "movement",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_movement_40_seed3",
+      "strategy": "movement",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_movement_50_seed3",
+      "strategy": "movement",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_movement_60_seed3",
+      "strategy": "movement",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_movement_70_seed3",
+      "strategy": "movement",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_movement_80_seed3",
+      "strategy": "movement",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_movement_90_seed3",
+      "strategy": "movement",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_snip_10_seed0",
+      "strategy": "snip",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_snip_20_seed0",
+      "strategy": "snip",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_snip_30_seed0",
+      "strategy": "snip",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_snip_40_seed0",
+      "strategy": "snip",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_snip_50_seed0",
+      "strategy": "snip",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_snip_60_seed0",
+      "strategy": "snip",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_snip_70_seed0",
+      "strategy": "snip",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_snip_80_seed0",
+      "strategy": "snip",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_snip_90_seed0",
+      "strategy": "snip",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_snip_10_seed1",
+      "strategy": "snip",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_snip_20_seed1",
+      "strategy": "snip",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_snip_30_seed1",
+      "strategy": "snip",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_snip_40_seed1",
+      "strategy": "snip",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_snip_50_seed1",
+      "strategy": "snip",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_snip_60_seed1",
+      "strategy": "snip",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_snip_70_seed1",
+      "strategy": "snip",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_snip_80_seed1",
+      "strategy": "snip",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_snip_90_seed1",
+      "strategy": "snip",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_snip_10_seed2",
+      "strategy": "snip",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_snip_20_seed2",
+      "strategy": "snip",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_snip_30_seed2",
+      "strategy": "snip",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_snip_40_seed2",
+      "strategy": "snip",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_snip_50_seed2",
+      "strategy": "snip",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_snip_60_seed2",
+      "strategy": "snip",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_snip_70_seed2",
+      "strategy": "snip",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_snip_80_seed2",
+      "strategy": "snip",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_snip_90_seed2",
+      "strategy": "snip",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_snip_10_seed3",
+      "strategy": "snip",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_snip_20_seed3",
+      "strategy": "snip",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_snip_30_seed3",
+      "strategy": "snip",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_snip_40_seed3",
+      "strategy": "snip",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_snip_50_seed3",
+      "strategy": "snip",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_snip_60_seed3",
+      "strategy": "snip",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_snip_70_seed3",
+      "strategy": "snip",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_snip_80_seed3",
+      "strategy": "snip",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_snip_90_seed3",
+      "strategy": "snip",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_random_unstructured_10_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_random_unstructured_20_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_random_unstructured_30_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_random_unstructured_40_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_random_unstructured_50_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_random_unstructured_60_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_random_unstructured_70_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_random_unstructured_80_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 0,
+      "run_id": "dms_final_random_unstructured_90_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed0.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_random_unstructured_10_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_random_unstructured_20_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_random_unstructured_30_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_random_unstructured_40_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_random_unstructured_50_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_random_unstructured_60_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_random_unstructured_70_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_random_unstructured_80_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 1,
+      "run_id": "dms_final_random_unstructured_90_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed1.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_random_unstructured_10_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_random_unstructured_20_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_random_unstructured_30_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_random_unstructured_40_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_random_unstructured_50_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_random_unstructured_60_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_random_unstructured_70_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_random_unstructured_80_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 2,
+      "run_id": "dms_final_random_unstructured_90_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed2.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_random_unstructured_10_seed3",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_random_unstructured_20_seed3",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_random_unstructured_30_seed3",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_random_unstructured_40_seed3",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_random_unstructured_50_seed3",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_random_unstructured_60_seed3",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_random_unstructured_70_seed3",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_random_unstructured_80_seed3",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    },
+    {
+      "task": "ng:DelayMatchSample-v0",
+      "hidden_size": 16,
+      "ng_T": 900,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            900
+          ]
+        },
+        "sigma": 0.3
+      },
+      "seed": 3,
+      "run_id": "dms_final_random_unstructured_90_seed3",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "skip_training": true,
+      "load_model_path": "checkpoints/dms_final/seed3.pt"
+    }
+  ]
+}

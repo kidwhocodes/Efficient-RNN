@@ -19,6 +19,7 @@ class ExperimentConfig:
     last_only: bool = True
     seed: int = 0
     device: str = "cpu"
+    model_type: str = "ctrnn"
     movement_batches: int = 20
     task: str = "synthetic"
     no_prune: bool = False
@@ -35,6 +36,7 @@ class ExperimentConfig:
             "last_only": self.last_only,
             "seed": self.seed,
             "device": self.device,
+            "model_type": self.model_type,
             "movement_batches": self.movement_batches,
             "task": self.task,
             "no_prune": self.no_prune,

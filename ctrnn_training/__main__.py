@@ -53,6 +53,21 @@ def main():
     )
     parser.set_defaults(last_only=True)
 
+    eval_last_only_group = parser.add_mutually_exclusive_group()
+    eval_last_only_group.add_argument(
+        "--eval_last_only",
+        dest="eval_last_only",
+        action="store_true",
+        help="Evaluate accuracy using only the final timestep (default).",
+    )
+    eval_last_only_group.add_argument(
+        "--eval_full_sequence",
+        dest="eval_last_only",
+        action="store_false",
+        help="Evaluate loss/accuracy across the entire sequence.",
+    )
+    parser.set_defaults(eval_last_only=True)
+
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--device", type=str, default="cpu")
     parser.add_argument(
@@ -110,6 +125,18 @@ def main():
         help="Directory to store generated plots (mode=plot)",
     )
     parser.add_argument(
+        "--plot_filter_field",
+        type=str,
+        default=None,
+        help="Optional column name to filter rows before plotting",
+    )
+    parser.add_argument(
+        "--plot_filter_value",
+        type=str,
+        default=None,
+        help="Value to match for plot_filter_field",
+    )
+    parser.add_argument(
         "--strategies",
         type=str,
         default="l1_neuron,random_neuron,noise_prune",
@@ -136,6 +163,13 @@ def main():
     parser.add_argument("--ng_T", type=int, default=None, help="Override trial length T for NeuroGym tasks")
     parser.add_argument("--ng_B", type=int, default=None, help="Override batch size B for NeuroGym tasks")
     parser.add_argument("--hidden_size", type=int, default=None, help="Override RNN hidden size")
+    parser.add_argument(
+        "--model_type",
+        type=str,
+        choices=["ctrnn", "gru"],
+        default="ctrnn",
+        help="Base model architecture (ctrnn or gru)",
+    )
     parser.add_argument("--noise_sigma", type=float, default=1.0, help="Noise prune sigma hyperparameter")
     parser.add_argument("--noise_eps", type=float, default=0.3, help="Noise prune epsilon hyperparameter")
     parser.add_argument(
@@ -278,12 +312,16 @@ def main():
             raise ValueError("--group_by must include at least a group and an amount column")
         group_field, amount_field, *rest = group_fields
         metric_fields = _parse_comma_strs(args.metrics) or ("post_acc", "post_loss")
+        plot_filters = None
+        if args.plot_filter_field and args.plot_filter_value is not None:
+            plot_filters = {args.plot_filter_field: args.plot_filter_value}
         plot_metrics(
             args.input_csv,
             metrics=metric_fields,
             group_field=group_field,
             amount_field=amount_field,
             output_dir=args.plot_out,
+            filters=plot_filters,
         )
         print(f"Plots written to {args.plot_out}")
         return
@@ -294,6 +332,8 @@ def main():
         train_steps=args.train_steps,
         ft_steps=args.ft_steps,
         last_only=args.last_only,
+        model_type=args.model_type,
+        eval_last_only=args.eval_last_only,
         seed=args.seed,
         device=args.device,
         movement_batches=args.movement_batches,

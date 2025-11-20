@@ -28,6 +28,7 @@ def plot_metrics(
     group_field: str = "strategy",
     output_dir: str = "plots",
     amount_field: str = "amount",
+    filters: Dict[str, str] | None = None,
 ) -> List[str]:
     """
     Generate line plots for each metric vs. amount grouped by `group_field`.
@@ -39,6 +40,7 @@ def plot_metrics(
         group_fields=(group_field, amount_field),
         metrics=metrics,
         output_path=None,
+        filters=filters,
     )
     if not summaries:
         raise ValueError("No data available to plot. Check the CSV or grouping fields.")

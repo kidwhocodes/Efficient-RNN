@@ -86,3 +86,173 @@ class SyntheticContextDM:
             Y[:, b] = target
 
         return torch.from_numpy(X), torch.from_numpy(Y)
+
+
+@dataclass
+class SynthMultiRuleCfg:
+    T: int = 60
+    B: int = 64
+    context_steps: int = 5
+    input_dim: int = 5  # 3 context channels + 2 evidence streams
+    output_classes: int = 6
+    evidence_std: float = 0.8
+
+
+class SyntheticMultiRuleDM:
+    """
+    Context-dependent multi-rule task with 6 output classes (context/result combos).
+
+    Context 0: decide if mean(left) > mean(right)
+    Context 1: decide if |left - right| > threshold
+    Context 2: decide if the trend of left evidence is positive vs negative
+    Final label = context * 2 + result_bit, so network must track context and rule.
+    """
+
+    def __init__(self, cfg: SynthMultiRuleCfg):
+        self.cfg = cfg
+
+    def sample_batch(self):
+        C = self.cfg
+        T, B = C.T, C.B
+        X = np.zeros((T, B, C.input_dim), np.float32)
+        Y = np.zeros((T, B), np.int64)
+        thresh = 0.5
+        for b in range(B):
+            ctx = np.random.randint(0, 3)
+            ctx_onehot = np.zeros(3, np.float32)
+            ctx_onehot[ctx] = 1.0
+            X[: C.context_steps, b, :3] = ctx_onehot
+
+            left = np.random.normal(0.0, C.evidence_std, size=T)
+            right = np.random.normal(0.0, C.evidence_std, size=T)
+            X[:, b, 3] = left
+            X[:, b, 4] = right
+
+            if ctx == 0:
+                result = int(left.mean() > right.mean())
+            elif ctx == 1:
+                result = int(np.abs(left[-1] - right[-1]) > thresh)
+            else:
+                result = int(np.polyfit(np.arange(T), left, 1)[0] > 0)
+            label = ctx * 2 + result
+            Y[:, b] = label
+        return torch.from_numpy(X), torch.from_numpy(Y)
+
+
+@dataclass
+class SynthHierContextCfg:
+    T: int = 70
+    B: int = 64
+    context_steps: int = 6
+    input_dim: int = 6  # 2 context channels + 2 rule channels + 2 evidence streams
+    output_dim: int = 4  # family (0/1) * rule (0/1)
+    evidence_std: float = 0.7
+    diff_thresh: float = 0.4
+
+
+class SyntheticHierContextDM:
+    """
+    Hierarchical context task: first cue selects a family (A/B), second cue selects a rule.
+
+    Family A:
+      rule 0 -> decide mean(left) > mean(right)
+      rule 1 -> decide |left-right| final > threshold
+    Family B:
+      rule 0 -> decide left variance > right variance
+      rule 1 -> decide trend of left is increasing vs decreasing
+
+    Final label encodes family*2 + rule_result (0..3).
+    """
+
+    def __init__(self, cfg: SynthHierContextCfg):
+        self.cfg = cfg
+
+    def sample_batch(self):
+        C = self.cfg
+        T, B = C.T, C.B
+        X = np.zeros((T, B, C.input_dim), np.float32)
+        Y = np.zeros((T, B), np.int64)
+        for b in range(B):
+            family = np.random.randint(0, 2)
+            rule = np.random.randint(0, 2)
+            # context channels
+            fam_onehot = np.zeros(2, np.float32)
+            rule_onehot = np.zeros(2, np.float32)
+            fam_onehot[family] = 1.0
+            rule_onehot[rule] = 1.0
+            X[: C.context_steps, b, :2] = fam_onehot
+            X[: C.context_steps, b, 2:4] = rule_onehot
+
+            left = np.random.normal(0.0, C.evidence_std, size=T)
+            right = np.random.normal(0.0, C.evidence_std, size=T)
+            X[:, b, 4] = left
+            X[:, b, 5] = right
+
+            if family == 0 and rule == 0:
+                result = int(left.mean() > right.mean())
+            elif family == 0 and rule == 1:
+                result = int(abs(left[-1] - right[-1]) > C.diff_thresh)
+            elif family == 1 and rule == 0:
+                result = int(left.var() > right.var())
+            else:
+                result = int(np.polyfit(np.arange(T), left, 1)[0] > 0)
+            label = family * 2 + result
+            Y[:, b] = label
+        return torch.from_numpy(X), torch.from_numpy(Y)
+
+
+@dataclass
+class SynthNBackCfg:
+    T: int = 50
+    B: int = 64
+    alphabet_size: int = 4
+    input_dim: int = 1 + 4  # cue channel + one-hot symbol
+    output_dim: int = 4  # (n=2 vs 3) x (match vs mismatch)
+    n_choices: Tuple[int, ...] = (2, 3)
+    match_prob: float = 0.5
+
+
+class SyntheticNBackDM:
+    """
+    Variable-n back task.
+
+    Cue indicates whether to perform 2-back or 3-back. Sequence symbols are one-hot.
+    Final label indicates match vs no-match on the last item relative to n steps before.
+    """
+
+    def __init__(self, cfg: SynthNBackCfg):
+        self.cfg = cfg
+
+    def sample_batch(self):
+        C = self.cfg
+        T, B = C.T, C.B
+        X = np.zeros((T, B, C.input_dim), np.float32)
+        Y = np.zeros((T, B), np.int64)
+        for b in range(B):
+            n = int(np.random.choice(C.n_choices))
+            cue = np.zeros(1, np.float32)
+            cue[0] = float(n) / max(C.n_choices)
+            X[:5, b, :1] = cue
+
+            symbols = np.random.randint(0, C.alphabet_size, size=T)
+            for t in range(T):
+                sym = symbols[t]
+                onehot = np.zeros(C.alphabet_size, np.float32)
+                onehot[sym] = 1.0
+                X[t, b, 1:] = onehot
+
+            match = np.random.rand() < C.match_prob
+            if match and T > n:
+                symbols[-1] = symbols[-1 - n]
+            else:
+                # ensure mismatch
+                candidates = [s for s in range(C.alphabet_size) if s != symbols[-1 - n]]
+                symbols[-1] = np.random.choice(candidates)
+                for t in range(T):
+                    sym = symbols[t]
+                    onehot = np.zeros(C.alphabet_size, np.float32)
+                    onehot[sym] = 1.0
+                    X[t, b, 1:] = onehot
+            label = (0 if n == 2 else 2) + int(not match)
+            Y[:, b] = label
+        return torch.from_numpy(X), torch.from_numpy(Y)

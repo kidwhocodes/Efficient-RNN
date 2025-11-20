@@ -13,12 +13,21 @@ def summarize_csv(
     group_fields: Sequence[str] = ("strategy", "amount"),
     metrics: Sequence[str] = ("post_acc", "post_loss"),
     output_path: str | None = None,
+    filters: Dict[str, str] | None = None,
 ) -> List[Dict[str, float]]:
     """Summarise experiment results grouped by selected columns."""
     groups: Dict[Tuple, List[Dict[str, float]]] = defaultdict(list)
     with open(csv_path, "r") as f:
         reader = csv.DictReader(f)
         for row in reader:
+            if filters:
+                matched = True
+                for key, value in filters.items():
+                    if str(row.get(key, "")) != str(value):
+                        matched = False
+                        break
+                if not matched:
+                    continue
             key = tuple(row.get(field, "") for field in group_fields)
             metric_row = {}
             skip = False

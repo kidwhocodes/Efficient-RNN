@@ -12,7 +12,7 @@ import torch.nn.utils.prune as prune
 
 from ..models import CTRNN
 
-PRUNE_AMOUNT_STEP = 0.1
+PRUNE_AMOUNT_STEP = 0.05
 _STEP_EPS = 1e-6
 
 
@@ -35,6 +35,8 @@ def validate_prune_fraction(amount: float, *, step: float = PRUNE_AMOUNT_STEP) -
 @torch.no_grad()
 def enforce_constraints(model: CTRNN) -> None:
     """Apply Dale's law and remove self-connections when requested by the model."""
+    if not hasattr(model, "hidden_layer"):
+        return
     layer = model.hidden_layer
     weight = getattr(layer, "weight_orig", layer.weight)
 
@@ -361,7 +363,10 @@ def synflow_scores(model: CTRNN) -> torch.Tensor:
 
 def finalize_pruning(model: CTRNN) -> None:
     """Remove pruning reparameterisations so saved checkpoints are dense tensors."""
-    for layer in (model.input_layer, model.hidden_layer, model.readout_layer):
+    for layer_name in ("input_layer", "hidden_layer", "readout_layer"):
+        if not hasattr(model, layer_name):
+            continue
+        layer = getattr(model, layer_name)
         try:
             prune.remove(layer, "weight")
         except (ValueError, AttributeError):

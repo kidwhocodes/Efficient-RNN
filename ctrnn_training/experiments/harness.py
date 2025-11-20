@@ -41,6 +41,7 @@ def run_suite_from_config(path: str) -> str:
     Path(os.path.dirname(csv_path) or ".").mkdir(parents=True, exist_ok=True)
 
     reset_results = bool(defaults.pop("reset_results", False))
+    resume = bool(defaults.pop("resume", True))
     if reset_results and os.path.exists(csv_path):
         os.remove(csv_path)
 
@@ -50,7 +51,7 @@ def run_suite_from_config(path: str) -> str:
 
     # Build set of existing run_ids in CSV to support resuming
     completed_run_ids = set()
-    if os.path.exists(csv_path):
+    if resume and os.path.exists(csv_path):
         import csv
 
         with open(csv_path, "r") as fh:
@@ -63,6 +64,7 @@ def run_suite_from_config(path: str) -> str:
         merged = {**defaults, **spec}
         run_id = merged.get("run_id") or f"{suite_id}_{idx}"
         merged["run_id"] = run_id
+        merged.setdefault("model_type", defaults.get("model_type", "ctrnn") if isinstance(defaults, dict) else "ctrnn")
 
         if run_id in completed_run_ids:
             print(f"[suite:{suite_id}] ({idx}/{len(runs)}) skipping {run_id} (already completed)")
@@ -82,11 +84,21 @@ def run_suite_from_config(path: str) -> str:
             ):
                 base_val = merged.get(key_name, default_val)
                 merged[key_name] = max(1, int(round(base_val * eval_steps_factor)))
-        hidden_size = merged.get("hidden_size", defaults.get("hidden_size")) if isinstance(defaults, dict) else None
+        hidden_default = defaults.get("hidden_size") if isinstance(defaults, dict) else None
+        hidden_size = merged.get("hidden_size", hidden_default)
+        model_kwargs_key = tuple(
+            sorted(
+                (k, merged.get(k))
+                for k in ("use_dale", "ei_ratio", "no_self_connections", "activation")
+                if k in merged
+            )
+        )
         key = (
             merged.get("task"),
             merged.get("seed"),
             hidden_size,
+            merged.get("model_type"),
+            model_kwargs_key,
         )
         base_model = base_models.get(key)
         print(

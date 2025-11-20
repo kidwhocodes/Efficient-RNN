@@ -12,12 +12,12 @@
     "eval_steps_post0": 120,
     "eval_steps_post": 120,
     "eval_sample_batches": 30,
-    "last_only": false
+    "last_only": true,
+    "eval_last_only": true
   },
   "runs": [
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 0,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -28,6 +28,7 @@
           ]
         }
       },
+      "seed": 0,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
       "run_id": "ctxdm_baseline_0",
       "strategy": "none",
@@ -36,7 +37,6 @@
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 1,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -47,6 +47,7 @@
           ]
         }
       },
+      "seed": 1,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
       "run_id": "ctxdm_baseline_1",
       "strategy": "none",
@@ -55,7 +56,6 @@
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 0,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -66,15 +66,15 @@
           ]
         }
       },
+      "seed": 0,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
-      "run_id": "ctxdm_noise_a10_s0",
+      "run_id": "ctxdm_noise_prune_10_s0",
       "strategy": "noise_prune",
       "amount": 0.1,
       "noise_leak_shift": 0.5
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 0,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -85,15 +85,34 @@
           ]
         }
       },
+      "seed": 0,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
-      "run_id": "ctxdm_noise_a30_s0",
+      "run_id": "ctxdm_noise_prune_25_s0",
+      "strategy": "noise_prune",
+      "amount": 0.25,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_noise_prune_30_s0",
       "strategy": "noise_prune",
       "amount": 0.3,
       "noise_leak_shift": 0.5
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 0,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -104,15 +123,15 @@
           ]
         }
       },
+      "seed": 0,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
-      "run_id": "ctxdm_noise_a50_s0",
+      "run_id": "ctxdm_noise_prune_40_s0",
       "strategy": "noise_prune",
-      "amount": 0.5,
+      "amount": 0.4,
       "noise_leak_shift": 0.5
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 1,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -123,15 +142,72 @@
           ]
         }
       },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_noise_prune_55_s0",
+      "strategy": "noise_prune",
+      "amount": 0.55,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_noise_prune_70_s0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_noise_prune_85_s0",
+      "strategy": "noise_prune",
+      "amount": 0.85,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
-      "run_id": "ctxdm_noise_a10_s1",
+      "run_id": "ctxdm_noise_prune_10_s1",
       "strategy": "noise_prune",
       "amount": 0.1,
       "noise_leak_shift": 0.5
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 1,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -142,15 +218,34 @@
           ]
         }
       },
+      "seed": 1,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
-      "run_id": "ctxdm_noise_a30_s1",
+      "run_id": "ctxdm_noise_prune_25_s1",
+      "strategy": "noise_prune",
+      "amount": 0.25,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_noise_prune_30_s1",
       "strategy": "noise_prune",
       "amount": 0.3,
       "noise_leak_shift": 0.5
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 1,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -161,15 +256,15 @@
           ]
         }
       },
+      "seed": 1,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
-      "run_id": "ctxdm_noise_a50_s1",
+      "run_id": "ctxdm_noise_prune_40_s1",
       "strategy": "noise_prune",
-      "amount": 0.5,
+      "amount": 0.4,
       "noise_leak_shift": 0.5
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 0,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -180,14 +275,107 @@
           ]
         }
       },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_noise_prune_55_s1",
+      "strategy": "noise_prune",
+      "amount": 0.55,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_noise_prune_70_s1",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_noise_prune_85_s1",
+      "strategy": "noise_prune",
+      "amount": 0.85,
+      "noise_leak_shift": 0.5
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
-      "run_id": "ctxdm_movement_a30_s0",
+      "run_id": "ctxdm_movement_10_s0",
+      "strategy": "movement",
+      "amount": 0.1
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_movement_25_s0",
+      "strategy": "movement",
+      "amount": 0.25
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_movement_30_s0",
       "strategy": "movement",
       "amount": 0.3
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 1,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -198,14 +386,122 @@
           ]
         }
       },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_movement_40_s0",
+      "strategy": "movement",
+      "amount": 0.4
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_movement_55_s0",
+      "strategy": "movement",
+      "amount": 0.55
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_movement_70_s0",
+      "strategy": "movement",
+      "amount": 0.7
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_movement_85_s0",
+      "strategy": "movement",
+      "amount": 0.85
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
-      "run_id": "ctxdm_movement_a30_s1",
+      "run_id": "ctxdm_movement_10_s1",
+      "strategy": "movement",
+      "amount": 0.1
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_movement_25_s1",
+      "strategy": "movement",
+      "amount": 0.25
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_movement_30_s1",
       "strategy": "movement",
       "amount": 0.3
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 0,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -216,14 +512,122 @@
           ]
         }
       },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_movement_40_s1",
+      "strategy": "movement",
+      "amount": 0.4
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_movement_55_s1",
+      "strategy": "movement",
+      "amount": 0.55
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_movement_70_s1",
+      "strategy": "movement",
+      "amount": 0.7
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_movement_85_s1",
+      "strategy": "movement",
+      "amount": 0.85
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
-      "run_id": "ctxdm_snip_a30_s0",
+      "run_id": "ctxdm_snip_10_s0",
+      "strategy": "snip",
+      "amount": 0.1
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_snip_25_s0",
+      "strategy": "snip",
+      "amount": 0.25
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_snip_30_s0",
       "strategy": "snip",
       "amount": 0.3
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 1,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -234,14 +638,122 @@
           ]
         }
       },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_snip_40_s0",
+      "strategy": "snip",
+      "amount": 0.4
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_snip_55_s0",
+      "strategy": "snip",
+      "amount": 0.55
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_snip_70_s0",
+      "strategy": "snip",
+      "amount": 0.7
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_snip_85_s0",
+      "strategy": "snip",
+      "amount": 0.85
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
-      "run_id": "ctxdm_snip_a30_s1",
+      "run_id": "ctxdm_snip_10_s1",
+      "strategy": "snip",
+      "amount": 0.1
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_snip_25_s1",
+      "strategy": "snip",
+      "amount": 0.25
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_snip_30_s1",
       "strategy": "snip",
       "amount": 0.3
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 0,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -252,14 +764,122 @@
           ]
         }
       },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_snip_40_s1",
+      "strategy": "snip",
+      "amount": 0.4
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_snip_55_s1",
+      "strategy": "snip",
+      "amount": 0.55
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_snip_70_s1",
+      "strategy": "snip",
+      "amount": 0.7
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_snip_85_s1",
+      "strategy": "snip",
+      "amount": 0.85
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
-      "run_id": "ctxdm_synflow_a30_s0",
+      "run_id": "ctxdm_synflow_10_s0",
+      "strategy": "synflow",
+      "amount": 0.1
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_synflow_25_s0",
+      "strategy": "synflow",
+      "amount": 0.25
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_synflow_30_s0",
       "strategy": "synflow",
       "amount": 0.3
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 1,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -270,14 +890,122 @@
           ]
         }
       },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_synflow_40_s0",
+      "strategy": "synflow",
+      "amount": 0.4
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_synflow_55_s0",
+      "strategy": "synflow",
+      "amount": 0.55
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_synflow_70_s0",
+      "strategy": "synflow",
+      "amount": 0.7
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_synflow_85_s0",
+      "strategy": "synflow",
+      "amount": 0.85
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
-      "run_id": "ctxdm_synflow_a30_s1",
+      "run_id": "ctxdm_synflow_10_s1",
+      "strategy": "synflow",
+      "amount": 0.1
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_synflow_25_s1",
+      "strategy": "synflow",
+      "amount": 0.25
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_synflow_30_s1",
       "strategy": "synflow",
       "amount": 0.3
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 0,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -288,14 +1016,122 @@
           ]
         }
       },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_synflow_40_s1",
+      "strategy": "synflow",
+      "amount": 0.4
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_synflow_55_s1",
+      "strategy": "synflow",
+      "amount": 0.55
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_synflow_70_s1",
+      "strategy": "synflow",
+      "amount": 0.7
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_synflow_85_s1",
+      "strategy": "synflow",
+      "amount": 0.85
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
-      "run_id": "ctxdm_fisher_a30_s0",
+      "run_id": "ctxdm_fisher_10_s0",
+      "strategy": "fisher",
+      "amount": 0.1
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_fisher_25_s0",
+      "strategy": "fisher",
+      "amount": 0.25
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_fisher_30_s0",
       "strategy": "fisher",
       "amount": 0.3
     },
     {
       "task": "ng:ContextDecisionMaking-v0",
-      "seed": 1,
       "hidden_size": 256,
       "ng_T": 600,
       "ng_kwargs": {
@@ -306,10 +1142,443 @@
           ]
         }
       },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_fisher_40_s0",
+      "strategy": "fisher",
+      "amount": 0.4
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_fisher_55_s0",
+      "strategy": "fisher",
+      "amount": 0.55
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_fisher_70_s0",
+      "strategy": "fisher",
+      "amount": 0.7
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_fisher_85_s0",
+      "strategy": "fisher",
+      "amount": 0.85
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
       "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
-      "run_id": "ctxdm_fisher_a30_s1",
+      "run_id": "ctxdm_fisher_10_s1",
+      "strategy": "fisher",
+      "amount": 0.1
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_fisher_25_s1",
+      "strategy": "fisher",
+      "amount": 0.25
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_fisher_30_s1",
       "strategy": "fisher",
       "amount": 0.3
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_fisher_40_s1",
+      "strategy": "fisher",
+      "amount": 0.4
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_fisher_55_s1",
+      "strategy": "fisher",
+      "amount": 0.55
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_fisher_70_s1",
+      "strategy": "fisher",
+      "amount": 0.7
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_fisher_85_s1",
+      "strategy": "fisher",
+      "amount": 0.85
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_random_unstructured_10_s0",
+      "strategy": "random_unstructured",
+      "amount": 0.1
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_random_unstructured_25_s0",
+      "strategy": "random_unstructured",
+      "amount": 0.25
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_random_unstructured_30_s0",
+      "strategy": "random_unstructured",
+      "amount": 0.3
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_random_unstructured_40_s0",
+      "strategy": "random_unstructured",
+      "amount": 0.4
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_random_unstructured_55_s0",
+      "strategy": "random_unstructured",
+      "amount": 0.55
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_random_unstructured_70_s0",
+      "strategy": "random_unstructured",
+      "amount": 0.7
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 0,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed0.pt",
+      "run_id": "ctxdm_random_unstructured_85_s0",
+      "strategy": "random_unstructured",
+      "amount": 0.85
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_random_unstructured_10_s1",
+      "strategy": "random_unstructured",
+      "amount": 0.1
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_random_unstructured_25_s1",
+      "strategy": "random_unstructured",
+      "amount": 0.25
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_random_unstructured_30_s1",
+      "strategy": "random_unstructured",
+      "amount": 0.3
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_random_unstructured_40_s1",
+      "strategy": "random_unstructured",
+      "amount": 0.4
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_random_unstructured_55_s1",
+      "strategy": "random_unstructured",
+      "amount": 0.55
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_random_unstructured_70_s1",
+      "strategy": "random_unstructured",
+      "amount": 0.7
+    },
+    {
+      "task": "ng:ContextDecisionMaking-v0",
+      "hidden_size": 256,
+      "ng_T": 600,
+      "ng_kwargs": {
+        "timing": {
+          "delay": [
+            300,
+            600
+          ]
+        }
+      },
+      "seed": 1,
+      "load_model_path": "checkpoints/neurosuite/ng_ContextDecisionMaking_v0_seed1.pt",
+      "run_id": "ctxdm_random_unstructured_85_s1",
+      "strategy": "random_unstructured",
+      "amount": 0.85
     }
   ]
 }

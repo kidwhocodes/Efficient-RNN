@@ -12,6 +12,10 @@ import torch
 from ..models import CTRNN
 
 
+def _has_ctrnn_layers(model: torch.nn.Module) -> bool:
+    return hasattr(model, "hidden_layer") and hasattr(model.hidden_layer, "weight")
+
+
 def count_nonzero_and_total(t: torch.Tensor):
     nz = int((t != 0).sum().item())
     tot = t.numel()
@@ -38,6 +42,8 @@ def spectral_radius(W: torch.Tensor) -> float:
 
 @torch.no_grad()
 def ctrnn_stability_proxy(model: CTRNN):
+    if not _has_ctrnn_layers(model):
+        return float("nan")
     W = model.hidden_layer.weight.detach()
     rho = spectral_radius(W)
     return model.alpha * rho
@@ -46,11 +52,13 @@ def ctrnn_stability_proxy(model: CTRNN):
 @torch.no_grad()
 def layer_sparsities(model: CTRNN):
     """Sparsity per layer (fraction of zeros)."""
-    layers = {
-        "input": model.input_layer.weight,
-        "recurrent": model.hidden_layer.weight,
-        "readout": model.readout_layer.weight,
-    }
+    layers = {}
+    if hasattr(model, "input_layer"):
+        layers["input"] = model.input_layer.weight
+    if _has_ctrnn_layers(model):
+        layers["recurrent"] = model.hidden_layer.weight
+    if hasattr(model, "readout_layer"):
+        layers["readout"] = model.readout_layer.weight
     out = {}
     for name, W in layers.items():
         nz = int((W != 0).sum().item())
@@ -62,6 +70,8 @@ def layer_sparsities(model: CTRNN):
 @torch.no_grad()
 def neuron_keep_fraction(model: CTRNN):
     """Fraction of hidden neurons effectively kept (not isolated)."""
+    if not _has_ctrnn_layers(model):
+        return float("nan")
     W = model.hidden_layer.weight.detach()
     row_zero = (W.abs().sum(dim=1) == 0)
     col_zero = (W.abs().sum(dim=0) == 0)
@@ -80,6 +90,8 @@ def neuron_pruning_stats(model: CTRNN):
     cols_zero: neurons whose incoming weights are all zero (col == 0)
     isolated:  neurons that are both rows_zero AND cols_zero (fully disconnected)
     """
+    if not _has_ctrnn_layers(model):
+        return {"rows_zero": float("nan"), "cols_zero": float("nan"), "isolated": float("nan")}
     W = model.hidden_layer.weight.detach()
     row_zero = (W.abs().sum(dim=1) == 0)
     col_zero = (W.abs().sum(dim=0) == 0)
@@ -100,18 +112,28 @@ def snapshot_model(model: CTRNN) -> Dict[str, float]:
     for layer_name, value in layer_stats.items():
         stats[f"sparsity_{layer_name}"] = float(value)
 
-    W = model.hidden_layer.weight.detach()
-    abs_w = W.abs()
-    stats["rec_weight_abs_mean"] = float(abs_w.mean())
-    stats["rec_weight_abs_std"] = float(abs_w.std(unbiased=False))
-    stats["rec_weight_l2"] = float(torch.linalg.vector_norm(W, ord=2))
+    if _has_ctrnn_layers(model):
+        W = model.hidden_layer.weight.detach()
+        abs_w = W.abs()
+        stats["rec_weight_abs_mean"] = float(abs_w.mean())
+        stats["rec_weight_abs_std"] = float(abs_w.std(unbiased=False))
+        stats["rec_weight_l2"] = float(torch.linalg.vector_norm(W, ord=2))
+    else:
+        stats["rec_weight_abs_mean"] = float("nan")
+        stats["rec_weight_abs_std"] = float("nan")
+        stats["rec_weight_l2"] = float("nan")
 
     if hasattr(model, "readout_layer"):
         readout_abs = model.readout_layer.weight.detach().abs()
         stats["readout_weight_abs_mean"] = float(readout_abs.mean())
         stats["readout_weight_abs_std"] = float(readout_abs.std(unbiased=False))
 
-    if getattr(model, "use_dale", False) and hasattr(model, "dale_sign"):
+    if _has_ctrnn_layers(model):
+        abs_w = model.hidden_layer.weight.detach().abs()
+    else:
+        abs_w = None
+
+    if abs_w is not None and getattr(model, "use_dale", False) and hasattr(model, "dale_sign"):
         excit = abs_w[:, model.dale_sign.squeeze() > 0]
         inhib = abs_w[:, model.dale_sign.squeeze() < 0]
         stats["dale_excit_mean"] = float(excit.mean()) if excit.numel() else 0.0
