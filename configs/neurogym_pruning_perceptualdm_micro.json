@@ -24,14 +24,14 @@
       "save_model_path": "checkpoints/perceptualdm_micro_seed0.pt"
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.1,
       "seed": 0,
       "load_model_path": "checkpoints/perceptualdm_micro_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.5,
       "seed": 0,
       "load_model_path": "checkpoints/perceptualdm_micro_seed0.pt",

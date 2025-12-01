@@ -11,10 +11,10 @@ if ROOT not in sys.path:
 import neurogym as ngym
 import torch
 
-from ctrnn_training.data import NeuroGymDM
-from ctrnn_training.models import CTRNN
-from ctrnn_training.pruning import prune_l1_unstructured
-from ctrnn_training.training import evaluate, train_epoch
+from pruning_benchmark.tasks import NeuroGymDM
+from pruning_benchmark.models import CTRNN
+from pruning_benchmark.pruning import prune_l1_unstructured
+from pruning_benchmark.training import evaluate, train_epoch
 
 
 def main():

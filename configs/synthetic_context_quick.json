@@ -25,21 +25,21 @@
       "save_model_path": "checkpoints/synth_context_seed0.pt"
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.2,
       "seed": 0,
       "load_model_path": "checkpoints/synth_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.4,
       "seed": 0,
       "load_model_path": "checkpoints/synth_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.6,
       "seed": 0,
       "load_model_path": "checkpoints/synth_context_seed0.pt",

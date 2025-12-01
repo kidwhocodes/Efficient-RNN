@@ -21,22 +21,22 @@
       "seed": 0
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.1,
       "seed": 0
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.3,
       "seed": 0
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.5,
       "seed": 0
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.7,
       "seed": 0
     },

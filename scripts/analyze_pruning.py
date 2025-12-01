@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from ctrnn_training.analysis.aggregators import (
+from pruning_benchmark.analysis.aggregators import (
     load_experiment_records,
     load_metrics_jsons,
     pairwise_deltas,

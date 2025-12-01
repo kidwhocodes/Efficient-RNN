@@ -10,10 +10,10 @@ if ROOT not in sys.path:
 
 import torch
 
-from ctrnn_training.data import SynthCfg, SyntheticDM
-from ctrnn_training.models import CTRNN
-from ctrnn_training.pruning import prune_l1_unstructured
-from ctrnn_training.training import evaluate, train_epoch
+from pruning_benchmark.tasks import SynthCfg, SyntheticDM
+from pruning_benchmark.models import CTRNN
+from pruning_benchmark.pruning import prune_l1_unstructured
+from pruning_benchmark.training import evaluate, train_epoch
 
 
 def main():

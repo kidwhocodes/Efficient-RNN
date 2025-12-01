@@ -30,13 +30,13 @@ Create a JSON suite config (see `configs/example_suite.json` or `configs/noise_p
 ## 2. Execute the Suite
 
 ```bash
-python -m ctrnn_training --mode suite --config configs/example_suite.json
+python -m pruning_benchmark --mode suite --config configs/example_suite.json
 # Change-detection benchmark
-python -m ctrnn_training --mode suite --config configs/neurogym_pruning_changedetection.json
+python -m pruning_benchmark --mode suite --config configs/neurogym_pruning_changedetection.json
 # Dual working-memory benchmark
-python -m ctrnn_training --mode suite --config configs/neurogym_pruning_dualdms.json
+python -m pruning_benchmark --mode suite --config configs/neurogym_pruning_dualdms.json
 # Context-dependent decision benchmark
-python -m ctrnn_training --mode suite --config configs/neurogym_pruning_contextdm.json
+python -m pruning_benchmark --mode suite --config configs/neurogym_pruning_contextdm.json
 ```
 
 Each run is executed with deterministic seeding, and results are appended to the CSV specified in the config (or `results/<suite_id>.csv` by default).
@@ -44,7 +44,7 @@ Each run is executed with deterministic seeding, and results are appended to the
 ## 3. Summarise Results
 
 ```bash
-python -m ctrnn_training --mode summary --input_csv results/example_suite.csv
+python -m pruning_benchmark --mode summary --input_csv results/example_suite.csv
 
 # add `--summary_out <path>` to save tables, and `--group_by`/`--metrics` to control aggregation.
 ```
@@ -54,7 +54,7 @@ This prints per-strategy aggregates (`post_acc_mean`, `post_loss_mean`, etc.) to
 ## 4. Visualise
 
 ```bash
-python -m ctrnn_training --mode plot \
+python -m pruning_benchmark --mode plot \
   --input_csv results/example_suite.csv \
   --plot_out plots/example \
   --group_by strategy,amount --metrics post_acc,post_loss

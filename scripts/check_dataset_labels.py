@@ -21,7 +21,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from ctrnn_training.data.synthetic import (
+from pruning_benchmark.tasks.synthetic import (
     SynthCfg,
     SynthContextCfg,
     SynthMultiRuleCfg,
@@ -33,7 +33,7 @@ from ctrnn_training.data.synthetic import (
     SyntheticHierContextDM,
     SyntheticNBackDM,
 )
-from ctrnn_training.data.neurogym import NeuroGymDM
+from pruning_benchmark.tasks.neurogym import NeuroGymDM
 
 
 def build_dataset(

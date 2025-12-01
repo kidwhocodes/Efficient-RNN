@@ -25,126 +25,126 @@
       "save_model_path": "checkpoints/ng_context_seed0.pt"
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.1,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.2,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.3,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.4,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.5,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.6,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.7,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.8,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "l1_neuron",
+      "strategy": "l1_unstructured",
       "amount": 0.9,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "random_neuron",
+      "strategy": "random_unstructured",
       "amount": 0.1,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "random_neuron",
+      "strategy": "random_unstructured",
       "amount": 0.2,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "random_neuron",
+      "strategy": "random_unstructured",
       "amount": 0.3,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "random_neuron",
+      "strategy": "random_unstructured",
       "amount": 0.4,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "random_neuron",
+      "strategy": "random_unstructured",
       "amount": 0.5,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "random_neuron",
+      "strategy": "random_unstructured",
       "amount": 0.6,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "random_neuron",
+      "strategy": "random_unstructured",
       "amount": 0.7,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "random_neuron",
+      "strategy": "random_unstructured",
       "amount": 0.8,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",
       "skip_training": true
     },
     {
-      "strategy": "random_neuron",
+      "strategy": "random_unstructured",
       "amount": 0.9,
       "seed": 0,
       "load_model_path": "checkpoints/ng_context_seed0.pt",

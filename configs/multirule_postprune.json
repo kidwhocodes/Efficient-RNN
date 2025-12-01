@@ -1,0 +1,882 @@
+{
+  "run_id": "multirule_postprune",
+  "output_csv": "results/multirule_postprune.csv",
+  "defaults": {
+    "task": "synthetic_multirule",
+    "hidden_size": 128,
+    "train_steps": 300,
+    "ft_steps": 100,
+    "last_only": true,
+    "device": "cpu",
+    "movement_batches": 20
+  },
+  "runs": [
+    {
+      "run_id": "multirule_post_baseline_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "train_steps": 300,
+      "save_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_10_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_30_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_50_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_70_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_90_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_10_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_30_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_50_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_70_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_90_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_10_seed0",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_30_seed0",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_50_seed0",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_70_seed0",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_90_seed0",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_10_seed0",
+      "strategy": "fisher",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_30_seed0",
+      "strategy": "fisher",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_50_seed0",
+      "strategy": "fisher",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_70_seed0",
+      "strategy": "fisher",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_90_seed0",
+      "strategy": "fisher",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_10_seed0",
+      "strategy": "obd",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_30_seed0",
+      "strategy": "obd",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_50_seed0",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_70_seed0",
+      "strategy": "obd",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_90_seed0",
+      "strategy": "obd",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_set_10_seed0",
+      "strategy": "set",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_set_30_seed0",
+      "strategy": "set",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_set_50_seed0",
+      "strategy": "set",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_set_70_seed0",
+      "strategy": "set",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_set_90_seed0",
+      "strategy": "set",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed0.pt"
+    },
+    {
+      "run_id": "multirule_post_baseline_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "train_steps": 300,
+      "save_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_10_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_30_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_50_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_70_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_90_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_10_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_30_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_50_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_70_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_90_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_10_seed1",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_30_seed1",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_50_seed1",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_70_seed1",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_90_seed1",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_10_seed1",
+      "strategy": "fisher",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_30_seed1",
+      "strategy": "fisher",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_50_seed1",
+      "strategy": "fisher",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_70_seed1",
+      "strategy": "fisher",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_90_seed1",
+      "strategy": "fisher",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_10_seed1",
+      "strategy": "obd",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_30_seed1",
+      "strategy": "obd",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_50_seed1",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_70_seed1",
+      "strategy": "obd",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_90_seed1",
+      "strategy": "obd",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_10_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_30_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_50_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_70_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_90_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_set_10_seed1",
+      "strategy": "set",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_set_30_seed1",
+      "strategy": "set",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_set_50_seed1",
+      "strategy": "set",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_set_70_seed1",
+      "strategy": "set",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_set_90_seed1",
+      "strategy": "set",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed1.pt"
+    },
+    {
+      "run_id": "multirule_post_baseline_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "train_steps": 300,
+      "save_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_10_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_30_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_50_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_70_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_randomunstructured_90_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_10_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_30_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_50_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_70_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_l1unstructured_90_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_10_seed2",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_30_seed2",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_50_seed2",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_70_seed2",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_movement_90_seed2",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_10_seed2",
+      "strategy": "fisher",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_30_seed2",
+      "strategy": "fisher",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_50_seed2",
+      "strategy": "fisher",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_70_seed2",
+      "strategy": "fisher",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_fisher_90_seed2",
+      "strategy": "fisher",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_10_seed2",
+      "strategy": "obd",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_30_seed2",
+      "strategy": "obd",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_50_seed2",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_70_seed2",
+      "strategy": "obd",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_obd_90_seed2",
+      "strategy": "obd",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_10_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_30_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_50_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_70_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_noiseprune_90_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_set_10_seed2",
+      "strategy": "set",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_set_30_seed2",
+      "strategy": "set",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_set_50_seed2",
+      "strategy": "set",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_set_70_seed2",
+      "strategy": "set",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    },
+    {
+      "run_id": "multirule_post_set_90_seed2",
+      "strategy": "set",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_post_seed2.pt"
+    }
+  ]
+}

@@ -17,7 +17,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from ctrnn_training.experiments.runner import append_results_csv, run_prune_experiment
+from pruning_benchmark.experiments.runner import append_results_csv, run_prune_experiment
 
 
 def _load_completed_run_ids(csv_path: Path) -> set[str]:

@@ -1,0 +1,25 @@
+{
+  "defaults": {
+    "activation": "tanh"
+  },
+  "runs": [
+    {
+      "run_id": "multirule_baseline_seed0",
+      "task": "synthetic_multirule",
+      "hidden_size": 128,
+      "train_steps": 200,
+      "strategy": "none",
+      "amount": 0.0,
+      "save_model_path": "checkpoints/multirule_seed0.pt"
+    },
+    {
+      "run_id": "multirule_noise_30_seed0",
+      "task": "synthetic_multirule",
+      "hidden_size": 128,
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "skip_training": true,
+      "load_model_path": "checkpoints/multirule_seed0.pt"
+    }
+  ]
+}

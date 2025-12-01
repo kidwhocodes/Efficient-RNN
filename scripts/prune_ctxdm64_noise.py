@@ -8,7 +8,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from ctrnn_training.analysis.aggregators import load_experiment_records
+from pruning_benchmark.analysis.aggregators import load_experiment_records
 
 # Config paths
 CFG_PATH = "configs/pruning_ctxdm64_noise.json"
@@ -24,7 +24,7 @@ def main():
         [
             "python3",
             "-m",
-            "ctrnn_training",
+            "pruning_benchmark",
             "--mode",
             "suite",
             "--config",

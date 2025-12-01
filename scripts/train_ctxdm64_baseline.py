@@ -10,9 +10,9 @@ if ROOT not in sys.path:
 
 import torch
 
-from ctrnn_training.data import NeuroGymDM
-from ctrnn_training.models import CTRNN
-from ctrnn_training.training import train_epoch, evaluate
+from pruning_benchmark.tasks import NeuroGymDM
+from pruning_benchmark.models import CTRNN
+from pruning_benchmark.training import train_epoch, evaluate
 
 
 def train_seed(seed: int, checkpoint_path: str) -> None:

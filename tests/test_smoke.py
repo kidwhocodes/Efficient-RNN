@@ -3,11 +3,11 @@ import os
 
 import torch
 
-from ctrnn_training.analysis.plots import plot_metrics
-from ctrnn_training.analysis.summary import summarize_csv
-from ctrnn_training.experiments import run_prune_experiment, run_suite_from_config
-from ctrnn_training.models import CTRNN
-from ctrnn_training.utils import set_global_seed
+from pruning_benchmark.analysis.plots import plot_metrics
+from pruning_benchmark.analysis.summary import summarize_csv
+from pruning_benchmark.experiments import run_prune_experiment, run_suite_from_config
+from pruning_benchmark.models import CTRNN
+from pruning_benchmark.utils import set_global_seed
 
 
 def test_ctrnn_forward_smoke():
@@ -109,7 +109,7 @@ def test_save_and_load_model(tmp_path):
     assert checkpoint.exists()
 
     row, _ = run_prune_experiment(
-        strategy="l1_neuron",
+        strategy="l1_unstructured",
         amount=0.5,
         train_steps=0,
         ft_steps=0,
@@ -127,7 +127,7 @@ def test_save_and_load_model(tmp_path):
 
 def test_pruning_strategies_smoke():
     set_global_seed(0)
-    strategies = ["movement", "movement_neuron", "snip", "synflow", "fisher"]
+    strategies = ["movement", "snip", "synflow", "fisher", "grasp"]
     for strat in strategies:
         row = run_prune_experiment(
             strategy=strat,
@@ -142,3 +142,17 @@ def test_pruning_strategies_smoke():
             run_id=f"smoke_{strat}",
         )
         assert "post_acc" in row
+    row_pre = run_prune_experiment(
+        strategy="snip",
+        amount=0.2,
+        train_steps=2,
+        ft_steps=0,
+        last_only=True,
+        seed=0,
+        device="cpu",
+        movement_batches=1,
+        task="synthetic",
+        run_id="smoke_snip_pre",
+        prune_phase="pre",
+    )
+    assert row_pre["prune_phase"] == "pre"
