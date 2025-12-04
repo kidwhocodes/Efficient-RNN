@@ -2,5 +2,6 @@
 
 from .ctrnn import CTRNN
 from .gru import GRUNet
+from .lstm import LSTMNet
 
-__all__ = ["CTRNN", "GRUNet"]
+__all__ = ["CTRNN", "GRUNet", "LSTMNet"]

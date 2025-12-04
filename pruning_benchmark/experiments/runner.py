@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import importlib
 import json
 import os
 import random
@@ -32,6 +31,7 @@ from ..tasks import (
     SyntheticHierContextDM,
     SyntheticNBackDM,
 )
+from ..tasks.modcog import resolve_modcog_callable
 from ..models import CTRNN, GRUNet
 from ..pruning import (
     PRUNE_AMOUNT_STEP,
@@ -137,6 +137,29 @@ def _extract_prune_kwargs(strategy: str, options: Dict[str, Any]) -> Tuple[Dict[
             "noise_rng_seed",
         ):
             options.pop(key, None)
+    if strategy == "obs":
+        damping = float(options.pop("obs_damping", 1e-3))
+        num_samples = int(options.pop("obs_num_samples", 4))
+        cg_iters = int(options.pop("obs_cg_iters", 50))
+        prune_kwargs.update({
+            "damping": damping,
+            "num_samples": num_samples,
+            "cg_iters": cg_iters,
+        })
+        prune_meta.update({
+            "obs_damping": damping,
+            "obs_num_samples": num_samples,
+            "obs_cg_iters": cg_iters,
+        })
+    else:
+        for key in ("obs_damping", "obs_num_samples", "obs_cg_iters"):
+            options.pop(key, None)
+    if strategy == "woodfisher":
+        damping = float(options.pop("woodfisher_damping", 1e-3))
+        prune_kwargs["damping"] = damping
+        prune_meta["woodfisher_damping"] = damping
+    else:
+        options.pop("woodfisher_damping", None)
     return prune_kwargs, prune_meta
 
 
@@ -214,6 +237,10 @@ def fresh_model(
         ).to(device)
     if model_type == "gru":
         return GRUNet(input_dim, hidden_size, output_dim).to(device)
+    if model_type == "lstm":
+        from ..models import LSTMNet
+
+        return LSTMNet(input_dim, hidden_size, output_dim).to(device)
     raise ValueError(f"Unknown model_type '{model_type}'")
 
 
@@ -462,9 +489,10 @@ def run_prune_experiment(
         env_suffix = task.split("modcog:", 1)[1].strip()
         if not env_suffix:
             raise ValueError("Mod_Cog task identifier missing after 'modcog:' prefix.")
-        env_id = env_suffix if env_suffix.lower().startswith("mod_cog") else f"Mod_Cog-{env_suffix}"
+        env_kwargs_copy = dict(env_kwargs or {})
+        dataset_kwargs = dict(dataset_kwargs or {})
         try:
-            importlib.import_module("Mod_Cog.mod_cog_tasks")
+            builder_info = resolve_modcog_callable(env_suffix)
         except ImportError as exc:
             raise ImportError(
                 "Mod_Cog tasks requested but the package is not installed. "
@@ -472,24 +500,38 @@ def run_prune_experiment(
             ) from exc
         T = int(ng_T) if ng_T is not None else 400
         B = int(ng_B) if ng_B is not None else 64
+        if builder_info is not None:
+            canonical_name, builder_fn = builder_info
+            env_id = f"Mod_Cog-{canonical_name}-v0"
+            env_label = canonical_name
+            dataset_backend = "mod_cog_builder"
+            dataset_env_source = builder_fn(**env_kwargs_copy)
+            dataset_env_kwargs = None
+        else:
+            env_id = env_suffix if env_suffix.lower().startswith("mod_cog") else f"Mod_Cog-{env_suffix}"
+            env_label = env_id
+            dataset_backend = "mod_cog_dataset"
+            dataset_env_source = env_id
+            dataset_env_kwargs = env_kwargs_copy
         data = NeuroGymDatasetDM(
-            env_id,
+            dataset_env_source,
             T=T,
             B=B,
             device=device,
             last_only=last_only,
             seed=config.seed,
-            env_kwargs=env_kwargs or {},
+            env_kwargs=dataset_env_kwargs,
             dataset_kwargs=dataset_kwargs,
         )
         task_meta.update({
-            "env": env_id,
+            "env": env_label,
+            "env_id": env_id,
             "T": T,
             "B": B,
             "dataset_last_only": bool(last_only),
-            "env_kwargs": env_kwargs or {},
-            "dataset_kwargs": dataset_kwargs or {},
-            "backend": "mod_cog_dataset",
+            "env_kwargs": env_kwargs_copy,
+            "dataset_kwargs": dataset_kwargs,
+            "backend": dataset_backend,
         })
         input_dim = data.input_dim
         output_dim = data.n_classes

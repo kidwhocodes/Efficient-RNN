@@ -1,6 +1,7 @@
 import json
 import os
 
+import pytest
 import torch
 
 from pruning_benchmark.analysis.plots import plot_metrics
@@ -156,3 +157,64 @@ def test_pruning_strategies_smoke():
         prune_phase="pre",
     )
     assert row_pre["prune_phase"] == "pre"
+    run_prune_experiment(
+        strategy="obs",
+        amount=0.2,
+        train_steps=1,
+        ft_steps=0,
+        last_only=True,
+        seed=0,
+        device="cpu",
+        movement_batches=1,
+        task="synthetic",
+        run_id="smoke_obs",
+        obs_num_samples=1,
+        obs_cg_iters=5,
+    )
+    run_prune_experiment(
+        strategy="woodfisher",
+        amount=0.2,
+        train_steps=1,
+        ft_steps=0,
+        last_only=True,
+        seed=0,
+        device="cpu",
+        movement_batches=1,
+        task="synthetic",
+        run_id="smoke_woodfisher",
+        woodfisher_damping=1e-2,
+    )
+    run_prune_experiment(
+        strategy="causal",
+        amount=0.2,
+        train_steps=1,
+        ft_steps=0,
+        last_only=True,
+        seed=0,
+        device="cpu",
+        movement_batches=1,
+        task="synthetic",
+        run_id="smoke_causal",
+    )
+
+
+def test_modcog_task_resolution_smoke():
+    try:
+        row = run_prune_experiment(
+            strategy="none",
+            amount=0.0,
+            train_steps=1,
+            ft_steps=0,
+            last_only=True,
+            seed=0,
+            device="cpu",
+            movement_batches=1,
+            task="modcog:go",
+            ng_T=20,
+            ng_B=2,
+            no_prune=True,
+            run_id="modcog_smoke",
+        )
+    except ImportError:
+        pytest.skip("Mod_Cog is not installed in this environment.")
+    assert row["run_id"] == "modcog_smoke"

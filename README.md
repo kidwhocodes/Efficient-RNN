@@ -78,10 +78,10 @@ git clone https://github.com/mikailkhona/Mod_Cog.git
 cd Mod_Cog && pip install -e .
 ```
 
-After installation you can invoke Mod_Cog tasks via the new `modcog:` prefix, optionally forwarding any environment keyword arguments through `--ng_kwargs` and Dataset controls through `--ng_dataset_kwargs`:
+After installation you can invoke Mod_Cog tasks via the new `modcog:` prefix. Pass the builder name from `Mod_Cog.mod_cog_tasks` (e.g., `go`, `dlygointr`, `ctxdlydm1intseq`) and optionally forward environment kwargs through `--ng_kwargs` plus Dataset controls through `--ng_dataset_kwargs`:
 ```
 python3 -m pruning_benchmark \
-  --task modcog:FlexibleWorkingMemory-v0 \
+  --task modcog:go \
   --strategy noise_prune \
   --amount 0.3 \
   --ng_T 600 --ng_B 64 \
@@ -89,6 +89,14 @@ python3 -m pruning_benchmark \
   --ng_dataset_kwargs '{"max_batch": 1000}'
 ```
 Under the hood this uses `neurogym.Dataset` so minibatches contain full Mod_Cog trials while still exposing the familiar benchmarking pipeline.
+
+If you need to programmatically inspect the 132-task battery, use the helper provided under `pruning_benchmark.tasks.modcog`:
+```python
+from pruning_benchmark.tasks.modcog import list_modcog_tasks
+
+print(list_modcog_tasks()[:10])
+# -> ('anti', 'antiseql', 'antiseqr', 'ctxdm1', 'ctxdm1intr', ...)
+```
 
 ## Pruning strategies
 
@@ -102,7 +110,10 @@ The refactor reinstates several positive-control strategies alongside `noise_pru
 - `fisher`: diagonal Fisher-information approximation using sampled batches.
 - `grasp`: GraSP curvature-aware saliency using Hessian-vector products.
 - `obd`: Optimal Brain Damage using a diagonal Hessian approximation.
+- `obs`: Optimal Brain Surgeon with Hutchinson+CG inverse Hessian estimates.
 - `set`: Sparse Evolutionary Training-inspired rewiring (drop/re-grow edges).
+- `woodfisher`: Low-rank WoodFisher approximation of the Fisher inverse.
+- `causal`: Neuron-level pruning based on readout-side causal contributions.
 - `noise_prune`: covariance-guided pruning on the continuous-time operator.
 
 Use these baselines to benchmark `noise_prune` on both synthetic and NeuroGym tasks (see `configs/` for ready-made suites).

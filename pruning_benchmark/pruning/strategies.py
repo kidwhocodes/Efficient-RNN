@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import math
-from typing import Iterable, Mapping, Optional
+from typing import Callable, Iterable, Mapping, Optional
 
 import numpy as np
 import torch
@@ -193,7 +193,10 @@ def noise_prune_recurrent(
 
     restored = pruned + (1.0 + used_shift) * np.eye(pruned.shape[0], dtype=pruned.dtype)
     tensor = torch.tensor(restored, dtype=model.hidden_layer.weight.dtype, device=model.hidden_layer.weight.device)
+    _consolidate_if_pruned(model.hidden_layer)
     model.hidden_layer.weight.data.copy_(tensor)
+    mask = (tensor != 0).to(dtype=model.hidden_layer.weight.dtype)
+    prune.custom_from_mask(model.hidden_layer, name="weight", mask=mask)
     enforce_constraints(model)
 
     stats.update({
@@ -218,6 +221,162 @@ def prune_synflow(model: CTRNN, amount: float, *, scores: torch.Tensor) -> None:
 def prune_fisher_synapse(model: CTRNN, amount: float, *, scores: torch.Tensor) -> None:
     prune_scores_unstructured(model, scores, amount)
 
+
+def _collect_gradients(
+    model: CTRNN,
+    batches: Iterable[tuple[torch.Tensor, torch.Tensor]],
+    criterion: nn.Module,
+    *,
+    last_only: bool,
+) -> torch.Tensor:
+    grads = []
+    was_training = model.training
+    model.train()
+    for x_batch, y_batch in batches:
+        model.zero_grad(set_to_none=True)
+        logits, _ = model(x_batch)
+        if last_only:
+            loss = criterion(logits[-1], y_batch[-1])
+        else:
+            loss = criterion(logits.view(-1, logits.size(-1)), y_batch.view(-1))
+        loss.backward()
+        grad = model.hidden_layer.weight.grad
+        if grad is None:
+            grad = torch.zeros_like(model.hidden_layer.weight)
+        grads.append(grad.detach().clone().reshape(-1))
+    model.zero_grad(set_to_none=True)
+    if not was_training:
+        model.eval()
+    if not grads:
+        raise ValueError("No gradients collected for WoodFisher/OBS computation.")
+    return torch.stack(grads, dim=0)
+
+
+def _conjugate_gradient(
+    matvec: Callable[[torch.Tensor], torch.Tensor],
+    b: torch.Tensor,
+    *,
+    max_iter: int = 50,
+    tol: float = 1e-5,
+) -> torch.Tensor:
+    x = torch.zeros_like(b)
+    r = b.clone()
+    p = r.clone()
+    rs_old = torch.dot(r, r)
+    if rs_old == 0:
+        return x
+    for _ in range(max_iter):
+        Ap = matvec(p)
+        denom = torch.dot(p, Ap)
+        if torch.abs(denom) < 1e-12:
+            break
+        alpha = rs_old / denom
+        x = x + alpha * p
+        r = r - alpha * Ap
+        rs_new = torch.dot(r, r)
+        if torch.sqrt(rs_new) < tol:
+            break
+        p = r + (rs_new / rs_old) * p
+        rs_old = rs_new
+    return x
+
+
+def _estimate_inverse_hessian_diag(
+    model: CTRNN,
+    batches: Iterable[tuple[torch.Tensor, torch.Tensor]],
+    criterion: nn.Module,
+    *,
+    last_only: bool,
+    num_samples: int = 4,
+    damping: float = 1e-3,
+    cg_iters: int = 50,
+) -> torch.Tensor:
+    weight = model.hidden_layer.weight
+    device = weight.device
+    dtype = weight.dtype
+    n = weight.numel()
+    num_samples = max(1, int(num_samples))
+    batches = list(batches)
+    if not batches:
+        raise ValueError("OBS requires sampled batches.")
+
+    def hvp(vec_flat: torch.Tensor) -> torch.Tensor:
+        vec = vec_flat.view_as(weight)
+        hv_total = torch.zeros_like(weight)
+        for x_batch, y_batch in batches:
+            model.zero_grad(set_to_none=True)
+            logits, _ = model(x_batch)
+            if last_only:
+                loss = criterion(logits[-1], y_batch[-1])
+            else:
+                loss = criterion(logits.view(-1, logits.size(-1)), y_batch.view(-1))
+            grad = torch.autograd.grad(loss, weight, create_graph=True)[0]
+            grad_vec = torch.sum(grad * vec)
+            hv = torch.autograd.grad(grad_vec, weight, retain_graph=False)[0]
+            hv_total += hv
+        hv_total /= len(batches)
+        hv_total += damping * vec
+        return hv_total.reshape(-1).detach()
+
+    diag_est = torch.zeros(n, device=device, dtype=dtype)
+    for _ in range(num_samples):
+        v = torch.randint(0, 2, (n,), device=device, dtype=dtype)
+        v = v * 2 - 1
+        sol = _conjugate_gradient(hvp, v, max_iter=cg_iters, tol=1e-5)
+        diag_est += sol * v
+    diag_est /= num_samples
+    return diag_est.view_as(weight).abs().clamp_min(1e-8)
+
+
+def _woodfisher_inverse_diag(
+    grads: torch.Tensor,
+    *,
+    damping: float = 1e-3,
+) -> torch.Tensor:
+    if grads.ndim != 2:
+        raise ValueError("Grad matrix for WoodFisher must be 2-D.")
+    device = grads.device
+    dtype = grads.dtype
+    m, _ = grads.shape
+    if damping <= 0:
+        raise ValueError("WoodFisher damping must be positive.")
+    lambda_inv = 1.0 / damping
+    GGt = torch.matmul(grads, grads.T)
+    A = torch.eye(m, device=device, dtype=dtype) + lambda_inv * GGt
+    A_inv = torch.linalg.inv(A)
+    tmp = torch.matmul(A_inv, grads)
+    diag_term = (grads * tmp).sum(dim=0)
+    inv_diag = lambda_inv - (lambda_inv**2) * diag_term
+    return inv_diag.clamp_min(1e-8)
+
+
+def _causal_neuron_scores(
+    model: CTRNN,
+    batches: Iterable[tuple[torch.Tensor, torch.Tensor]],
+    *,
+    last_only: bool,
+) -> torch.Tensor:
+    if not hasattr(model, "readout_layer"):
+        raise ValueError("Model needs a readout layer for causal pruning.")
+    weight = model.hidden_layer.weight
+    device = weight.device
+    H = weight.shape[0]
+    readout_effect = model.readout_layer.weight.detach().abs().sum(dim=0)
+    scores = torch.zeros(H, device=device, dtype=weight.dtype)
+    count = 0
+    model.eval()
+    with torch.no_grad():
+        for x_batch, _ in batches:
+            logits, hidden_seq = model(x_batch)
+            if last_only:
+                hidden = hidden_seq[-1]
+            else:
+                hidden = hidden_seq.mean(dim=0)
+            scores += hidden.abs().mean(dim=0) * readout_effect
+            count += 1
+    if count > 0:
+        scores /= count
+    return scores
 
 def movement_scores(
     model: CTRNN,
@@ -559,7 +718,7 @@ class SETPruner(BasePruner):
         optimizer = torch.optim.SGD(context.model.parameters(), lr=self.simulated_lr)
 
         for _ in range(self.rewire_iterations):
-            num_remove_total += self._drop_and_regrow(weight, amount)
+            num_remove_total += self._drop_and_regrow(weight, amount, regrow=True)
             for x_batch, y_batch in context.batches:
                 optimizer.zero_grad()
                 logits, _ = context.model(x_batch)
@@ -569,12 +728,17 @@ class SETPruner(BasePruner):
                     loss = context.criterion(logits.view(-1, logits.size(-1)), y_batch.view(-1))
                 loss.backward()
                 optimizer.step()
+        # Final drop with no regrowth to enforce sparsity mask
+        num_remove_total += self._drop_and_regrow(weight, amount, regrow=False)
+        _consolidate_if_pruned(context.model.hidden_layer)
+        mask = (context.model.hidden_layer.weight != 0).to(dtype=context.model.hidden_layer.weight.dtype)
+        prune.custom_from_mask(context.model.hidden_layer, name="weight", mask=mask)
         enforce_constraints(context.model)
         if not was_training:
             context.model.eval()
         return {"set_regrown": float(num_remove_total)}
 
-    def _drop_and_regrow(self, weight: torch.Tensor, amount: float) -> int:
+    def _drop_and_regrow(self, weight: torch.Tensor, amount: float, *, regrow: bool) -> int:
         num_weights = weight.numel()
         k_remove = int(round(amount * num_weights))
         if k_remove <= 0:
@@ -587,6 +751,8 @@ class SETPruner(BasePruner):
         if k_remove <= 0:
             return 0
         flat[remove_mask] = 0.0
+        if not regrow:
+            return k_remove
         zero_indices = torch.nonzero(flat == 0, as_tuple=False).view(-1)
         if zero_indices.numel() == 0:
             return 0
@@ -597,6 +763,90 @@ class SETPruner(BasePruner):
             std = 1e-3
         flat[selected] = torch.randn(selected.size(0), device=flat.device, dtype=flat.dtype) * std
         return k_remove
+
+
+class OBSPruner(BasePruner):
+    name = "obs"
+    description = "Optimal Brain Surgeon with inverse-diagonal approximation."
+    requires_batches = True
+    default_batch_count = 10
+
+    def __init__(self, damping: float = 1e-3, num_samples: int = 4, cg_iters: int = 50):
+        self.damping = damping
+        self.num_samples = num_samples
+        self.cg_iters = cg_iters
+
+    def prepare(self, context: PruneContext) -> Mapping[str, object]:
+        if not context.batches:
+            raise ValueError("OBS requires sampled batches.")
+        inv_diag = _estimate_inverse_hessian_diag(
+            context.model,
+            context.batches,
+            context.criterion,
+            last_only=context.last_only,
+            num_samples=self.num_samples,
+            damping=self.damping,
+            cg_iters=self.cg_iters,
+        )
+        return {"inv_diag": inv_diag}
+
+    def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
+        inv_diag = state["inv_diag"].to(context.model.hidden_layer.weight.device)
+        weight = context.model.hidden_layer.weight.detach()
+        scores = 0.5 * weight.pow(2) / inv_diag.clamp_min(1e-8)
+        prune_scores_unstructured(context.model, scores, context.amount)
+        return {"obs_num_samples": float(self.num_samples)}
+
+
+class WoodFisherPruner(BasePruner):
+    name = "woodfisher"
+    description = "WoodFisher low-rank Fisher inverse approximation."
+    requires_batches = True
+    default_batch_count = 20
+
+    def __init__(self, damping: float = 1e-3):
+        self.damping = damping
+
+    def prepare(self, context: PruneContext) -> Mapping[str, object]:
+        if not context.batches:
+            raise ValueError("WoodFisher pruning requires sampled batches.")
+        grads = _collect_gradients(
+            context.model,
+            context.batches,
+            context.criterion,
+            last_only=context.last_only,
+        )
+        inv_diag = _woodfisher_inverse_diag(grads, damping=self.damping)
+        return {"inv_diag": inv_diag.view_as(context.model.hidden_layer.weight)}
+
+    def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
+        inv_diag = state["inv_diag"].to(context.model.hidden_layer.weight.device)
+        weight = context.model.hidden_layer.weight.detach()
+        scores = 0.5 * weight.pow(2) / inv_diag.clamp_min(1e-8)
+        prune_scores_unstructured(context.model, scores, context.amount)
+        return {}
+
+
+class CausalPruner(BasePruner):
+    name = "causal"
+    description = "Causal neuron pruning based on readout contributions."
+    requires_batches = True
+    default_batch_count = 10
+
+    def prepare(self, context: PruneContext) -> Mapping[str, object]:
+        if not context.batches:
+            raise ValueError("Causal pruning requires sampled batches.")
+        scores = _causal_neuron_scores(
+            context.model,
+            context.batches,
+            last_only=context.last_only,
+        )
+        return {"scores": scores}
+
+    def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
+        keep_mask = _neuron_keep_mask_from_scores(state["scores"], context.amount)
+        _apply_neuron_keep_mask(context.model, keep_mask)
+        return {}
 
 
 # Register built-in strategies
@@ -610,6 +860,9 @@ register_pruner(SynflowPruner())
 register_pruner(GraspPruner())
 register_pruner(OBDPruner())
 register_pruner(SETPruner())
+register_pruner(OBSPruner())
+register_pruner(WoodFisherPruner())
+register_pruner(CausalPruner())
 
 
 __all__ = [

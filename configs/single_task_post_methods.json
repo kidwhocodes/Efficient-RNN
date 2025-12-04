@@ -1,0 +1,367 @@
+{
+  "run_id": "single_task_post_methods_go",
+  "output_csv": "results/single_task_post_methods_go.csv",
+  "defaults": {
+    "hidden_size": 128,
+    "train_steps": 400,
+    "ft_steps": 0,
+    "last_only": true,
+    "device": "cpu",
+    "movement_batches": 20,
+    "ng_T": 600,
+    "ng_B": 32,
+    "reset_results": false,
+    "resume": true
+  },
+  "runs": [
+    {
+      "run_id": "modcog_go_v0_baseline_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "save_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_random_unstructured_10_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_random_unstructured_30_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_random_unstructured_50_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_random_unstructured_70_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_random_unstructured_90_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_l1_unstructured_10_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_l1_unstructured_30_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_l1_unstructured_50_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_l1_unstructured_70_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_l1_unstructured_90_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_movement_10_seed0",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_movement_30_seed0",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_movement_50_seed0",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_movement_70_seed0",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_movement_90_seed0",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_noise_prune_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt",
+      "noise_sigma": 0.5,
+      "noise_eps": 0.15,
+      "noise_leak_shift": 0.8,
+      "noise_matched_diagonal": false
+    },
+    {
+      "run_id": "modcog_go_v0_noise_prune_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt",
+      "noise_sigma": 0.5,
+      "noise_eps": 0.15,
+      "noise_leak_shift": 0.8,
+      "noise_matched_diagonal": false
+    },
+    {
+      "run_id": "modcog_go_v0_noise_prune_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt",
+      "noise_sigma": 0.5,
+      "noise_eps": 0.15,
+      "noise_leak_shift": 0.8,
+      "noise_matched_diagonal": false
+    },
+    {
+      "run_id": "modcog_go_v0_noise_prune_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt",
+      "noise_sigma": 0.5,
+      "noise_eps": 0.15,
+      "noise_leak_shift": 0.8,
+      "noise_matched_diagonal": false
+    },
+    {
+      "run_id": "modcog_go_v0_noise_prune_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt",
+      "noise_sigma": 0.5,
+      "noise_eps": 0.15,
+      "noise_leak_shift": 0.8,
+      "noise_matched_diagonal": false
+    },
+    {
+      "run_id": "modcog_go_v0_woodfisher_10_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_go_v0_woodfisher_30_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_go_v0_woodfisher_50_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_go_v0_woodfisher_70_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_go_v0_woodfisher_90_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_go_v0_causal_10_seed0",
+      "strategy": "causal",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_causal_30_seed0",
+      "strategy": "causal",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_causal_50_seed0",
+      "strategy": "causal",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_causal_70_seed0",
+      "strategy": "causal",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_causal_90_seed0",
+      "strategy": "causal",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_set_10_seed0",
+      "strategy": "set",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_set_30_seed0",
+      "strategy": "set",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_set_50_seed0",
+      "strategy": "set",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_set_70_seed0",
+      "strategy": "set",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_v0_set_90_seed0",
+      "strategy": "set",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:Go-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_v0_seed0.pt"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Tuple
+from typing import Any, Tuple
 
 import numpy as np
 import torch
@@ -106,7 +106,7 @@ class NeuroGymDatasetDM:
 
     def __init__(
         self,
-        env_id: str,
+        env: str | Any,
         T: int,
         B: int,
         *,
@@ -123,14 +123,14 @@ class NeuroGymDatasetDM:
         dataset_kwargs.setdefault("cache_len", None)
         dataset_kwargs["seq_len"] = T
         dataset_kwargs["batch_size"] = B
-        self.dataset = Dataset(env_id, env_kwargs=env_kwargs, **dataset_kwargs)
+        self.dataset = Dataset(env, env_kwargs=env_kwargs, **dataset_kwargs)
         self.dataset.seed(seed)
         self.device = device
         self.last_only = bool(last_only)
         env = self.dataset.env
         obs_shape = getattr(env.observation_space, "shape", None)
         if not obs_shape:
-            raise ValueError(f"Environment {env_id} has no observation shape.")
+            raise ValueError(f"Environment {env} has no observation shape.")
         self.input_dim = int(np.prod(obs_shape))
         action_space = env.action_space
         if hasattr(action_space, "n"):
@@ -138,7 +138,7 @@ class NeuroGymDatasetDM:
         else:
             shape = getattr(action_space, "shape", None)
             if not shape:
-                raise ValueError(f"Environment {env_id} has no action shape.")
+                raise ValueError(f"Environment {env} has no action shape.")
             self.n_classes = int(np.prod(shape))
 
     def sample_batch(self):
