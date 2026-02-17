@@ -2,3 +2,15 @@
 # experiment outputs
 results/
 *.csv
+
+# large artifacts
+checkpoints/
+results/
+plots/
+archives/
+
+# large artifacts
+checkpoints/
+results/
+plots/
+archives/
