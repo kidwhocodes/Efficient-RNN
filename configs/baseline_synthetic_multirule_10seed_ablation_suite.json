@@ -1,0 +1,106 @@
+{
+  "run_id": "baseline_synthetic_multirule_10seed_ablation",
+  "output_csv": "results/baseline_synthetic_multirule_10seed_ablation.csv",
+  "defaults": {
+    "task": "synthetic_multirule",
+    "hidden_size": 128,
+    "model_type": "ctrnn",
+    "device": "cpu",
+    "train_steps": 2500,
+    "ft_steps": 0,
+    "last_only": true,
+    "movement_batches": 20,
+    "eval_sample_batches": 32,
+    "ablation_check": true,
+    "ng_T": 400,
+    "ng_B": 64
+  },
+  "runs": [
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "train_steps": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "train_steps": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_multirule_h128_seed1.pt"
+    },
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "train_steps": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_multirule_h128_seed2.pt"
+    },
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "save_model_path": "checkpoints/baseline_synthetic_multirule_h128_seed3.pt"
+    },
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "save_model_path": "checkpoints/baseline_synthetic_multirule_h128_seed4.pt"
+    },
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed5",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 5,
+      "save_model_path": "checkpoints/baseline_synthetic_multirule_h128_seed5.pt"
+    },
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed6",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 6,
+      "save_model_path": "checkpoints/baseline_synthetic_multirule_h128_seed6.pt"
+    },
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed7",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 7,
+      "save_model_path": "checkpoints/baseline_synthetic_multirule_h128_seed7.pt"
+    },
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed8",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 8,
+      "save_model_path": "checkpoints/baseline_synthetic_multirule_h128_seed8.pt"
+    },
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed9",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 9,
+      "save_model_path": "checkpoints/baseline_synthetic_multirule_h128_seed9.pt"
+    }
+  ]
+}

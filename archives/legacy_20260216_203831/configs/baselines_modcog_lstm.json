@@ -1,0 +1,518 @@
+{
+  "run_id": "curated_modcog_baselines",
+  "output_dir": "checkpoints",
+  "defaults": {
+    "hidden_size": 256,
+    "train_steps": 600,
+    "ft_steps": 0,
+    "last_only": true,
+    "device": "cpu",
+    "movement_batches": 20,
+    "ng_T": 600,
+    "ng_B": 32,
+    "eval_sample_batches": 32,
+    "resume": false
+  },
+  "tasks": [
+    {
+      "task": "modcog:anti",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_anti_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_anti_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:antiseql",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_antiseql_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_antiseql_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:antiseqr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_antiseqr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_antiseqr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm1",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm1_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm1_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm1intl",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm1intl_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm1intl_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm1intr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm1intr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm1intr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm1intseq",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm1intseq_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm1intseq_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm1seql",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm1seql_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm1seql_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm1seqr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm1seqr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm1seqr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm2",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm2_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm2_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm2intl",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm2intl_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm2intl_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm2intr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm2intr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm2intr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm2intseq",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm2intseq_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm2intseq_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm2seql",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm2seql_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm2seql_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdlydm2seqr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdlydm2seqr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdlydm2seqr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdm1",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdm1_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdm1_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdm1seql",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdm1seql_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdm1seql_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdm1seqr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdm1seqr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdm1seqr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdm2",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdm2_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdm2_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdm2seql",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdm2seql_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdm2seql_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:ctxdm2seqr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_ctxdm2seqr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_ctxdm2seqr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlyanti",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlyanti_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlyanti_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlyantiintl",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlyantiintl_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlyantiintl_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlyantiintr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlyantiintr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlyantiintr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlyantiintseq",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlyantiintseq_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlyantiintseq_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlyantiseql",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlyantiseql_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlyantiseql_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlyantiseqr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlyantiseqr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlyantiseqr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm1",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm1_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm1_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm1intl",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm1intl_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm1intl_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm1intr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm1intr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm1intr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm1intseq",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm1intseq_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm1intseq_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm1seql",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm1seql_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm1seql_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm1seqr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm1seqr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm1seqr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm2",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm2_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm2_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm2intl",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm2intl_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm2intl_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm2intr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm2intr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm2intr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm2intseq",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm2intseq_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm2intseq_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm2seql",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm2seql_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm2seql_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlydm2seqr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlydm2seqr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlydm2seqr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlygo",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlygo_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlygo_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlygointl",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlygointl_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlygointl_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlygointr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlygointr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlygointr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlygointseq",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlygointseq_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlygointseq_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlygoseql",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlygoseql_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlygoseql_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dlygoseqr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dlygoseqr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dlygoseqr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dm1",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dm1_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dm1_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dm1seql",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dm1seql_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dm1seql_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dm1seqr",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dm1seqr_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dm1seqr_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dm2",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dm2_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dm2_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    },
+    {
+      "task": "modcog:dm2seql",
+      "seeds": [
+        0
+      ],
+      "checkpoint_name": "modcog_dm2seql_lstm_seed{seed}.pt",
+      "run_id_prefix": "baseline_modcog_dm2seql_lstm",
+      "model_type": "lstm",
+      "hidden_size": 128
+    }
+  ]
+}

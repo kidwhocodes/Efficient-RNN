@@ -1,0 +1,1235 @@
+{
+  "run_id": "prune_synthetic_h128_2500_post_3seed",
+  "output_csv": "results/prune_synthetic_h128_2500_post_3seed.csv",
+  "defaults": {
+    "hidden_size": 128,
+    "train_steps": 0,
+    "ft_steps": 0,
+    "last_only": true,
+    "task": "synthetic",
+    "decision_delay": 20,
+    "device": "cpu",
+    "movement_batches": 20,
+    "ng_T": 0,
+    "ng_B": 0,
+    "eval_sample_batches": 32,
+    "reset_results": true
+  },
+  "runs": [
+    {
+      "run_id": "prune_synth_h128_random_unstructured_10_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_20_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_30_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_40_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_50_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_60_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_70_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_80_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_90_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_10_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_20_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_30_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_40_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_50_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_60_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_70_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_80_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_90_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_20_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_40_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_60_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_80_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_10_seed0",
+      "strategy": "fisher",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_20_seed0",
+      "strategy": "fisher",
+      "amount": 0.2,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_30_seed0",
+      "strategy": "fisher",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_40_seed0",
+      "strategy": "fisher",
+      "amount": 0.4,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_50_seed0",
+      "strategy": "fisher",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_60_seed0",
+      "strategy": "fisher",
+      "amount": 0.6,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_70_seed0",
+      "strategy": "fisher",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_80_seed0",
+      "strategy": "fisher",
+      "amount": 0.8,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_90_seed0",
+      "strategy": "fisher",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_10_seed0",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_20_seed0",
+      "strategy": "movement",
+      "amount": 0.2,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_30_seed0",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_40_seed0",
+      "strategy": "movement",
+      "amount": 0.4,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_50_seed0",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_60_seed0",
+      "strategy": "movement",
+      "amount": 0.6,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_70_seed0",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_80_seed0",
+      "strategy": "movement",
+      "amount": 0.8,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_90_seed0",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_10_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_20_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_30_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_40_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_50_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_60_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_70_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_80_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_90_seed1",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_10_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_20_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.2,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_30_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_40_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.4,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_50_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_60_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.6,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_70_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_80_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.8,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_90_seed1",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_10_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_20_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_30_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_40_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_50_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_60_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_70_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_80_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_90_seed1",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_10_seed1",
+      "strategy": "fisher",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_20_seed1",
+      "strategy": "fisher",
+      "amount": 0.2,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_30_seed1",
+      "strategy": "fisher",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_40_seed1",
+      "strategy": "fisher",
+      "amount": 0.4,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_50_seed1",
+      "strategy": "fisher",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_60_seed1",
+      "strategy": "fisher",
+      "amount": 0.6,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_70_seed1",
+      "strategy": "fisher",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_80_seed1",
+      "strategy": "fisher",
+      "amount": 0.8,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_90_seed1",
+      "strategy": "fisher",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_10_seed1",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_20_seed1",
+      "strategy": "movement",
+      "amount": 0.2,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_30_seed1",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_40_seed1",
+      "strategy": "movement",
+      "amount": 0.4,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_50_seed1",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_60_seed1",
+      "strategy": "movement",
+      "amount": 0.6,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_70_seed1",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_80_seed1",
+      "strategy": "movement",
+      "amount": 0.8,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_90_seed1",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 1,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed1.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_10_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_20_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_30_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_40_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_50_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_60_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_70_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_80_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_random_unstructured_90_seed2",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_10_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_20_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.2,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_30_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_40_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.4,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_50_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_60_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.6,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_70_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_80_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.8,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_l1_unstructured_90_seed2",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_10_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_20_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_30_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_40_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_50_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_60_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_70_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_80_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_noise_prune_90_seed2",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_10_seed2",
+      "strategy": "fisher",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_20_seed2",
+      "strategy": "fisher",
+      "amount": 0.2,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_30_seed2",
+      "strategy": "fisher",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_40_seed2",
+      "strategy": "fisher",
+      "amount": 0.4,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_50_seed2",
+      "strategy": "fisher",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_60_seed2",
+      "strategy": "fisher",
+      "amount": 0.6,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_70_seed2",
+      "strategy": "fisher",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_80_seed2",
+      "strategy": "fisher",
+      "amount": 0.8,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_fisher_90_seed2",
+      "strategy": "fisher",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_10_seed2",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_20_seed2",
+      "strategy": "movement",
+      "amount": 0.2,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_30_seed2",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_40_seed2",
+      "strategy": "movement",
+      "amount": 0.4,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_50_seed2",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_60_seed2",
+      "strategy": "movement",
+      "amount": 0.6,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_70_seed2",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_80_seed2",
+      "strategy": "movement",
+      "amount": 0.8,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    },
+    {
+      "run_id": "prune_synth_h128_movement_90_seed2",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 2,
+      "skip_training": true,
+      "load_model_path": "checkpoints/baseline_synthetic_h128_seed2.pt",
+      "prune_phase": "post"
+    }
+  ]
+}

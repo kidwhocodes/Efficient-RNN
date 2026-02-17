@@ -1,21 +1,25 @@
 # Experiment Workflow Guide
 
-This guide explains the standard workflow for reproducing pruning experiments in the *Efficient RNN Project*.
+This guide explains the standard workflow for reproducing pruning experiments in the Efficient RNN Project.
 
 ## 1. Configure Runs
 
-Create a JSON suite config (see `configs/example_suite.json` or `configs/noise_prune_study.json`) with the following fields:
+Create a JSON suite config with required defaults and a list of runs (see
+`configs/prune_synthetic_multirule_10x10_suite.json` for the current reference):
 
 ```json
 {
-  "run_id": "my_suite",
-  "output_csv": "results/my_suite.csv",
   "defaults": {
-    "train_steps": 600,
-    "ft_steps": 200,
-    "last_only": true,
     "task": "synthetic",
-    "device": "cpu"
+    "hidden_size": 128,
+    "train_steps": 2500,
+    "ft_steps": 0,
+    "last_only": true,
+    "device": "cpu",
+    "movement_batches": 20,
+    "ng_T": 400,
+    "ng_B": 64,
+    "eval_sample_batches": 32
   },
   "runs": [
     {"strategy": "none", "amount": 0.0, "no_prune": true, "seed": 0},
@@ -25,18 +29,13 @@ Create a JSON suite config (see `configs/example_suite.json` or `configs/noise_p
 ```
 
 - Values in `defaults` apply to every run unless overridden.
-- `run_id` is optional; a timestamp will be generated if omitted.
+- `run_id` and `output_csv` are optional; the suite will generate them if omitted.
+- `eval_sample_batches` must be > 0 so pre/post pruning metrics use the same evaluation batches.
 
 ## 2. Execute the Suite
 
 ```bash
-python -m pruning_benchmark --mode suite --config configs/example_suite.json
-# Change-detection benchmark
-python -m pruning_benchmark --mode suite --config configs/neurogym_pruning_changedetection.json
-# Dual working-memory benchmark
-python -m pruning_benchmark --mode suite --config configs/neurogym_pruning_dualdms.json
-# Context-dependent decision benchmark
-python -m pruning_benchmark --mode suite --config configs/neurogym_pruning_contextdm.json
+python3 -m pruning_benchmark --mode suite --config configs/prune_synthetic_multirule_10x10_suite.json
 ```
 
 Each run is executed with deterministic seeding, and results are appended to the CSV specified in the config (or `results/<suite_id>.csv` by default).
@@ -44,7 +43,7 @@ Each run is executed with deterministic seeding, and results are appended to the
 ## 3. Summarise Results
 
 ```bash
-python -m pruning_benchmark --mode summary --input_csv results/example_suite.csv
+python3 -m pruning_benchmark --mode summary --input_csv results/example_suite.csv
 
 # add `--summary_out <path>` to save tables, and `--group_by`/`--metrics` to control aggregation.
 ```
@@ -54,7 +53,7 @@ This prints per-strategy aggregates (`post_acc_mean`, `post_loss_mean`, etc.) to
 ## 4. Visualise
 
 ```bash
-python -m pruning_benchmark --mode plot \
+python3 -m pruning_benchmark --mode plot \
   --input_csv results/example_suite.csv \
   --plot_out plots/example \
   --group_by strategy,amount --metrics post_acc,post_loss
@@ -69,11 +68,3 @@ Before committing, run the lightweight test suite:
 ```bash
 pytest tests/test_smoke.py
 ```
-
-## 6. Recommended Git Workflow
-
-1. Stage files: `git add <modified files>`
-2. Commit with a clear message summarising the change.
-3. Push to `origin main`.
-
-Following these steps keeps experiment runs reproducible and results easy to interpret.

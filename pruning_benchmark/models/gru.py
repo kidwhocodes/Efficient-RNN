@@ -6,6 +6,17 @@ import torch
 import torch.nn as nn
 
 
+class _GRUWeightProxy(nn.Module):
+    def __init__(self, gru: nn.GRU, attr: str):
+        super().__init__()
+        # Avoid registering the full GRU as a submodule to prevent duplicate parameters.
+        self.__dict__["_gru"] = gru
+        self._attr = attr
+        param = getattr(gru, attr)
+        # share the same Parameter object so pruning mutates the true GRU weights.
+        self.weight = param
+
+
 class GRUNet(nn.Module):
     """
     Lightweight wrapper around nn.GRU exposing the same methods as CTRNN.
@@ -21,6 +32,9 @@ class GRUNet(nn.Module):
 
         self.gru = nn.GRU(input_dim, hidden_size, bias=bias)
         self.readout_layer = nn.Linear(hidden_size, output_dim, bias=bias)
+        self.input_layer = _GRUWeightProxy(self.gru, "weight_ih_l0")
+        self.hidden_layer = _GRUWeightProxy(self.gru, "weight_hh_l0")
+        self.alpha = 1.0
 
     def forward(self, inputs: torch.Tensor):
         """
@@ -44,6 +58,23 @@ class GRUNet(nn.Module):
     def load(self, path: str, map_location: str = "cpu"):
         state = torch.load(path, map_location=map_location)
         self.load_state_dict(state)
+
+    def state_dict(self, *args, **kwargs):
+        state = super().state_dict(*args, **kwargs)
+        filtered = {}
+        for key, value in state.items():
+            if key.startswith("input_layer._gru") or key.startswith("hidden_layer._gru"):
+                continue
+            filtered[key] = value
+        return filtered
+
+    def load_state_dict(self, state_dict, strict: bool = True):
+        filtered = {}
+        for key, value in state_dict.items():
+            if key.startswith("input_layer") or key.startswith("hidden_layer"):
+                continue
+            filtered[key] = value
+        return super().load_state_dict(filtered, strict=False)
 
 
 __all__ = ["GRUNet"]

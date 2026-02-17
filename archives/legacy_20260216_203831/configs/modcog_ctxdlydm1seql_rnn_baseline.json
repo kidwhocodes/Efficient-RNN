@@ -1,0 +1,18 @@
+{
+  "output_dir": "checkpoints/modcog_ctxdlydm2intl_rnn",
+  "defaults": {
+    "train_steps": 2000,
+    "ft_steps": 0,
+    "last_only": false,
+    "device": "cpu",
+    "movement_batches": 20,
+    "model_type": "rnn",
+    "hidden_size": 256,
+    "ng_T": 400,
+    "ng_B": 64,
+    "mask_last_k": 0
+  },
+  "tasks": [
+    {"task": "modcog:ctxdlydm2intl", "seeds": [0]}
+  ]
+}

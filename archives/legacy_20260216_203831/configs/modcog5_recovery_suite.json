@@ -1,0 +1,1769 @@
+{
+  "run_id": "modcog20_prune_suite_partial",
+  "output_csv": "results/modcog20_prune_suite_v2.csv",
+  "defaults": {
+    "hidden_size": 256,
+    "train_steps": 500,
+    "ft_steps": 0,
+    "last_only": true,
+    "device": "cpu",
+    "movement_batches": 20,
+    "ng_T": 600,
+    "ng_B": 32,
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true
+  },
+  "runs": [
+    {
+      "run_id": "modcog_go_baseline_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:go",
+      "save_model_path": "checkpoints/modcog_go_seed0.pt",
+      "train_steps": 500
+    },
+    {
+      "run_id": "modcog_go_random_unstructured_10_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_random_unstructured_30_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_random_unstructured_50_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_random_unstructured_70_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_random_unstructured_90_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_l1_unstructured_10_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_l1_unstructured_30_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_l1_unstructured_50_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_l1_unstructured_70_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_l1_unstructured_90_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_movement_10_seed0",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_movement_30_seed0",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_movement_50_seed0",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_movement_70_seed0",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_movement_90_seed0",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_set_10_seed0",
+      "strategy": "set",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_set_30_seed0",
+      "strategy": "set",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_set_50_seed0",
+      "strategy": "set",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_set_70_seed0",
+      "strategy": "set",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_set_90_seed0",
+      "strategy": "set",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_noise_prune_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_go_noise_prune_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_go_noise_prune_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_go_noise_prune_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_go_noise_prune_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_go_woodfisher_10_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_go_woodfisher_30_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_go_woodfisher_50_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_go_woodfisher_70_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_go_woodfisher_90_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_go_causal_10_seed0",
+      "strategy": "causal",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_causal_30_seed0",
+      "strategy": "causal",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_causal_50_seed0",
+      "strategy": "causal",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_causal_70_seed0",
+      "strategy": "causal",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_go_causal_90_seed0",
+      "strategy": "causal",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:go",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_go_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_baseline_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:anti",
+      "save_model_path": "checkpoints/modcog_anti_seed0.pt",
+      "train_steps": 500
+    },
+    {
+      "run_id": "modcog_anti_random_unstructured_10_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_random_unstructured_30_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_random_unstructured_50_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_random_unstructured_70_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_random_unstructured_90_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_l1_unstructured_10_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_l1_unstructured_30_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_l1_unstructured_50_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_l1_unstructured_70_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_l1_unstructured_90_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_movement_10_seed0",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_movement_30_seed0",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_movement_50_seed0",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_movement_70_seed0",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_movement_90_seed0",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_set_10_seed0",
+      "strategy": "set",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_set_30_seed0",
+      "strategy": "set",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_set_50_seed0",
+      "strategy": "set",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_set_70_seed0",
+      "strategy": "set",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_set_90_seed0",
+      "strategy": "set",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_noise_prune_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_anti_noise_prune_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_anti_noise_prune_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_anti_noise_prune_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_anti_noise_prune_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_anti_woodfisher_10_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_anti_woodfisher_30_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_anti_woodfisher_50_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_anti_woodfisher_70_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_anti_woodfisher_90_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_anti_causal_10_seed0",
+      "strategy": "causal",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_causal_30_seed0",
+      "strategy": "causal",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_causal_50_seed0",
+      "strategy": "causal",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_causal_70_seed0",
+      "strategy": "causal",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_anti_causal_90_seed0",
+      "strategy": "causal",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:anti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_anti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_baseline_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "save_model_path": "checkpoints/modcog_rtgo_seed0.pt",
+      "train_steps": 500
+    },
+    {
+      "run_id": "modcog_rtgo_random_unstructured_10_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_random_unstructured_30_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_random_unstructured_50_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_random_unstructured_70_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_random_unstructured_90_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_l1_unstructured_10_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_l1_unstructured_30_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_l1_unstructured_50_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_l1_unstructured_70_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_l1_unstructured_90_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_movement_10_seed0",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_movement_30_seed0",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_movement_50_seed0",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_movement_70_seed0",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_movement_90_seed0",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_set_10_seed0",
+      "strategy": "set",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_set_30_seed0",
+      "strategy": "set",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_set_50_seed0",
+      "strategy": "set",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_set_70_seed0",
+      "strategy": "set",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_set_90_seed0",
+      "strategy": "set",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_noise_prune_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_rtgo_noise_prune_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_rtgo_noise_prune_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_rtgo_noise_prune_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_rtgo_noise_prune_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_rtgo_woodfisher_10_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_rtgo_woodfisher_30_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_rtgo_woodfisher_50_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_rtgo_woodfisher_70_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_rtgo_woodfisher_90_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_rtgo_causal_10_seed0",
+      "strategy": "causal",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_causal_30_seed0",
+      "strategy": "causal",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_causal_50_seed0",
+      "strategy": "causal",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_causal_70_seed0",
+      "strategy": "causal",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtgo_causal_90_seed0",
+      "strategy": "causal",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtgo",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtgo_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_baseline_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "save_model_path": "checkpoints/modcog_rtanti_seed0.pt",
+      "train_steps": 500
+    },
+    {
+      "run_id": "modcog_rtanti_random_unstructured_10_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_random_unstructured_30_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_random_unstructured_50_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_random_unstructured_70_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_random_unstructured_90_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_l1_unstructured_10_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_l1_unstructured_30_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_l1_unstructured_50_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_l1_unstructured_70_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_l1_unstructured_90_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_movement_10_seed0",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_movement_30_seed0",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_movement_50_seed0",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_movement_70_seed0",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_movement_90_seed0",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_set_10_seed0",
+      "strategy": "set",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_set_30_seed0",
+      "strategy": "set",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_set_50_seed0",
+      "strategy": "set",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_set_70_seed0",
+      "strategy": "set",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_set_90_seed0",
+      "strategy": "set",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_noise_prune_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_rtanti_noise_prune_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_rtanti_noise_prune_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_rtanti_noise_prune_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_rtanti_noise_prune_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_rtanti_woodfisher_10_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_rtanti_woodfisher_30_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_rtanti_woodfisher_50_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_rtanti_woodfisher_70_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_rtanti_woodfisher_90_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_rtanti_causal_10_seed0",
+      "strategy": "causal",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_causal_30_seed0",
+      "strategy": "causal",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_causal_50_seed0",
+      "strategy": "causal",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_causal_70_seed0",
+      "strategy": "causal",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_rtanti_causal_90_seed0",
+      "strategy": "causal",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:rtanti",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_rtanti_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_baseline_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "save_model_path": "checkpoints/modcog_dlydm1_seed0.pt",
+      "train_steps": 500
+    },
+    {
+      "run_id": "modcog_dlydm1_random_unstructured_10_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_random_unstructured_30_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_random_unstructured_50_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_random_unstructured_70_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_random_unstructured_90_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_l1_unstructured_10_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_l1_unstructured_30_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_l1_unstructured_50_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_l1_unstructured_70_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_l1_unstructured_90_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_movement_10_seed0",
+      "strategy": "movement",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_movement_30_seed0",
+      "strategy": "movement",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_movement_50_seed0",
+      "strategy": "movement",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_movement_70_seed0",
+      "strategy": "movement",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_movement_90_seed0",
+      "strategy": "movement",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_set_10_seed0",
+      "strategy": "set",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_set_30_seed0",
+      "strategy": "set",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_set_50_seed0",
+      "strategy": "set",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_set_70_seed0",
+      "strategy": "set",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_set_90_seed0",
+      "strategy": "set",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_noise_prune_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_dlydm1_noise_prune_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_dlydm1_noise_prune_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_dlydm1_noise_prune_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_dlydm1_noise_prune_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt",
+      "noise_sigma": 0.6,
+      "noise_eps": 0.2,
+      "noise_leak_shift": 0.5,
+      "noise_matched_diagonal": 1
+    },
+    {
+      "run_id": "modcog_dlydm1_woodfisher_10_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_dlydm1_woodfisher_30_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_dlydm1_woodfisher_50_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_dlydm1_woodfisher_70_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_dlydm1_woodfisher_90_seed0",
+      "strategy": "woodfisher",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt",
+      "woodfisher_damping": 0.0005
+    },
+    {
+      "run_id": "modcog_dlydm1_causal_10_seed0",
+      "strategy": "causal",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_causal_30_seed0",
+      "strategy": "causal",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_causal_50_seed0",
+      "strategy": "causal",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_causal_70_seed0",
+      "strategy": "causal",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    },
+    {
+      "run_id": "modcog_dlydm1_causal_90_seed0",
+      "strategy": "causal",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm1",
+      "skip_training": true,
+      "load_model_path": "checkpoints/modcog_dlydm1_seed0.pt"
+    }
+  ]
+}

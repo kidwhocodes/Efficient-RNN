@@ -1,0 +1,27 @@
+{
+  "run_id": "baseline_synthetic_h128_2500",
+  "output_csv": "results/baseline_synthetic_h128_2500.csv",
+  "defaults": {
+    "hidden_size": 128,
+    "train_steps": 2500,
+    "ft_steps": 0,
+    "last_only": true,
+    "task": "synthetic",
+    "decision_delay": 20,
+    "device": "cpu",
+    "movement_batches": 20,
+    "ng_T": 0,
+    "ng_B": 0,
+    "eval_sample_batches": 32
+  },
+  "runs": [
+    {
+      "run_id": "baseline_synthetic_h128_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "save_model_path": "checkpoints/baseline_synthetic_h128_seed0.pt"
+    }
+  ]
+}

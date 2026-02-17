@@ -1,0 +1,185 @@
+{
+  "run_id": "lstm_post_prune_suite",
+  "output_csv": "results/lstm_post_prune_suite.csv",
+  "defaults": {
+    "hidden_size": 256,
+    "train_steps": 600,
+    "ft_steps": 0,
+    "last_only": true,
+    "device": "cpu",
+    "movement_batches": 20,
+    "ng_T": 600,
+    "ng_B": 32,
+    "model_type": "lstm",
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true
+  },
+  "runs": [
+    {
+      "run_id": "lstm_modcog_ctxdlydm1_v0_baseline_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM1-v0",
+      "save_model_path": "checkpoints/lstm_modcog_ctxdlydm1_v0_seed0.pt",
+      "train_steps": 600
+    },
+    {
+      "run_id": "lstm_modcog_ctxdlydm1_v0_lstm_wpr_10_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM1-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_ctxdlydm1_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_ctxdlydm1_v0_lstm_wpr_30_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM1-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_ctxdlydm1_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_ctxdlydm1_v0_lstm_wpr_50_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM1-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_ctxdlydm1_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_ctxdlydm1_v0_lstm_wpr_70_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM1-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_ctxdlydm1_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_ctxdlydm1_v0_lstm_wpr_90_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM1-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_ctxdlydm1_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_ctxdlydm2_v0_baseline_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM2-v0",
+      "save_model_path": "checkpoints/lstm_modcog_ctxdlydm2_v0_seed0.pt",
+      "train_steps": 600
+    },
+    {
+      "run_id": "lstm_modcog_ctxdlydm2_v0_lstm_wpr_10_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM2-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_ctxdlydm2_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_ctxdlydm2_v0_lstm_wpr_30_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM2-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_ctxdlydm2_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_ctxdlydm2_v0_lstm_wpr_50_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM2-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_ctxdlydm2_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_ctxdlydm2_v0_lstm_wpr_70_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM2-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_ctxdlydm2_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_ctxdlydm2_v0_lstm_wpr_90_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:CtxDlyDM2-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_ctxdlydm2_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_multidlydm_v0_baseline_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:MultiDlyDM-v0",
+      "save_model_path": "checkpoints/lstm_modcog_multidlydm_v0_seed0.pt",
+      "train_steps": 600
+    },
+    {
+      "run_id": "lstm_modcog_multidlydm_v0_lstm_wpr_10_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:MultiDlyDM-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_multidlydm_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_multidlydm_v0_lstm_wpr_30_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:MultiDlyDM-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_multidlydm_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_multidlydm_v0_lstm_wpr_50_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:MultiDlyDM-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_multidlydm_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_multidlydm_v0_lstm_wpr_70_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:MultiDlyDM-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_multidlydm_v0_seed0.pt"
+    },
+    {
+      "run_id": "lstm_modcog_multidlydm_v0_lstm_wpr_90_seed0",
+      "strategy": "lstm_wpr",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:MultiDlyDM-v0",
+      "skip_training": true,
+      "load_model_path": "checkpoints/lstm_modcog_multidlydm_v0_seed0.pt"
+    }
+  ]
+}

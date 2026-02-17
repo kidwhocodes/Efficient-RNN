@@ -1,0 +1,674 @@
+{
+  "defaults": {
+    "device": "cpu",
+    "dt": 20.0,
+    "eval_sample_batches": 32,
+    "ft_steps": 50,
+    "hidden_size": 128,
+    "last_only": true,
+    "load_model_path": "checkpoints/modcog_ctxdlydm1seql_alpha1/modcog_ctxdlydm1seql_seed0.pt",
+    "model_type": "ctrnn",
+    "movement_batches": 20,
+    "ng_B": 64,
+    "ng_T": 400,
+    "reset_results": false,
+    "resume": true,
+    "skip_training": true,
+    "task": "modcog:ctxdlydm1seql",
+    "tau": 100.0,
+    "train_steps": 0,
+    "woodfisher_damping": 0.1
+  },
+  "output_csv": "results/modcog_ctxdlydm1seql_post_methods_3seed_noft.csv",
+  "run_id": "modcog_ctxdlydm1seql_post_methods_3seed_noft",
+  "runs": [
+    {
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "strategy": "none"
+    },
+    {
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "strategy": "none"
+    },
+    {
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "strategy": "none"
+    },
+    {
+      "amount": 0.1,
+      "seed": 0,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.2,
+      "seed": 0,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.3,
+      "seed": 0,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.4,
+      "seed": 0,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.5,
+      "seed": 0,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.6,
+      "seed": 0,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.7,
+      "seed": 0,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.1,
+      "seed": 1,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.2,
+      "seed": 1,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.3,
+      "seed": 1,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.4,
+      "seed": 1,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.5,
+      "seed": 1,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.6,
+      "seed": 1,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.7,
+      "seed": 1,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.1,
+      "seed": 2,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.2,
+      "seed": 2,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.3,
+      "seed": 2,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.4,
+      "seed": 2,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.5,
+      "seed": 2,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.6,
+      "seed": 2,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.7,
+      "seed": 2,
+      "strategy": "random_unstructured"
+    },
+    {
+      "amount": 0.1,
+      "seed": 0,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.2,
+      "seed": 0,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.3,
+      "seed": 0,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.4,
+      "seed": 0,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.5,
+      "seed": 0,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.6,
+      "seed": 0,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.7,
+      "seed": 0,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.1,
+      "seed": 1,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.2,
+      "seed": 1,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.3,
+      "seed": 1,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.4,
+      "seed": 1,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.5,
+      "seed": 1,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.6,
+      "seed": 1,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.7,
+      "seed": 1,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.1,
+      "seed": 2,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.2,
+      "seed": 2,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.3,
+      "seed": 2,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.4,
+      "seed": 2,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.5,
+      "seed": 2,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.6,
+      "seed": 2,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.7,
+      "seed": 2,
+      "strategy": "l1_unstructured"
+    },
+    {
+      "amount": 0.1,
+      "seed": 0,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.2,
+      "seed": 0,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.3,
+      "seed": 0,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.4,
+      "seed": 0,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.5,
+      "seed": 0,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.6,
+      "seed": 0,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.7,
+      "seed": 0,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.1,
+      "seed": 1,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.2,
+      "seed": 1,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.3,
+      "seed": 1,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.4,
+      "seed": 1,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.5,
+      "seed": 1,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.6,
+      "seed": 1,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.7,
+      "seed": 1,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.1,
+      "seed": 2,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.2,
+      "seed": 2,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.3,
+      "seed": 2,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.4,
+      "seed": 2,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.5,
+      "seed": 2,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.6,
+      "seed": 2,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.7,
+      "seed": 2,
+      "strategy": "noise_prune"
+    },
+    {
+      "amount": 0.1,
+      "seed": 0,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.2,
+      "seed": 0,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.3,
+      "seed": 0,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.4,
+      "seed": 0,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.5,
+      "seed": 0,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.6,
+      "seed": 0,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.7,
+      "seed": 0,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.1,
+      "seed": 1,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.2,
+      "seed": 1,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.3,
+      "seed": 1,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.4,
+      "seed": 1,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.5,
+      "seed": 1,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.6,
+      "seed": 1,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.7,
+      "seed": 1,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.1,
+      "seed": 2,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.2,
+      "seed": 2,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.3,
+      "seed": 2,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.4,
+      "seed": 2,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.5,
+      "seed": 2,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.6,
+      "seed": 2,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.7,
+      "seed": 2,
+      "strategy": "movement"
+    },
+    {
+      "amount": 0.1,
+      "seed": 0,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.2,
+      "seed": 0,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.3,
+      "seed": 0,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.4,
+      "seed": 0,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.5,
+      "seed": 0,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.6,
+      "seed": 0,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.7,
+      "seed": 0,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.1,
+      "seed": 1,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.2,
+      "seed": 1,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.3,
+      "seed": 1,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.4,
+      "seed": 1,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.5,
+      "seed": 1,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.6,
+      "seed": 1,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.7,
+      "seed": 1,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.1,
+      "seed": 2,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.2,
+      "seed": 2,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.3,
+      "seed": 2,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.4,
+      "seed": 2,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.5,
+      "seed": 2,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.6,
+      "seed": 2,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.7,
+      "seed": 2,
+      "strategy": "woodfisher"
+    },
+    {
+      "amount": 0.1,
+      "seed": 0,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.2,
+      "seed": 0,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.3,
+      "seed": 0,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.4,
+      "seed": 0,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.5,
+      "seed": 0,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.6,
+      "seed": 0,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.7,
+      "seed": 0,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.1,
+      "seed": 1,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.2,
+      "seed": 1,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.3,
+      "seed": 1,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.4,
+      "seed": 1,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.5,
+      "seed": 1,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.6,
+      "seed": 1,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.7,
+      "seed": 1,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.1,
+      "seed": 2,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.2,
+      "seed": 2,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.3,
+      "seed": 2,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.4,
+      "seed": 2,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.5,
+      "seed": 2,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.6,
+      "seed": 2,
+      "strategy": "causal"
+    },
+    {
+      "amount": 0.7,
+      "seed": 2,
+      "strategy": "causal"
+    }
+  ]
+}

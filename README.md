@@ -32,42 +32,29 @@ Smoke test the installation:
 python3 -m pytest
 ```
 
-Run a single synthetic-task pruning experiment and inspect the generated artifacts under `results/<run_id>/`:
+Run the current synthetic_multirule pruning suite (10 baselines × 10 trials):
 ```
-python3 -m pruning_benchmark --strategy l1_unstructured --amount 0.3 --train_steps 200 --ft_steps 50 --task synthetic --run_id demo_single
-```
-
-Train baseline checkpoints for the NeuroSuite benchmark (skips already-existing files unless `--skip_training` is set):
-```
-python3 -m pruning_benchmark --mode baseline --baseline_config configs/baselines_neurosuite.json
+python3 scripts/generate_multirule_10x10_suite.py \
+  --output configs/prune_synthetic_multirule_10x10_suite.json
+python3 -m pruning_benchmark --mode suite --config configs/prune_synthetic_multirule_10x10_suite.json
 ```
 
-Evaluate those checkpoints to verify the task portfolio difficulty:
+Plot the results:
 ```
-python3 -m pruning_benchmark --mode portfolio --portfolio_config configs/portfolio_neurosuite.json --out_csv results/neurosuite_portfolio.csv
+MPLCONFIGDIR=/tmp python3 - <<'PY'
+from pruning_benchmark.analysis.plots import plot_metrics
+
+plot_metrics(
+    "results/prune_synthetic_multirule_10x10_suite.csv",
+    metrics=["post_acc"],
+    output_dir="plots/prune_synthetic_multirule_10x10_suite",
+)
+PY
 ```
 
-Launch a sweep across the built-in pruning baselines (good for tables and plots):
-```
-python3 -m pruning_benchmark --mode sweep --strategies l1_unstructured,random_unstructured,noise_prune,movement,synflow --amounts 0.1,0.3,0.5 --seeds 0,1 --train_steps 200 --ft_steps 50 --task synthetic --out_csv results/demo_sweep.csv
-```
+Older suites/configs and their outputs are archived under `archives/`.
 
-Generate summary statistics and plots from the CSV:
-```
-python3 -m pruning_benchmark --mode summary --input_csv results/demo_sweep.csv --group_by strategy,amount --metrics post_acc,post_loss --summary_out results/demo_summary.json
-python3 -m pruning_benchmark --mode plot --input_csv results/demo_sweep.csv --group_by strategy,amount --metrics post_acc,post_loss --plot_out plots/demo
-```
-
-Run the full NeuroSuite pruning benchmark (assumes baselines have been trained and saved under `checkpoints/neurosuite/`):
-```
-python3 -m pruning_benchmark --mode suite --config configs/pruning_neurosuite.json
-```
-This suite now enforces the full pruning pipeline:
-- Every strategy/amount reloads the saved checkpoint, so it always starts from the same trained-but-unpruned weights.
-- 64 evaluation batches are sampled once per run (using the training seed), then reused before/after pruning so accuracy deltas reflect pruning only.
-- `ft_steps` defaults to 0; bump it in the config if you want to study post-pruning fine-tuning.
-
-### Mod_Cog NeuroGym tasks
+### Mod_Cog NeuroGym tasks (optional setup)
 
 Recent Mod_Cog environments register themselves with NeuroGym once `Mod_Cog.mod_cog_tasks` is imported. Install them alongside NeuroGym:
 ```
@@ -100,23 +87,9 @@ print(list_modcog_tasks()[:10])
 
 ## Pruning strategies
 
-The refactor reinstates several positive-control strategies alongside `noise_prune`. Each strategy is callable via the CLI, and you can access/extend them programmatically through `pruning_benchmark.pruning.get_pruner` / `register_pruner`:
-
-- `random_unstructured`: uniform synapse drop baseline.
-- `l1_unstructured`: magnitude-based synapse pruning.
-- `movement`: magnitude of the accumulated gradient updates (synapse-level).
-- `snip`: single-shot saliency (`grad * weight`).
-- `synflow`: data-free sensitivity analysis with positive weights.
-- `fisher`: diagonal Fisher-information approximation using sampled batches.
-- `grasp`: GraSP curvature-aware saliency using Hessian-vector products.
-- `obd`: Optimal Brain Damage using a diagonal Hessian approximation.
-- `obs`: Optimal Brain Surgeon with Hutchinson+CG inverse Hessian estimates.
-- `set`: Sparse Evolutionary Training-inspired rewiring (drop/re-grow edges).
-- `woodfisher`: Low-rank WoodFisher approximation of the Fisher inverse.
-- `causal`: Neuron-level pruning based on readout-side causal contributions.
-- `noise_prune`: covariance-guided pruning on the continuous-time operator.
-
-Use these baselines to benchmark `noise_prune` on both synthetic and NeuroGym tasks (see `configs/` for ready-made suites).
+The benchmark supports multiple pruning strategies and uses the same training/evaluation
+pipeline for all of them. Strategy names and categories are listed in
+`docs/pruning_methods.md`. See `configs/` for ready-made suites.
 
 ### Adding your own pruning strategy
 
@@ -154,3 +127,5 @@ Strategies that are traditionally applied at initialization (e.g., `snip`, `synf
 - Prefer adding new strategies inside `pruning_benchmark/pruning/strategies.py`; tests under `tests/` should exercise new functionality.
 
 For more detailed notes on experiment workflow see `docs/experiment_workflow.md`.
+
+Documentation index: `docs/README.md`.
