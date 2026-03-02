@@ -1,0 +1,119 @@
+{
+  "run_id": "modcog_random10_baseline_1000",
+  "output_csv": "results/modcog_random10_baseline_1000.csv",
+  "defaults": {
+    "hidden_size": 128,
+    "train_steps": 1000,
+    "ft_steps": 0,
+    "last_only": false,
+    "device": "cpu",
+    "movement_batches": 20,
+    "ng_T": 0,
+    "ng_B": 64,
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true
+  },
+  "runs": [
+    {
+      "run_id": "baseline_modcog_ctxdm1seqr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdm1seqr",
+      "ng_T": 25,
+      "save_model_path": "checkpoints/modcog_random10/modcog_ctxdm1seqr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dnmsintseq_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dnmsintseq",
+      "ng_T": 33,
+      "save_model_path": "checkpoints/modcog_random10/modcog_dnmsintseq_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm1seqr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seqr",
+      "ng_T": 34,
+      "save_model_path": "checkpoints/modcog_random10/modcog_ctxdlydm1seqr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dlydm1seqr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm1seqr",
+      "ng_T": 35,
+      "save_model_path": "checkpoints/modcog_random10/modcog_dlydm1seqr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdm1_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdm1",
+      "ng_T": 16,
+      "save_model_path": "checkpoints/modcog_random10/modcog_ctxdm1_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dnmc_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dnmc",
+      "ng_T": 36,
+      "save_model_path": "checkpoints/modcog_random10/modcog_dnmc_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dms_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dms",
+      "ng_T": 33,
+      "save_model_path": "checkpoints/modcog_random10/modcog_dms_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dmsintseq_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dmsintseq",
+      "ng_T": 33,
+      "save_model_path": "checkpoints/modcog_random10/modcog_dmsintseq_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_multidlydmseqr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:multidlydmseqr",
+      "ng_T": 35,
+      "save_model_path": "checkpoints/modcog_random10/modcog_multidlydmseqr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dm2_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dm2",
+      "ng_T": 17,
+      "save_model_path": "checkpoints/modcog_random10/modcog_dm2_seed0.pt"
+    }
+  ]
+}

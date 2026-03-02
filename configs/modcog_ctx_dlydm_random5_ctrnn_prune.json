@@ -1,0 +1,1644 @@
+{
+  "run_id": "modcog_ctx_dlydm_random5_ctrnn_prune",
+  "output_csv": "results/modcog_ctx_dlydm_random5_ctrnn_prune.csv",
+  "defaults": {
+    "hidden_size": 256,
+    "train_steps": 0,
+    "ft_steps": 0,
+    "last_only": false,
+    "device": "cpu",
+    "movement_batches": 20,
+    "model_type": "ctrnn",
+    "ng_T": 0,
+    "ng_B": 256,
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true,
+    "lr": 0.001,
+    "clip": 1.0,
+    "skip_training": true,
+    "prune_phase": "post"
+  },
+  "runs": [
+    {
+      "run_id": "prune_dlydm1intr_l1_unstructured_p10",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_l1_unstructured_p20",
+      "strategy": "l1_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_l1_unstructured_p30",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_l1_unstructured_p40",
+      "strategy": "l1_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_l1_unstructured_p50",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_l1_unstructured_p60",
+      "strategy": "l1_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_l1_unstructured_p70",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_l1_unstructured_p80",
+      "strategy": "l1_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_l1_unstructured_p90",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_noise_prune_p10",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_noise_prune_p20",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_noise_prune_p30",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_noise_prune_p40",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_noise_prune_p50",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_noise_prune_p60",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_noise_prune_p70",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_noise_prune_p80",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_noise_prune_p90",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_obd_p10",
+      "strategy": "obd",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_obd_p20",
+      "strategy": "obd",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_obd_p30",
+      "strategy": "obd",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_obd_p40",
+      "strategy": "obd",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_obd_p50",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_obd_p60",
+      "strategy": "obd",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_obd_p70",
+      "strategy": "obd",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_obd_p80",
+      "strategy": "obd",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_obd_p90",
+      "strategy": "obd",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_random_unstructured_p10",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_random_unstructured_p20",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_random_unstructured_p30",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_random_unstructured_p40",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_random_unstructured_p50",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_random_unstructured_p60",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_random_unstructured_p70",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_random_unstructured_p80",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm1intr_random_unstructured_p90",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_l1_unstructured_p10",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_l1_unstructured_p20",
+      "strategy": "l1_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_l1_unstructured_p30",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_l1_unstructured_p40",
+      "strategy": "l1_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_l1_unstructured_p50",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_l1_unstructured_p60",
+      "strategy": "l1_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_l1_unstructured_p70",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_l1_unstructured_p80",
+      "strategy": "l1_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_l1_unstructured_p90",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_noise_prune_p10",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_noise_prune_p20",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_noise_prune_p30",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_noise_prune_p40",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_noise_prune_p50",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_noise_prune_p60",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_noise_prune_p70",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_noise_prune_p80",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_noise_prune_p90",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_obd_p10",
+      "strategy": "obd",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_obd_p20",
+      "strategy": "obd",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_obd_p30",
+      "strategy": "obd",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_obd_p40",
+      "strategy": "obd",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_obd_p50",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_obd_p60",
+      "strategy": "obd",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_obd_p70",
+      "strategy": "obd",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_obd_p80",
+      "strategy": "obd",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_obd_p90",
+      "strategy": "obd",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_random_unstructured_p10",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_random_unstructured_p20",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_random_unstructured_p30",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_random_unstructured_p40",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_random_unstructured_p50",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_random_unstructured_p60",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_random_unstructured_p70",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_random_unstructured_p80",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm2intseq_random_unstructured_p90",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_l1_unstructured_p10",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_l1_unstructured_p20",
+      "strategy": "l1_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_l1_unstructured_p30",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_l1_unstructured_p40",
+      "strategy": "l1_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_l1_unstructured_p50",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_l1_unstructured_p60",
+      "strategy": "l1_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_l1_unstructured_p70",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_l1_unstructured_p80",
+      "strategy": "l1_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_l1_unstructured_p90",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_noise_prune_p10",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_noise_prune_p20",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_noise_prune_p30",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_noise_prune_p40",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_noise_prune_p50",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_noise_prune_p60",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_noise_prune_p70",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_noise_prune_p80",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_noise_prune_p90",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_obd_p10",
+      "strategy": "obd",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_obd_p20",
+      "strategy": "obd",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_obd_p30",
+      "strategy": "obd",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_obd_p40",
+      "strategy": "obd",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_obd_p50",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_obd_p60",
+      "strategy": "obd",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_obd_p70",
+      "strategy": "obd",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_obd_p80",
+      "strategy": "obd",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_obd_p90",
+      "strategy": "obd",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_random_unstructured_p10",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_random_unstructured_p20",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_random_unstructured_p30",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_random_unstructured_p40",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_random_unstructured_p50",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_random_unstructured_p60",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_random_unstructured_p70",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_random_unstructured_p80",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2intl_random_unstructured_p90",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_l1_unstructured_p10",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_l1_unstructured_p20",
+      "strategy": "l1_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_l1_unstructured_p30",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_l1_unstructured_p40",
+      "strategy": "l1_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_l1_unstructured_p50",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_l1_unstructured_p60",
+      "strategy": "l1_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_l1_unstructured_p70",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_l1_unstructured_p80",
+      "strategy": "l1_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_l1_unstructured_p90",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_noise_prune_p10",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_noise_prune_p20",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_noise_prune_p30",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_noise_prune_p40",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_noise_prune_p50",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_noise_prune_p60",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_noise_prune_p70",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_noise_prune_p80",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_noise_prune_p90",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_obd_p10",
+      "strategy": "obd",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_obd_p20",
+      "strategy": "obd",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_obd_p30",
+      "strategy": "obd",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_obd_p40",
+      "strategy": "obd",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_obd_p50",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_obd_p60",
+      "strategy": "obd",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_obd_p70",
+      "strategy": "obd",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_obd_p80",
+      "strategy": "obd",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_obd_p90",
+      "strategy": "obd",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_random_unstructured_p10",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_random_unstructured_p20",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_random_unstructured_p30",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_random_unstructured_p40",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_random_unstructured_p50",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_random_unstructured_p60",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_random_unstructured_p70",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_random_unstructured_p80",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1intseq_random_unstructured_p90",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_l1_unstructured_p10",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_l1_unstructured_p20",
+      "strategy": "l1_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_l1_unstructured_p30",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_l1_unstructured_p40",
+      "strategy": "l1_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_l1_unstructured_p50",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_l1_unstructured_p60",
+      "strategy": "l1_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_l1_unstructured_p70",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_l1_unstructured_p80",
+      "strategy": "l1_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_l1_unstructured_p90",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_noise_prune_p10",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_noise_prune_p20",
+      "strategy": "noise_prune",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_noise_prune_p30",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_noise_prune_p40",
+      "strategy": "noise_prune",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_noise_prune_p50",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_noise_prune_p60",
+      "strategy": "noise_prune",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_noise_prune_p70",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_noise_prune_p80",
+      "strategy": "noise_prune",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_noise_prune_p90",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_obd_p10",
+      "strategy": "obd",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_obd_p20",
+      "strategy": "obd",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_obd_p30",
+      "strategy": "obd",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_obd_p40",
+      "strategy": "obd",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_obd_p50",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_obd_p60",
+      "strategy": "obd",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_obd_p70",
+      "strategy": "obd",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_obd_p80",
+      "strategy": "obd",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_obd_p90",
+      "strategy": "obd",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_random_unstructured_p10",
+      "strategy": "random_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_random_unstructured_p20",
+      "strategy": "random_unstructured",
+      "amount": 0.2,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_random_unstructured_p30",
+      "strategy": "random_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_random_unstructured_p40",
+      "strategy": "random_unstructured",
+      "amount": 0.4,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_random_unstructured_p50",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_random_unstructured_p60",
+      "strategy": "random_unstructured",
+      "amount": 0.6,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_random_unstructured_p70",
+      "strategy": "random_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_random_unstructured_p80",
+      "strategy": "random_unstructured",
+      "amount": 0.8,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdlydm1seql_random_unstructured_p90",
+      "strategy": "random_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a5/modcog_ctxdlydm1seql_seed0.pt"
+    }
+  ]
+}

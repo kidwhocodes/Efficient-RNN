@@ -59,6 +59,7 @@ def noise_prune(
     sigma: float = 1.0,
     eps: float = 0.3,
     matched_diagonal: bool = True,
+    rescale_weights: bool = True,
     rng: Optional[np.random.Generator] = None,
     target_density: Optional[float] = None,
 ) -> Tuple[np.ndarray, Dict[str, float]]:
@@ -177,7 +178,10 @@ def noise_prune(
     kept_probs = probs[kept_indices]
     kept_rows = rows[kept_indices]
     kept_cols = cols[kept_indices]
-    pruned_A[kept_rows, kept_cols] = A_float[kept_rows, kept_cols] / kept_probs
+    if rescale_weights:
+        pruned_A[kept_rows, kept_cols] = A_float[kept_rows, kept_cols] / kept_probs
+    else:
+        pruned_A[kept_rows, kept_cols] = A_float[kept_rows, kept_cols]
 
     if matched_diagonal:
         abs_orig = np.sum(np.abs(A_float), axis=1) - np.abs(np.diag(A_float))
@@ -200,6 +204,7 @@ def noise_prune(
         "capped_probs": int(capped_probs),
         "density": density,
         "scale_factor": float(scale_factor),
+        "rescale_weights": bool(rescale_weights),
     }
 
     return pruned_A.astype(orig_dtype, copy=False), stats

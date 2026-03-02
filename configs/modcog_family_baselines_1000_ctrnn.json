@@ -1,0 +1,112 @@
+{
+  "run_id": "modcog_family_baselines_1000_ctrnn",
+  "output_csv": "results/modcog_family_baselines_1000_ctrnn.csv",
+  "defaults": {
+    "hidden_size": 128,
+    "train_steps": 1000,
+    "ft_steps": 0,
+    "last_only": true,
+    "device": "cpu",
+    "movement_batches": 20,
+    "ng_T": 0,
+    "ng_B": 64,
+    "eval_sample_batches": 32,
+    "ablation_check": true,
+    "ablation_min_drop": 0.0,
+    "reset_results": false,
+    "resume": true,
+    "model_type": "ctrnn"
+  },
+  "runs": [
+    {
+      "run_id": "baseline_modcog_anti_ctrnn_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:anti",
+      "save_model_path": "checkpoints/modcog_family_1000/ctrnn/modcog_anti_ctrnn_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_antiseql_ctrnn_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:antiseql",
+      "save_model_path": "checkpoints/modcog_family_1000/ctrnn/modcog_antiseql_ctrnn_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_antiseqr_ctrnn_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:antiseqr",
+      "save_model_path": "checkpoints/modcog_family_1000/ctrnn/modcog_antiseqr_ctrnn_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm1_ctrnn_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1",
+      "save_model_path": "checkpoints/modcog_family_1000/ctrnn/modcog_ctxdlydm1_ctrnn_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm1intl_ctrnn_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intl",
+      "save_model_path": "checkpoints/modcog_family_1000/ctrnn/modcog_ctxdlydm1intl_ctrnn_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm1intr_ctrnn_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intr",
+      "save_model_path": "checkpoints/modcog_family_1000/ctrnn/modcog_ctxdlydm1intr_ctrnn_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm1intseq_ctrnn_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "save_model_path": "checkpoints/modcog_family_1000/ctrnn/modcog_ctxdlydm1intseq_ctrnn_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm1seql_ctrnn_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "save_model_path": "checkpoints/modcog_family_1000/ctrnn/modcog_ctxdlydm1seql_ctrnn_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm1seqr_ctrnn_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seqr",
+      "save_model_path": "checkpoints/modcog_family_1000/ctrnn/modcog_ctxdlydm1seqr_ctrnn_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm2intl_ctrnn_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intl",
+      "save_model_path": "checkpoints/modcog_family_1000/ctrnn/modcog_ctxdlydm2intl_ctrnn_seed0.pt"
+    }
+  ]
+}

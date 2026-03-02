@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import csv
 import os
+import tempfile
 from collections import defaultdict
 from typing import Dict, List, Sequence
 
@@ -29,15 +31,58 @@ def plot_metrics(
     output_dir: str = "plots",
     amount_field: str = "amount",
     filters: Dict[str, str] | None = None,
+    show_error_bars: bool = True,
 ) -> List[str]:
     """
     Generate line plots for each metric vs. amount grouped by `group_field`.
 
     Returns the list of file paths written.
     """
+    amount_field_to_use = amount_field
+    task_label = ""
+    with open(csv_path, newline="") as handle:
+        reader = csv.DictReader(handle)
+        tasks = {row.get("task") for row in reader if row.get("task")}
+    if not tasks:
+        task_label = "Task"
+    elif len(tasks) == 1:
+        task_label = next(iter(tasks))
+    else:
+        task_label = f"Task Suite ({len(tasks)} tasks)"
+    temp_csv_path = None
+    if amount_field == "amount":
+        with open(csv_path, newline="") as handle:
+            reader = csv.reader(handle)
+            header = next(reader, [])
+        if "post_sparsity_recurrent" in header:
+            amount_field_to_use = "amount_pruned"
+            with open(csv_path, newline="") as handle:
+                reader = csv.DictReader(handle)
+                rows = list(reader)
+            if not rows:
+                raise ValueError("No data available to plot. Check the CSV or grouping fields.")
+            fieldnames = list(rows[0].keys())
+            if "amount_pruned" not in fieldnames:
+                fieldnames.append("amount_pruned")
+            step = 0.05
+            for row in rows:
+                raw = row.get("post_sparsity_recurrent", "")
+                try:
+                    value = float(raw)
+                    quantized = round(round(value / step) * step, 2)
+                    row["amount_pruned"] = f"{quantized:.2f}"
+                except (TypeError, ValueError):
+                    row["amount_pruned"] = row.get("amount", "")
+            tmp = tempfile.NamedTemporaryFile("w", newline="", delete=False)
+            with tmp:
+                writer = csv.DictWriter(tmp, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(rows)
+            temp_csv_path = tmp.name
+
     summaries = summarize_csv(
-        csv_path,
-        group_fields=(group_field, amount_field),
+        temp_csv_path or csv_path,
+        group_fields=(group_field, amount_field_to_use),
         metrics=metrics,
         output_path=None,
         filters=filters,
@@ -52,7 +97,7 @@ def plot_metrics(
     grouped: Dict[str, Dict[str, List[Dict[str, float]]]] = defaultdict(lambda: defaultdict(list))
     for row in summaries:
         group = row[group_field]
-        amt = _to_float(row[amount_field])
+        amt = _to_float(row[amount_field_to_use])
         for metric in metrics:
             mean = row.get(f"{metric}_mean")
             std = row.get(f"{metric}_std")
@@ -82,17 +127,25 @@ def plot_metrics(
             ys = [p["mean"] for p in points]
             errs = [p["std"] for p in points]
             fmt = "-o" if len(xs) > 1 else "o"
-            plt.errorbar(
-                xs,
-                ys,
-                yerr=errs,
-                fmt=fmt,
-                capsize=3,
-                label=group,
-            )
-        plt.xlabel(amount_field)
-        plt.ylabel(metric)
-        plt.title(f"{metric} vs {amount_field}")
+            if show_error_bars:
+                plt.errorbar(
+                    xs,
+                    ys,
+                    yerr=errs,
+                    fmt=fmt,
+                    capsize=3,
+                    label=group,
+                )
+            else:
+                plt.plot(xs, ys, fmt, label=group)
+        if "acc" in metric:
+            plt.xlabel("Amount Pruned")
+            plt.ylabel("Task Accuracy")
+            plt.title(f"{task_label}: Task Accuracy vs Amount Pruned")
+        else:
+            plt.xlabel("Amount Pruned")
+            plt.ylabel(metric)
+            plt.title(f"{task_label}: {metric} vs Amount Pruned")
         plt.legend()
         plt.grid(True, alpha=0.3, linestyle="--")
         out_path = os.path.join(output_dir, f"{metric}_by_{group_field}.png")

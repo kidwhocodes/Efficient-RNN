@@ -27,7 +27,7 @@ from pruning_benchmark.tasks import (
     SyntheticNBackDM,
 )
 from pruning_benchmark.tasks.modcog import ensure_modcog_env_id
-from pruning_benchmark.tasks.neurogym import NeuroGymDatasetDM
+from pruning_benchmark.tasks.neurogym import ModCogTrialDM, NeuroGymDatasetDM
 from pruning_benchmark.training import evaluate
 
 
@@ -116,15 +116,27 @@ def main() -> None:
         cfg = SynthNBackCfg(decision_delay=args.decision_delay or SynthNBackCfg.decision_delay)
         data = SyntheticNBackDM(cfg)
     else:
-        data = NeuroGymDatasetDM(
-            dataset_task,
-            T=args.ng_T,
-            B=args.ng_B,
-            device=args.device,
-            last_only=not args.full_sequence,
-            seed=0,
-        )
-    criterion = torch.nn.CrossEntropyLoss()
+        if dataset_task.startswith("modcog:") or dataset_task.startswith("Mod_Cog-"):
+            data = ModCogTrialDM(
+                dataset_task,
+                T=args.ng_T,
+                B=args.ng_B,
+                device=args.device,
+                last_only=False,
+                seed=0,
+                mask_fixation=True,
+            )
+        else:
+            data = NeuroGymDatasetDM(
+                dataset_task,
+                T=args.ng_T,
+                B=args.ng_B,
+                device=args.device,
+                last_only=not args.full_sequence,
+                seed=0,
+                mask_fixation=False,
+            )
+    criterion = torch.nn.CrossEntropyLoss(ignore_index=-1)
     metrics = evaluate(
         model,
         data,

@@ -16,6 +16,7 @@ from .utils import make_run_id, set_global_seed
 
 warnings.filterwarnings("ignore", message=".*Gym has been unmaintained.*")
 warnings.filterwarnings("ignore", message=".*migration_guide.*")
+warnings.filterwarnings("ignore", message=".*env\\.gt.*", category=UserWarning)
 
 
 def _parse_comma_floats(src: str) -> Tuple[float, ...]:
@@ -137,6 +138,11 @@ def main():
         help="Value to match for plot_filter_field",
     )
     parser.add_argument(
+        "--plot_no_error_bars",
+        action="store_true",
+        help="Disable error bars in plots",
+    )
+    parser.add_argument(
         "--strategies",
         type=str,
         default="l1_unstructured,random_unstructured,noise_prune",
@@ -172,9 +178,9 @@ def main():
     parser.add_argument(
         "--model_type",
         type=str,
-        choices=["ctrnn", "gru"],
+        choices=["ctrnn", "gru", "lstm", "rnn"],
         default="ctrnn",
-        help="Base model architecture (ctrnn or gru)",
+        help="Base model architecture (ctrnn, gru, lstm, or rnn)",
     )
     parser.add_argument("--noise_sigma", type=float, default=1.0, help="Noise prune sigma hyperparameter")
     parser.add_argument("--noise_eps", type=float, default=0.3, help="Noise prune epsilon hyperparameter")
@@ -196,14 +202,23 @@ def main():
     parser.add_argument(
         "--eval_sample_batches",
         type=int,
-        default=0,
-        help="Number of fixed batches to reuse during evaluation",
+        default=32,
+        help="Number of fixed batches to reuse during evaluation (set 0 to disable deterministic eval)",
     )
     parser.add_argument("--eval_steps_pre0", type=int, default=50)
     parser.add_argument("--eval_steps_pre", type=int, default=100)
     parser.add_argument("--eval_steps_post0", type=int, default=100)
     parser.add_argument("--eval_steps_post", type=int, default=100)
-    parser.add_argument("--skip_training", action="store_true", help="Skip the baseline training phase")
+    parser.add_argument(
+        "--skip_training",
+        action="store_true",
+        help="Legacy flag. For baseline/portfolio modes, use --overwrite instead.",
+    )
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Overwrite existing baseline checkpoints or portfolio outputs.",
+    )
     parser.add_argument(
         "--save_model_path",
         type=str,
@@ -241,10 +256,12 @@ def main():
     run_id = args.run_id or make_run_id()
     out_csv = args.out_csv or f"results/{run_id}.csv"
 
+    overwrite_flag = bool(args.overwrite or args.skip_training)
+
     if args.mode == "baseline":
         if args.baseline_config is None:
             raise ValueError("--baseline_config is required when mode=baseline")
-        checkpoints = train_baselines(args.baseline_config, overwrite=args.skip_training)
+        checkpoints = train_baselines(args.baseline_config, overwrite=overwrite_flag)
         for path in checkpoints:
             print(path)
         return
@@ -256,7 +273,7 @@ def main():
         result_path = evaluate_portfolio(
             args.portfolio_config,
             out_csv=portfolio_csv,
-            overwrite=args.skip_training,
+            overwrite=overwrite_flag,
         )
         print(f"Portfolio summary written to {result_path}")
         return
@@ -328,6 +345,7 @@ def main():
             amount_field=amount_field,
             output_dir=args.plot_out,
             filters=plot_filters,
+            show_error_bars=not args.plot_no_error_bars,
         )
         print(f"Plots written to {args.plot_out}")
         return

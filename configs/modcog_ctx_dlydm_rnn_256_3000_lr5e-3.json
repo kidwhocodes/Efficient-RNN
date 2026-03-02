@@ -1,0 +1,72 @@
+{
+  "run_id": "modcog_ctx_dlydm_rnn_256_3000_lr5e-3",
+  "output_csv": "results/modcog_ctx_dlydm_rnn_256_3000_lr5e-3.csv",
+  "defaults": {
+    "hidden_size": 256,
+    "train_steps": 3000,
+    "ft_steps": 0,
+    "last_only": false,
+    "device": "cpu",
+    "movement_batches": 20,
+    "model_type": "rnn",
+    "ng_T": 0,
+    "ng_B": 128,
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true,
+    "lr": 0.005,
+    "clip": 1.0
+  },
+  "runs": [
+    {
+      "run_id": "baseline_modcog_ctxdlydm1seqr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_rnn_256_3000_lr5e-3/modcog_ctxdlydm1seqr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dlydm1intl_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm1intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_rnn_256_3000_lr5e-3/modcog_dlydm1intl_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dlydm2seql_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm2seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_rnn_256_3000_lr5e-3/modcog_dlydm2seql_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dlydm2intr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm2intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_rnn_256_3000_lr5e-3/modcog_dlydm2intr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm2intseq_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_rnn_256_3000_lr5e-3/modcog_ctxdlydm2intseq_seed0.pt"
+    }
+  ]
+}

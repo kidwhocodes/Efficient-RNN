@@ -1,0 +1,37 @@
+{
+  "run_id": "modcog_ctxdm1_ctxdm2_recheck",
+  "output_csv": "results/modcog_ctxdm1_ctxdm2_recheck.csv",
+  "defaults": {
+    "hidden_size": 128,
+    "train_steps": 1000,
+    "ft_steps": 0,
+    "last_only": true,
+    "device": "cpu",
+    "movement_batches": 20,
+    "ng_T": 0,
+    "ng_B": 64,
+    "eval_sample_batches": 32,
+    "ablation_check": true,
+    "ablation_min_drop": 0.0,
+    "reset_results": true,
+    "resume": false
+  },
+  "runs": [
+    {
+      "run_id": "baseline_modcog_ctxdm1_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdm1"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdm2_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdm2"
+    }
+  ]
+}

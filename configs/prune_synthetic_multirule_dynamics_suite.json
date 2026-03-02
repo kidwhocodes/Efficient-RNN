@@ -1,0 +1,110 @@
+{
+  "run_id": "prune_synthetic_multirule_dynamics_suite",
+  "output_csv": "results/prune_synthetic_multirule_dynamics_suite.csv",
+  "defaults": {
+    "task": "synthetic_multirule",
+    "hidden_size": 128,
+    "model_type": "ctrnn",
+    "device": "cpu",
+    "train_steps": 0,
+    "ft_steps": 0,
+    "last_only": true,
+    "movement_batches": 20,
+    "ng_T": 400,
+    "ng_B": 64,
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true
+  },
+  "runs": [
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed0_dynamics",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "dynamics_l1_10_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "dynamics_l1_30_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "dynamics_l1_50_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "dynamics_l1_70_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "dynamics_l1_90_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "dynamics_noise_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "dynamics_noise_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "dynamics_noise_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "dynamics_noise_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "dynamics_noise_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    }
+  ]
+}

@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import math
-from typing import Callable, Iterable, Mapping, Optional
+import warnings
+from typing import Callable, Iterable, Mapping, Optional, Tuple
 
 import numpy as np
 import torch
@@ -11,6 +12,7 @@ import torch.nn as nn
 import torch.nn.utils.prune as prune
 
 from ..models import CTRNN
+from .lstm_wpr import lstm_wpr_prune
 from .pruners import (
     BasePruner,
     PruneContext,
@@ -18,7 +20,7 @@ from .pruners import (
     register_pruner,
 )
 
-PRUNE_AMOUNT_STEP = 0.10
+PRUNE_AMOUNT_STEP = 0.05
 _STEP_EPS = 1e-6
 
 
@@ -36,6 +38,13 @@ def validate_prune_fraction(amount: float, *, step: float = PRUNE_AMOUNT_STEP) -
             f"Suggested value: {normalized:.1f}."
         )
     return float(normalized)
+
+
+def _layer_names(include_feedforward: bool) -> Tuple[str, ...]:
+    names = ["hidden_layer"]
+    if include_feedforward:
+        names.extend(["input_layer", "readout_layer"])
+    return tuple(names)
 
 
 @torch.no_grad()
@@ -101,7 +110,7 @@ def _weight_scores_to_mask(scores: torch.Tensor, amount: float) -> torch.Tensor:
     return mask
 
 
-def _apply_neuron_keep_mask(model: CTRNN, keep: torch.Tensor) -> None:
+def _apply_neuron_keep_mask(model: CTRNN, keep: torch.Tensor, *, include_feedforward: bool = True) -> None:
     H = model.H
     if keep.numel() != H:
         raise ValueError(f"Neuron mask has shape {keep.shape}, expected {H}")
@@ -110,7 +119,11 @@ def _apply_neuron_keep_mask(model: CTRNN, keep: torch.Tensor) -> None:
     keep_r = keep.view(-1, 1)
     keep_c = keep.view(1, -1)
 
-    for layer in (model.input_layer, model.hidden_layer, model.readout_layer):
+    layers = [model.hidden_layer]
+    if include_feedforward:
+        layers.extend([model.input_layer, model.readout_layer])
+
+    for layer in layers:
         _consolidate_if_pruned(layer)
 
     mask_hh = (keep_r & keep_c).to(dtype=model.hidden_layer.weight.dtype)
@@ -118,30 +131,51 @@ def _apply_neuron_keep_mask(model: CTRNN, keep: torch.Tensor) -> None:
         mask_hh.fill_diagonal_(0.0)
     prune.custom_from_mask(model.hidden_layer, name="weight", mask=mask_hh)
 
-    input_mask = keep_r.expand_as(model.input_layer.weight).to(dtype=model.input_layer.weight.dtype)
-    prune.custom_from_mask(model.input_layer, name="weight", mask=input_mask)
+    if include_feedforward:
+        input_mask = keep_r.expand_as(model.input_layer.weight).to(dtype=model.input_layer.weight.dtype)
+        prune.custom_from_mask(model.input_layer, name="weight", mask=input_mask)
 
-    readout_mask = keep_c.expand_as(model.readout_layer.weight).to(dtype=model.readout_layer.weight.dtype)
-    prune.custom_from_mask(model.readout_layer, name="weight", mask=readout_mask)
+        readout_mask = keep_c.expand_as(model.readout_layer.weight).to(dtype=model.readout_layer.weight.dtype)
+        prune.custom_from_mask(model.readout_layer, name="weight", mask=readout_mask)
     enforce_constraints(model)
 
 
-def prune_random_unstructured(model: CTRNN, amount: float) -> None:
+def _prune_layer(layer: nn.Module, fn, amount: float) -> None:
+    if layer is None or not hasattr(layer, "weight"):
+        return
+    fn(layer, name="weight", amount=amount)
+
+
+def prune_random_unstructured(model: CTRNN, amount: float, *, include_feedforward: bool = False) -> None:
     amount = validate_prune_fraction(float(amount))
-    prune.random_unstructured(model.hidden_layer, name="weight", amount=amount)
+    for layer_name in _layer_names(include_feedforward):
+        layer = getattr(model, layer_name, None)
+        _prune_layer(layer, prune.random_unstructured, amount)
     enforce_constraints(model)
 
 
-def prune_l1_unstructured(model: CTRNN, amount: float) -> None:
+def prune_l1_unstructured(model: CTRNN, amount: float, *, include_feedforward: bool = False) -> None:
     amount = validate_prune_fraction(float(amount))
-    prune.l1_unstructured(model.hidden_layer, name="weight", amount=amount)
+    for layer_name in _layer_names(include_feedforward):
+        layer = getattr(model, layer_name, None)
+        _prune_layer(layer, prune.l1_unstructured, amount)
     enforce_constraints(model)
 
 
-def prune_scores_unstructured(model: CTRNN, scores: torch.Tensor, amount: float) -> None:
+def prune_scores_unstructured(
+    model: CTRNN,
+    scores: torch.Tensor,
+    amount: float,
+    *,
+    include_feedforward: bool = False,
+) -> None:
     mask = _weight_scores_to_mask(scores, amount).to(dtype=model.hidden_layer.weight.dtype)
     _consolidate_if_pruned(model.hidden_layer)
     prune.custom_from_mask(model.hidden_layer, name="weight", mask=mask)
+    if include_feedforward:
+        for layer_name in ("input_layer", "readout_layer"):
+            layer = getattr(model, layer_name, None)
+            _prune_layer(layer, prune.l1_unstructured, amount)
     enforce_constraints(model)
 
 
@@ -153,8 +187,10 @@ def noise_prune_recurrent(
     eps: float = 0.3,
     leak_shift: float = 0.0,
     matched_diagonal: bool = True,
+    rescale_weights: bool = True,
     rng: Optional[np.random.Generator] = None,
     max_attempts: int = 5,
+    include_feedforward: bool = False,
 ) -> Dict[str, float]:
     amount = validate_prune_fraction(float(amount))
     stats: Dict[str, float] = {}
@@ -162,7 +198,10 @@ def noise_prune_recurrent(
         return stats
 
     rng = rng or np.random.default_rng()
-    weight = model.hidden_layer.weight.detach().cpu().numpy()
+    weight_tensor = model.hidden_layer.weight
+    if weight_tensor.ndim != 2 or weight_tensor.shape[0] != weight_tensor.shape[1]:
+        raise NotImplementedError("noise_prune currently supports square recurrent matrices (CTRNN/GRU).")
+    weight = weight_tensor.detach().cpu().numpy()
     desired_density = float(max(0.0, min(1.0, 1.0 - amount)))
     current_shift = float(leak_shift)
     used_shift = current_shift
@@ -177,6 +216,7 @@ def noise_prune_recurrent(
                 sigma=float(sigma),
                 eps=float(eps),
                 matched_diagonal=bool(matched_diagonal),
+                rescale_weights=bool(rescale_weights),
                 rng=rng,
                 target_density=desired_density,
             )
@@ -193,33 +233,70 @@ def noise_prune_recurrent(
 
     restored = pruned + (1.0 + used_shift) * np.eye(pruned.shape[0], dtype=pruned.dtype)
     tensor = torch.tensor(restored, dtype=model.hidden_layer.weight.dtype, device=model.hidden_layer.weight.device)
+    if getattr(model, "no_self_connections", False):
+        tensor.fill_diagonal_(0.0)
     _consolidate_if_pruned(model.hidden_layer)
     model.hidden_layer.weight.data.copy_(tensor)
-    mask = (tensor != 0).to(dtype=model.hidden_layer.weight.dtype)
+    # Use noise-prune output as saliency scores, then apply an exact sparsity mask.
+    scores = tensor.abs()
+    if getattr(model, "no_self_connections", False):
+        scores.fill_diagonal_(-1.0)
+    mask = _weight_scores_to_mask(scores, amount).to(dtype=model.hidden_layer.weight.dtype)
+    if getattr(model, "no_self_connections", False):
+        mask.fill_diagonal_(0.0)
     prune.custom_from_mask(model.hidden_layer, name="weight", mask=mask)
+    if include_feedforward:
+        for layer_name in ("input_layer", "readout_layer"):
+            layer = getattr(model, layer_name, None)
+            _prune_layer(layer, prune.l1_unstructured, amount)
     enforce_constraints(model)
 
     stats.update({
         "amount": float(amount),
         "target_density": desired_density,
+        "enforced_density": float(mask.sum().item()) / float(mask.numel()),
     })
     return stats
 
 
-def prune_movement_synapse(model: CTRNN, amount: float, *, scores: torch.Tensor) -> None:
-    prune_scores_unstructured(model, scores, amount)
+def prune_movement_synapse(
+    model: CTRNN,
+    amount: float,
+    *,
+    scores: torch.Tensor,
+    include_feedforward: bool = False,
+) -> None:
+    prune_scores_unstructured(model, scores, amount, include_feedforward=include_feedforward)
 
 
-def prune_snip_synapse(model: CTRNN, amount: float, *, scores: torch.Tensor) -> None:
-    prune_scores_unstructured(model, scores, amount)
+def prune_snip_synapse(
+    model: CTRNN,
+    amount: float,
+    *,
+    scores: torch.Tensor,
+    include_feedforward: bool = False,
+) -> None:
+    prune_scores_unstructured(model, scores, amount, include_feedforward=include_feedforward)
 
 
-def prune_synflow(model: CTRNN, amount: float, *, scores: torch.Tensor) -> None:
-    prune_scores_unstructured(model, scores, amount)
+def prune_synflow(
+    model: CTRNN,
+    amount: float,
+    *,
+    scores: torch.Tensor,
+    include_feedforward: bool = False,
+) -> None:
+    prune_scores_unstructured(model, scores, amount, include_feedforward=include_feedforward)
 
 
-def prune_fisher_synapse(model: CTRNN, amount: float, *, scores: torch.Tensor) -> None:
-    prune_scores_unstructured(model, scores, amount)
+def prune_fisher_synapse(
+    model: CTRNN,
+    amount: float,
+    *,
+    scores: torch.Tensor,
+    include_feedforward: bool = False,
+) -> None:
+    prune_scores_unstructured(model, scores, amount, include_feedforward=include_feedforward)
 
 
 def _collect_gradients(
@@ -553,7 +630,21 @@ class NoisePruneStrategy(BasePruner):
         state: Mapping[str, object],
         **kwargs,
     ) -> Mapping[str, float]:
-        return noise_prune_recurrent(context.model, context.amount, **kwargs)
+        try:
+            return noise_prune_recurrent(
+                context.model,
+                context.amount,
+                include_feedforward=context.prune_feedforward,
+                **kwargs,
+            )
+        except NotImplementedError as exc:
+            warnings.warn(f"{exc} Falling back to magnitude pruning for this model.")
+            prune_l1_unstructured(
+                context.model,
+                context.amount,
+                include_feedforward=context.prune_feedforward,
+            )
+            return {"fallback": "l1_unstructured"}
 
 
 class RandomUnstructuredPruner(BasePruner):
@@ -561,7 +652,11 @@ class RandomUnstructuredPruner(BasePruner):
     aliases = ("random",)
 
     def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
-        prune_random_unstructured(context.model, context.amount)
+        prune_random_unstructured(
+            context.model,
+            context.amount,
+            include_feedforward=context.prune_feedforward,
+        )
         return {}
 
 
@@ -570,7 +665,11 @@ class L1UnstructuredPruner(BasePruner):
     aliases = ("l1",)
 
     def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
-        prune_l1_unstructured(context.model, context.amount)
+        prune_l1_unstructured(
+            context.model,
+            context.amount,
+            include_feedforward=context.prune_feedforward,
+        )
         return {}
 
 
@@ -592,7 +691,12 @@ class MovementSynapsePruner(BasePruner):
         return {"scores": scores}
 
     def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
-        prune_movement_synapse(context.model, context.amount, scores=state["scores"])
+        prune_movement_synapse(
+            context.model,
+            context.amount,
+            scores=state["scores"],
+            include_feedforward=context.prune_feedforward,
+        )
         return {}
 
 
@@ -614,7 +718,12 @@ class SnipPruner(BasePruner):
         return {"scores": scores}
 
     def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
-        prune_snip_synapse(context.model, context.amount, scores=state["scores"])
+        prune_snip_synapse(
+            context.model,
+            context.amount,
+            scores=state["scores"],
+            include_feedforward=context.prune_feedforward,
+        )
         return {}
 
 
@@ -635,7 +744,12 @@ class FisherPruner(BasePruner):
         return {"scores": scores}
 
     def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
-        prune_fisher_synapse(context.model, context.amount, scores=state["scores"])
+        prune_fisher_synapse(
+            context.model,
+            context.amount,
+            scores=state["scores"],
+            include_feedforward=context.prune_feedforward,
+        )
         return {}
 
 
@@ -645,7 +759,12 @@ class SynflowPruner(BasePruner):
 
     def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
         scores = synflow_scores(context.model)
-        prune_synflow(context.model, context.amount, scores=scores)
+        prune_synflow(
+            context.model,
+            context.amount,
+            scores=scores,
+            include_feedforward=context.prune_feedforward,
+        )
         return {}
 
 
@@ -667,7 +786,12 @@ class GraspPruner(BasePruner):
         return {"scores": scores}
 
     def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
-        prune_scores_unstructured(context.model, state["scores"], context.amount)
+        prune_scores_unstructured(
+            context.model,
+            state["scores"],
+            context.amount,
+            include_feedforward=context.prune_feedforward,
+        )
         return {}
 
 
@@ -692,7 +816,12 @@ class OBDPruner(BasePruner):
         diag = state["diag"].to(context.model.hidden_layer.weight.device)
         weight = context.model.hidden_layer.weight
         saliency = 0.5 * diag * (weight.detach() ** 2)
-        prune_scores_unstructured(context.model, saliency, context.amount)
+        prune_scores_unstructured(
+            context.model,
+            saliency,
+            context.amount,
+            include_feedforward=context.prune_feedforward,
+        )
         return {}
 
 
@@ -730,10 +859,13 @@ class SETPruner(BasePruner):
                 optimizer.step()
         # Final drop with no regrowth to enforce sparsity mask
         num_remove_total += self._drop_and_regrow(weight, amount, regrow=False)
-        _consolidate_if_pruned(context.model.hidden_layer)
-        mask = (context.model.hidden_layer.weight != 0).to(dtype=context.model.hidden_layer.weight.dtype)
-        prune.custom_from_mask(context.model.hidden_layer, name="weight", mask=mask)
-        enforce_constraints(context.model)
+        scores = context.model.hidden_layer.weight.detach().abs()
+        prune_scores_unstructured(
+            context.model,
+            scores,
+            context.amount,
+            include_feedforward=context.prune_feedforward,
+        )
         if not was_training:
             context.model.eval()
         return {"set_regrown": float(num_remove_total)}
@@ -794,7 +926,12 @@ class OBSPruner(BasePruner):
         inv_diag = state["inv_diag"].to(context.model.hidden_layer.weight.device)
         weight = context.model.hidden_layer.weight.detach()
         scores = 0.5 * weight.pow(2) / inv_diag.clamp_min(1e-8)
-        prune_scores_unstructured(context.model, scores, context.amount)
+        prune_scores_unstructured(
+            context.model,
+            scores,
+            context.amount,
+            include_feedforward=context.prune_feedforward,
+        )
         return {"obs_num_samples": float(self.num_samples)}
 
 
@@ -823,7 +960,12 @@ class WoodFisherPruner(BasePruner):
         inv_diag = state["inv_diag"].to(context.model.hidden_layer.weight.device)
         weight = context.model.hidden_layer.weight.detach()
         scores = 0.5 * weight.pow(2) / inv_diag.clamp_min(1e-8)
-        prune_scores_unstructured(context.model, scores, context.amount)
+        prune_scores_unstructured(
+            context.model,
+            scores,
+            context.amount,
+            include_feedforward=context.prune_feedforward,
+        )
         return {}
 
 
@@ -845,8 +987,30 @@ class CausalPruner(BasePruner):
 
     def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
         keep_mask = _neuron_keep_mask_from_scores(state["scores"], context.amount)
-        _apply_neuron_keep_mask(context.model, keep_mask)
+        _apply_neuron_keep_mask(
+            context.model,
+            keep_mask,
+            include_feedforward=context.prune_feedforward,
+        )
         return {}
+
+
+class LSTMWPRPruner(BasePruner):
+    name = "lstm_wpr"
+    description = "Web-PageRank structural pruning for LSTM hidden units."
+
+    def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
+        lstm_layer = getattr(context.model, "lstm", None)
+        if lstm_layer is None:
+            raise ValueError("lstm_wpr strategy requires a model with an 'lstm' attribute.")
+        stats = lstm_wpr_prune(
+            lstm_layer,
+            context.amount,
+            alpha=float(kwargs.get("wpr_alpha", 0.85)),
+            max_iter=int(kwargs.get("wpr_max_iter", 100)),
+            tol=float(kwargs.get("wpr_tol", 1e-6)),
+        )
+        return stats
 
 
 # Register built-in strategies
@@ -863,6 +1027,7 @@ register_pruner(SETPruner())
 register_pruner(OBSPruner())
 register_pruner(WoodFisherPruner())
 register_pruner(CausalPruner())
+register_pruner(LSTMWPRPruner())
 
 
 __all__ = [
@@ -874,6 +1039,7 @@ __all__ = [
     "grasp_scores",
     "movement_scores",
     "noise_prune_recurrent",
+    "lstm_wpr_prune",
     "prune_l1_unstructured",
     "prune_movement_synapse",
     "prune_random_unstructured",

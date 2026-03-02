@@ -6,6 +6,17 @@ import torch
 import torch.nn as nn
 
 
+class _LSTMWeightProxy(nn.Module):
+    def __init__(self, lstm: nn.LSTM, attr: str):
+        super().__init__()
+        # Avoid registering the full LSTM as a submodule to prevent duplicate parameters.
+        self.__dict__["_lstm"] = lstm
+        self._attr = attr
+        param = getattr(lstm, attr)
+        # share the same Parameter object so pruning mutates the true LSTM weights.
+        self.weight = param
+
+
 class LSTMNet(nn.Module):
     """
     Wrapper around nn.LSTM exposing the same interface as CTRNN/GRUNet.
@@ -21,10 +32,8 @@ class LSTMNet(nn.Module):
 
         self.lstm = nn.LSTM(input_dim, hidden_size, bias=bias)
         self.readout_layer = nn.Linear(hidden_size, output_dim, bias=bias)
-        # expose pseudo-CTRNN attributes for metric/pruning compatibility
-        self.hidden_layer = nn.Linear(hidden_size, hidden_size, bias=False)
-        with torch.no_grad():
-            self.hidden_layer.weight.zero_()
+        self.input_layer = _LSTMWeightProxy(self.lstm, "weight_ih_l0")
+        self.hidden_layer = _LSTMWeightProxy(self.lstm, "weight_hh_l0")
         self.alpha = 1.0
 
     def forward(self, inputs: torch.Tensor):
@@ -49,6 +58,23 @@ class LSTMNet(nn.Module):
     def load(self, path: str, map_location: str = "cpu"):
         state = torch.load(path, map_location=map_location)
         self.load_state_dict(state)
+
+    def state_dict(self, *args, **kwargs):
+        state = super().state_dict(*args, **kwargs)
+        filtered = {}
+        for key, value in state.items():
+            if key.startswith("input_layer._lstm") or key.startswith("hidden_layer._lstm"):
+                continue
+            filtered[key] = value
+        return filtered
+
+    def load_state_dict(self, state_dict, strict: bool = True):
+        filtered = {}
+        for key, value in state_dict.items():
+            if key.startswith("input_layer") or key.startswith("hidden_layer"):
+                continue
+            filtered[key] = value
+        return super().load_state_dict(filtered, strict=False)
 
 
 __all__ = ["LSTMNet"]

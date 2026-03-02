@@ -1,0 +1,71 @@
+{
+  "run_id": "modcog_ctx_dlydm_random5_ctrnn_3000",
+  "output_csv": "results/modcog_ctx_dlydm_random5_ctrnn_3000.csv",
+  "defaults": {
+    "hidden_size": 256,
+    "train_steps": 3000,
+    "ft_steps": 0,
+    "last_only": false,
+    "device": "cpu",
+    "movement_batches": 20,
+    "model_type": "ctrnn",
+    "ng_T": 0,
+    "ng_B": 64,
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true,
+    "lr": 0.001
+  },
+  "runs": [
+    {
+      "run_id": "baseline_modcog_dlydm2seql_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm2seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn/modcog_dlydm2seql_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_multidlydmseqr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:multidlydmseqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn/modcog_multidlydmseqr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dlydm2seqr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm2seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn/modcog_dlydm2seqr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_multidlydmintr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:multidlydmintr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn/modcog_multidlydmintr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdm1_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdm1",
+      "ng_T": 22,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn/modcog_ctxdm1_seed0.pt"
+    }
+  ]
+}

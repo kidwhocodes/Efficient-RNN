@@ -22,9 +22,23 @@ def count_nonzero_and_total(t: torch.Tensor):
     return nz, tot
 
 
+def count_mask_nonzero_and_total(layer: torch.nn.Module):
+    mask = getattr(layer, "weight_mask", None)
+    if mask is None:
+        return None
+    nz = int((mask != 0).sum().item())
+    tot = mask.numel()
+    return nz, tot
+
+
 @torch.no_grad()
 def recurrent_sparsity(model: CTRNN):
-    W = model.hidden_layer.weight
+    layer = model.hidden_layer
+    mask_counts = count_mask_nonzero_and_total(layer)
+    if mask_counts is not None:
+        nz, tot = mask_counts
+        return 1.0 - (nz / tot)
+    W = layer.weight
     nz, tot = count_nonzero_and_total(W)
     return 1.0 - (nz / tot)
 
@@ -51,16 +65,22 @@ def ctrnn_stability_proxy(model: CTRNN):
 
 @torch.no_grad()
 def layer_sparsities(model: CTRNN):
-    """Sparsity per layer (fraction of zeros)."""
+    """Sparsity per layer (fraction of zeros), preferring pruning masks when present."""
     layers = {}
     if hasattr(model, "input_layer"):
-        layers["input"] = model.input_layer.weight
+        layers["input"] = model.input_layer
     if _has_ctrnn_layers(model):
-        layers["recurrent"] = model.hidden_layer.weight
+        layers["recurrent"] = model.hidden_layer
     if hasattr(model, "readout_layer"):
-        layers["readout"] = model.readout_layer.weight
+        layers["readout"] = model.readout_layer
     out = {}
-    for name, W in layers.items():
+    for name, layer in layers.items():
+        mask_counts = count_mask_nonzero_and_total(layer)
+        if mask_counts is not None:
+            nz, tot = mask_counts
+            out[name] = 1.0 - (nz / tot)
+            continue
+        W = layer.weight
         nz = int((W != 0).sum().item())
         tot = W.numel()
         out[name] = 1.0 - (nz / tot)
@@ -73,6 +93,10 @@ def neuron_keep_fraction(model: CTRNN):
     if not _has_ctrnn_layers(model):
         return float("nan")
     W = model.hidden_layer.weight.detach()
+    if W.size(0) != W.size(1):
+        H = W.size(1)
+        gates = max(1, W.size(0) // H)
+        W = W.view(gates, H, H).abs().sum(dim=0)
     row_zero = (W.abs().sum(dim=1) == 0)
     col_zero = (W.abs().sum(dim=0) == 0)
     removed = int((row_zero & col_zero).sum().item())
@@ -93,6 +117,10 @@ def neuron_pruning_stats(model: CTRNN):
     if not _has_ctrnn_layers(model):
         return {"rows_zero": float("nan"), "cols_zero": float("nan"), "isolated": float("nan")}
     W = model.hidden_layer.weight.detach()
+    if W.size(0) != W.size(1):
+        H = W.size(1)
+        gates = max(1, W.size(0) // H)
+        W = W.view(gates, H, H).abs().sum(dim=0)
     row_zero = (W.abs().sum(dim=1) == 0)
     col_zero = (W.abs().sum(dim=0) == 0)
     rows_zero = int(row_zero.sum().item())
@@ -118,6 +146,16 @@ def snapshot_model(model: CTRNN) -> Dict[str, float]:
         stats["rec_weight_abs_mean"] = float(abs_w.mean())
         stats["rec_weight_abs_std"] = float(abs_w.std(unbiased=False))
         stats["rec_weight_l2"] = float(torch.linalg.vector_norm(W, ord=2))
+        nz_mask = W != 0
+        if nz_mask.any():
+            abs_nz = abs_w[nz_mask]
+            stats["rec_weight_abs_mean_nz"] = float(abs_nz.mean())
+            stats["rec_weight_abs_std_nz"] = float(abs_nz.std(unbiased=False))
+            stats["rec_weight_nz_count"] = float(nz_mask.sum().item())
+        else:
+            stats["rec_weight_abs_mean_nz"] = float("nan")
+            stats["rec_weight_abs_std_nz"] = float("nan")
+            stats["rec_weight_nz_count"] = 0.0
     else:
         stats["rec_weight_abs_mean"] = float("nan")
         stats["rec_weight_abs_std"] = float("nan")

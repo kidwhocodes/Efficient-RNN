@@ -25,6 +25,7 @@ class PruneContext:
     device: str
     batches: Optional[List[Batch]] = None
     metadata: Mapping[str, object] = field(default_factory=dict)
+    prune_feedforward: bool = False
 
 
 class BasePruner:

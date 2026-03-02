@@ -1,6 +1,6 @@
 """Dataset utilities for synthetic and NeuroGym tasks."""
 
-from .neurogym import NeuroGymDM, NeuroGymDatasetDM
+from .neurogym import ModCogTrialDM, NeuroGymDM, NeuroGymDatasetDM
 from .synthetic import (
     SynthCfg,
     SynthContextCfg,
@@ -27,4 +27,5 @@ __all__ = [
     "SyntheticNBackDM",
     "NeuroGymDM",
     "NeuroGymDatasetDM",
+    "ModCogTrialDM",
 ]

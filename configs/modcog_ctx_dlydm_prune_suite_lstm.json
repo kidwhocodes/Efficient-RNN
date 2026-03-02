@@ -1,0 +1,204 @@
+{
+  "run_id": "modcog_ctx_dlydm_prune_lstm",
+  "output_csv": "results/modcog_ctx_dlydm_prune_lstm.csv",
+  "defaults": {
+    "hidden_size": 128,
+    "train_steps": 0,
+    "ft_steps": 0,
+    "last_only": false,
+    "device": "cpu",
+    "movement_batches": 20,
+    "model_type": "lstm",
+    "ng_T": 0,
+    "ng_B": 64,
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true,
+    "eval_steps_pre0": 100,
+    "eval_steps_pre": 100,
+    "eval_steps_post0": 100,
+    "eval_steps_post": 100
+  },
+  "runs": [
+    {
+      "run_id": "prune_dlydm2seql_noise_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_dlydm2seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2seql_l1_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_dlydm2seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2seql_random_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_dlydm2seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2seql_obd_seed0",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2seql",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_dlydm2seql_seed0.pt"
+    },
+    {
+      "run_id": "prune_multidlydmseqr_noise_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:multidlydmseqr",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_multidlydmseqr_seed0.pt"
+    },
+    {
+      "run_id": "prune_multidlydmseqr_l1_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:multidlydmseqr",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_multidlydmseqr_seed0.pt"
+    },
+    {
+      "run_id": "prune_multidlydmseqr_random_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:multidlydmseqr",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_multidlydmseqr_seed0.pt"
+    },
+    {
+      "run_id": "prune_multidlydmseqr_obd_seed0",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:multidlydmseqr",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_multidlydmseqr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2seqr_noise_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2seqr",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_dlydm2seqr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2seqr_l1_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2seqr",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_dlydm2seqr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2seqr_random_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2seqr",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_dlydm2seqr_seed0.pt"
+    },
+    {
+      "run_id": "prune_dlydm2seqr_obd_seed0",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:dlydm2seqr",
+      "ng_T": 40,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_dlydm2seqr_seed0.pt"
+    },
+    {
+      "run_id": "prune_multidlydmintr_noise_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:multidlydmintr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_multidlydmintr_seed0.pt"
+    },
+    {
+      "run_id": "prune_multidlydmintr_l1_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:multidlydmintr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_multidlydmintr_seed0.pt"
+    },
+    {
+      "run_id": "prune_multidlydmintr_random_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:multidlydmintr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_multidlydmintr_seed0.pt"
+    },
+    {
+      "run_id": "prune_multidlydmintr_obd_seed0",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:multidlydmintr",
+      "ng_T": 32,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_multidlydmintr_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdm1_noise_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdm1",
+      "ng_T": 22,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_ctxdm1_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdm1_l1_seed0",
+      "strategy": "l1_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdm1",
+      "ng_T": 22,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_ctxdm1_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdm1_random_seed0",
+      "strategy": "random_unstructured",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdm1",
+      "ng_T": 22,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_ctxdm1_seed0.pt"
+    },
+    {
+      "run_id": "prune_ctxdm1_obd_seed0",
+      "strategy": "obd",
+      "amount": 0.5,
+      "seed": 0,
+      "task": "modcog:ctxdm1",
+      "ng_T": 22,
+      "load_model_path": "checkpoints/modcog_ctx_dlydm_random5_lstm_finetune/modcog_ctxdm1_seed0.pt"
+    }
+  ]
+}

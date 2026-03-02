@@ -1,0 +1,119 @@
+{
+  "run_id": "modcog_ctx_dlydm_random10_2000",
+  "output_csv": "results/modcog_ctx_dlydm_random10_2000.csv",
+  "defaults": {
+    "hidden_size": 128,
+    "train_steps": 2000,
+    "ft_steps": 0,
+    "last_only": false,
+    "device": "cpu",
+    "movement_batches": 20,
+    "ng_T": 0,
+    "ng_B": 128,
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true
+  },
+  "runs": [
+    {
+      "run_id": "baseline_modcog_ctxdlydm1intseq_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 35,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random10/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm1seqr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seqr",
+      "ng_T": 35,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random10/modcog_ctxdlydm1seqr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_multidlydmseql_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:multidlydmseql",
+      "ng_T": 34,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random10/modcog_multidlydmseql_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dlydm1seqr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm1seqr",
+      "ng_T": 35,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random10/modcog_dlydm1seqr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm2seql_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2seql",
+      "ng_T": 35,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random10/modcog_ctxdlydm2seql_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_multidlydmintr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:multidlydmintr",
+      "ng_T": 27,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random10/modcog_multidlydmintr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dlydm2intl_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 27,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random10/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dlydm1intseq_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm1intseq",
+      "ng_T": 35,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random10/modcog_dlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dlydm2intseq_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm2intseq",
+      "ng_T": 35,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random10/modcog_dlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm2intseq_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 34,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random10/modcog_ctxdlydm2intseq_seed0.pt"
+    }
+  ]
+}

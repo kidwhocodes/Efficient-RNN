@@ -9,6 +9,18 @@ import numpy as np
 import torch
 
 
+def _decision_index(T: int, decision_delay: int, *, min_index: int = 0) -> int:
+    if decision_delay < 0:
+        raise ValueError("decision_delay must be non-negative.")
+    t_dec = T - decision_delay - 1
+    return max(min_index, t_dec)
+
+
+def _mask_after_decision(inputs: np.ndarray, t_dec: int) -> None:
+    if t_dec < inputs.shape[0] - 1:
+        inputs[t_dec + 1 :] = 0.0
+
+
 @dataclass
 class SynthCfg:
     T: int = 60
@@ -17,6 +29,7 @@ class SynthCfg:
     output_dim: int = 2
     coh_levels: Tuple[float, ...] = (0.0, 0.05, 0.1, 0.2)
     stim_std: float = 0.6
+    decision_delay: int = 5
 
 
 class SyntheticDM:
@@ -25,6 +38,7 @@ class SyntheticDM:
 
     def sample_batch(self):
         T, B, I = self.cfg.T, self.cfg.B, self.cfg.input_dim
+        t_dec = _decision_index(T, self.cfg.decision_delay)
         X = np.zeros((T, B, I), np.float32)
         Y = np.zeros((T, B), np.int64)
         X[:, :, 0] = 1.0
@@ -36,6 +50,7 @@ class SyntheticDM:
             X[:, b, 1] = np.random.normal(mu_l, self.cfg.stim_std, size=T)
             X[:, b, 2] = np.random.normal(mu_r, self.cfg.stim_std, size=T)
             Y[:, b] = side
+        _mask_after_decision(X, t_dec)
         return torch.from_numpy(X), torch.from_numpy(Y)
 
 
@@ -47,6 +62,7 @@ class SynthContextCfg:
     input_dim: int = 3  # [context, left, right]
     output_dim: int = 2
     stim_std: float = 0.6
+    decision_delay: int = 5
 
 
 class SyntheticContextDM:
@@ -63,6 +79,7 @@ class SyntheticContextDM:
 
     def sample_batch(self):
         T, B, context_t = self.cfg.T, self.cfg.B, self.cfg.context_t
+        t_dec = _decision_index(T, self.cfg.decision_delay)
         X = np.zeros((T, B, self.cfg.input_dim), np.float32)
         Y = np.zeros((T, B), np.int64)
 
@@ -79,12 +96,13 @@ class SyntheticContextDM:
             X[:, b, 2] = right
 
             if ctx == 0:
-                target = int(left[-1] > right[-1])
+                target = int(left[t_dec] > right[t_dec])
             else:
-                target = int(abs(left[-1]) > abs(right[-1]))
+                target = int(abs(left[t_dec]) > abs(right[t_dec]))
 
             Y[:, b] = target
 
+        _mask_after_decision(X, t_dec)
         return torch.from_numpy(X), torch.from_numpy(Y)
 
 
@@ -96,6 +114,7 @@ class SynthMultiRuleCfg:
     input_dim: int = 5  # 3 context channels + 2 evidence streams
     output_classes: int = 6
     evidence_std: float = 0.8
+    decision_delay: int = 5
 
 
 class SyntheticMultiRuleDM:
@@ -114,6 +133,7 @@ class SyntheticMultiRuleDM:
     def sample_batch(self):
         C = self.cfg
         T, B = C.T, C.B
+        t_dec = _decision_index(T, C.decision_delay)
         X = np.zeros((T, B, C.input_dim), np.float32)
         Y = np.zeros((T, B), np.int64)
         thresh = 0.5
@@ -128,14 +148,17 @@ class SyntheticMultiRuleDM:
             X[:, b, 3] = left
             X[:, b, 4] = right
 
+            left_slice = left[: t_dec + 1]
+            right_slice = right[: t_dec + 1]
             if ctx == 0:
-                result = int(left.mean() > right.mean())
+                result = int(left_slice.mean() > right_slice.mean())
             elif ctx == 1:
-                result = int(np.abs(left[-1] - right[-1]) > thresh)
+                result = int(np.abs(left[t_dec] - right[t_dec]) > thresh)
             else:
-                result = int(np.polyfit(np.arange(T), left, 1)[0] > 0)
+                result = int(np.polyfit(np.arange(left_slice.size), left_slice, 1)[0] > 0)
             label = ctx * 2 + result
             Y[:, b] = label
+        _mask_after_decision(X, t_dec)
         return torch.from_numpy(X), torch.from_numpy(Y)
 
 
@@ -148,6 +171,7 @@ class SynthHierContextCfg:
     output_dim: int = 4  # family (0/1) * rule (0/1)
     evidence_std: float = 0.7
     diff_thresh: float = 0.4
+    decision_delay: int = 5
 
 
 class SyntheticHierContextDM:
@@ -170,6 +194,7 @@ class SyntheticHierContextDM:
     def sample_batch(self):
         C = self.cfg
         T, B = C.T, C.B
+        t_dec = _decision_index(T, C.decision_delay)
         X = np.zeros((T, B, C.input_dim), np.float32)
         Y = np.zeros((T, B), np.int64)
         for b in range(B):
@@ -188,16 +213,19 @@ class SyntheticHierContextDM:
             X[:, b, 4] = left
             X[:, b, 5] = right
 
+            left_slice = left[: t_dec + 1]
+            right_slice = right[: t_dec + 1]
             if family == 0 and rule == 0:
-                result = int(left.mean() > right.mean())
+                result = int(left_slice.mean() > right_slice.mean())
             elif family == 0 and rule == 1:
-                result = int(abs(left[-1] - right[-1]) > C.diff_thresh)
+                result = int(abs(left[t_dec] - right[t_dec]) > C.diff_thresh)
             elif family == 1 and rule == 0:
-                result = int(left.var() > right.var())
+                result = int(left_slice.var() > right_slice.var())
             else:
-                result = int(np.polyfit(np.arange(T), left, 1)[0] > 0)
+                result = int(np.polyfit(np.arange(left_slice.size), left_slice, 1)[0] > 0)
             label = family * 2 + result
             Y[:, b] = label
+        _mask_after_decision(X, t_dec)
         return torch.from_numpy(X), torch.from_numpy(Y)
 
 
@@ -210,6 +238,7 @@ class SynthNBackCfg:
     output_dim: int = 4  # (n=2 vs 3) x (match vs mismatch)
     n_choices: Tuple[int, ...] = (2, 3)
     match_prob: float = 0.5
+    decision_delay: int = 5
 
 
 class SyntheticNBackDM:
@@ -226,6 +255,7 @@ class SyntheticNBackDM:
     def sample_batch(self):
         C = self.cfg
         T, B = C.T, C.B
+        t_dec = _decision_index(T, C.decision_delay, min_index=max(C.n_choices))
         X = np.zeros((T, B, C.input_dim), np.float32)
         Y = np.zeros((T, B), np.int64)
         for b in range(B):
@@ -242,12 +272,16 @@ class SyntheticNBackDM:
                 X[t, b, 1:] = onehot
 
             match = np.random.rand() < C.match_prob
-            if match and T > n:
-                symbols[-1] = symbols[-1 - n]
+            if match and t_dec >= n:
+                symbols[t_dec] = symbols[t_dec - n]
+                sym = symbols[t_dec]
+                onehot = np.zeros(C.alphabet_size, np.float32)
+                onehot[sym] = 1.0
+                X[t_dec, b, 1:] = onehot
             else:
                 # ensure mismatch
-                candidates = [s for s in range(C.alphabet_size) if s != symbols[-1 - n]]
-                symbols[-1] = np.random.choice(candidates)
+                candidates = [s for s in range(C.alphabet_size) if s != symbols[t_dec - n]]
+                symbols[t_dec] = np.random.choice(candidates)
                 for t in range(T):
                     sym = symbols[t]
                     onehot = np.zeros(C.alphabet_size, np.float32)
@@ -255,4 +289,5 @@ class SyntheticNBackDM:
                     X[t, b, 1:] = onehot
             label = (0 if n == 2 else 2) + int(not match)
             Y[:, b] = label
+        _mask_after_decision(X, t_dec)
         return torch.from_numpy(X), torch.from_numpy(Y)

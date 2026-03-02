@@ -1,0 +1,72 @@
+{
+  "run_id": "modcog_ctx_dlydm_random5_ctrnn_a4",
+  "output_csv": "results/modcog_ctx_dlydm_random5_ctrnn_a4.csv",
+  "defaults": {
+    "hidden_size": 384,
+    "train_steps": 8000,
+    "ft_steps": 0,
+    "last_only": false,
+    "device": "cpu",
+    "movement_batches": 20,
+    "model_type": "ctrnn",
+    "ng_T": 0,
+    "ng_B": 128,
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true,
+    "lr": 0.0005,
+    "clip": 1.0
+  },
+  "runs": [
+    {
+      "run_id": "baseline_modcog_dlydm1intr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm1intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a4/modcog_dlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm2intseq_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a4/modcog_ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_dlydm2intl_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:dlydm2intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a4/modcog_dlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm1intseq_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a4/modcog_ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "baseline_modcog_ctxdlydm1seql_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/modcog_ctx_dlydm_random5_ctrnn_a4/modcog_ctxdlydm1seql_seed0.pt"
+    }
+  ]
+}

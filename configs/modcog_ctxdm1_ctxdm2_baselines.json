@@ -1,0 +1,25 @@
+{
+  "output_dir": "checkpoints/modcog_ctxdm1_ctxdm2",
+  "defaults": {
+    "hidden_size": 128,
+    "train_steps": 1000,
+    "ft_steps": 0,
+    "last_only": true,
+    "device": "cpu",
+    "movement_batches": 20,
+    "model_type": "ctrnn",
+    "ng_B": 64
+  },
+  "tasks": [
+    {
+      "task": "modcog:ctxdm1",
+      "seeds": [0],
+      "checkpoint_name": "modcog_ctxdm1_seed{seed}.pt"
+    },
+    {
+      "task": "modcog:ctxdm2",
+      "seeds": [0],
+      "checkpoint_name": "modcog_ctxdm2_seed{seed}.pt"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "run_id": "prune_synthetic_multirule_noise_norescale_suite",
+  "output_csv": "results/prune_synthetic_multirule_noise_norescale_suite.csv",
+  "defaults": {
+    "task": "synthetic_multirule",
+    "hidden_size": 128,
+    "model_type": "ctrnn",
+    "device": "cpu",
+    "train_steps": 0,
+    "ft_steps": 0,
+    "last_only": true,
+    "movement_batches": 20,
+    "ng_T": 400,
+    "ng_B": 64,
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true
+  },
+  "runs": [
+    {
+      "run_id": "baseline_synthetic_multirule_h128_seed0_noise_compare",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt"
+    },
+    {
+      "run_id": "noise_rescale_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt",
+      "noise_rescale_weights": true
+    },
+    {
+      "run_id": "noise_rescale_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt",
+      "noise_rescale_weights": true
+    },
+    {
+      "run_id": "noise_rescale_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt",
+      "noise_rescale_weights": true
+    },
+    {
+      "run_id": "noise_rescale_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt",
+      "noise_rescale_weights": true
+    },
+    {
+      "run_id": "noise_rescale_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt",
+      "noise_rescale_weights": true
+    },
+    {
+      "run_id": "noise_norescale_10_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.1,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt",
+      "noise_rescale_weights": false
+    },
+    {
+      "run_id": "noise_norescale_30_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.3,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt",
+      "noise_rescale_weights": false
+    },
+    {
+      "run_id": "noise_norescale_50_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.5,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt",
+      "noise_rescale_weights": false
+    },
+    {
+      "run_id": "noise_norescale_70_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.7,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt",
+      "noise_rescale_weights": false
+    },
+    {
+      "run_id": "noise_norescale_90_seed0",
+      "strategy": "noise_prune",
+      "amount": 0.9,
+      "seed": 0,
+      "skip_training": true,
+      "load_model_path": "checkpoints/synthetic_multirule_10x10/baseline_synthetic_multirule_h128_seed0.pt",
+      "noise_rescale_weights": false
+    }
+  ]
+}

@@ -34,9 +34,13 @@ class CTRNN(nn.Module):
         no_self_connections: bool = True,
         scaling: float = 1.0,
         bias: bool = True,
+        train_input_layer: bool = True,
+        input_sparsity: float = 0.05,
     ):
         super().__init__()
         self.I, self.H, self.O = input_dim, hidden_size, output_dim
+        self.dt = float(dt)
+        self.tau = float(tau)
         self.alpha = float(dt) / float(tau)
         self.oneminusalpha = 1.0 - self.alpha
         self._activation_name = activation
@@ -44,6 +48,8 @@ class CTRNN(nn.Module):
         self.postact_noise = float(postact_noise)
         self.use_dale = bool(use_dale)
         self.no_self_connections = bool(no_self_connections)
+        self._train_input_layer = bool(train_input_layer)
+        self._input_sparsity = float(input_sparsity)
 
         # layers
         self.input_layer = nn.Linear(self.I, self.H, bias=bias)
@@ -60,6 +66,10 @@ class CTRNN(nn.Module):
 
         nn.init.kaiming_uniform_(self.readout_layer.weight, a=0.0)
         nn.init.zeros_(self.readout_layer.bias)
+
+        # optionally freeze input projection (reservoir-style)
+        if not self._train_input_layer:
+            self._sparsify_and_freeze_input_layer()
 
         # Dale's Law
         if self.use_dale:
@@ -79,6 +89,17 @@ class CTRNN(nn.Module):
         self.register_buffer("_noise_enabled", torch.tensor(1, dtype=torch.uint8))
 
     # utils
+    def _sparsify_and_freeze_input_layer(self) -> None:
+        with torch.no_grad():
+            if 0.0 < self._input_sparsity < 1.0:
+                weight = self.input_layer.weight.data
+                mask = torch.rand_like(weight).lt(self._input_sparsity)
+                weight.mul_(mask)
+            if self.input_layer.bias is not None:
+                self.input_layer.bias.zero_()
+        for param in self.input_layer.parameters():
+            param.requires_grad_(False)
+
     def act(self, x: torch.Tensor) -> torch.Tensor:
         if self._activation_name == "relu":
             return F.relu(x)

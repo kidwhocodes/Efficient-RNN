@@ -7,6 +7,15 @@ from typing import Any, Tuple
 import numpy as np
 import torch
 from neurogym import Dataset
+import copy
+
+try:
+    import gymnasium as gym  # type: ignore
+except Exception:  # pragma: no cover - gym fallback
+    try:
+        import gym  # type: ignore
+    except Exception:  # pragma: no cover
+        gym = None
 
 
 class NeuroGymDM:
@@ -97,7 +106,7 @@ def _ensure_final_labels(targets: torch.Tensor) -> torch.Tensor:
         if valid.numel():
             targets[-1, idx] = column[valid[-1]]
         else:
-            targets[-1, idx] = 0
+            targets[-1, idx] = -1
     return targets
 
 
@@ -115,6 +124,7 @@ class NeuroGymDatasetDM:
         seed: int = 0,
         env_kwargs: dict | None = None,
         dataset_kwargs: dict | None = None,
+        mask_fixation: bool = False,
     ):
         env_kwargs = dict(env_kwargs or {})
         dataset_kwargs = dict(dataset_kwargs or {})
@@ -127,6 +137,7 @@ class NeuroGymDatasetDM:
         self.dataset.seed(seed)
         self.device = device
         self.last_only = bool(last_only)
+        self.mask_fixation = bool(mask_fixation)
         env = self.dataset.env
         obs_shape = getattr(env.observation_space, "shape", None)
         if not obs_shape:
@@ -144,18 +155,145 @@ class NeuroGymDatasetDM:
     def sample_batch(self):
         inputs, targets = next(self.dataset)
         X = torch.from_numpy(np.asarray(inputs)).float().to(self.device)
-        Y = torch.from_numpy(np.asarray(targets)).clone().to(torch.float32)
-        if Y.ndim == 3 and Y.size(-1) == 1:
-            Y = Y.squeeze(-1)
-        elif Y.ndim == 3:
-            Y = Y.argmax(dim=-1)
-        Y = torch.nan_to_num(Y, nan=0.0).to(torch.long)
-        Y = _ensure_final_labels(Y)
+        target_array = np.asarray(targets)
+        invalid_mask = None
+        if target_array.ndim == 3:
+            if target_array.shape[-1] == 1:
+                invalid_mask = np.isnan(target_array[..., 0])
+                target_array = target_array[..., 0]
+            else:
+                invalid_mask = np.isnan(target_array).any(axis=-1)
+                safe = np.where(np.isnan(target_array), -np.inf, target_array)
+                target_array = np.argmax(safe, axis=-1)
+        else:
+            if np.issubdtype(target_array.dtype, np.floating):
+                invalid_mask = np.isnan(target_array)
+        if self.mask_fixation:
+            zero_mask = target_array == 0
+            invalid_mask = zero_mask if invalid_mask is None else (invalid_mask | zero_mask)
+        Y = torch.from_numpy(target_array).clone()
+        if invalid_mask is not None:
+            Y = Y.to(torch.float32)
+            Y[torch.from_numpy(invalid_mask)] = -1.0
+        Y = Y.to(torch.long)
+        if not self.mask_fixation:
+            Y = _ensure_final_labels(Y)
         if not self.last_only:
             return X, Y
         # zero out unused intermediate labels while keeping the final decision
         if Y.ndim == 2:
-            mask = torch.ones_like(Y)
-            mask[:-1] = 0
-            Y = Y * mask
+            Y[:-1] = -1
+        return X, Y
+
+
+def _seed_env(env, seed: int) -> None:
+    try:
+        env.reset(seed=seed)
+    except TypeError:
+        try:
+            if hasattr(env, "seed"):
+                env.seed(seed)
+            else:
+                env.reset()
+        except Exception:
+            pass
+    if hasattr(env, "action_space") and hasattr(env.action_space, "seed"):
+        try:
+            env.action_space.seed(seed)
+        except Exception:
+            pass
+
+
+def _labels_from_targets(targets: np.ndarray) -> np.ndarray:
+    arr = np.asarray(targets)
+    if arr.ndim >= 2 and arr.shape[-1] > 1:
+        nan_mask = np.isnan(arr).any(axis=-1) if np.issubdtype(arr.dtype, np.floating) else None
+        safe = np.where(np.isnan(arr), -np.inf, arr) if nan_mask is not None else arr
+        labels = np.argmax(safe, axis=-1)
+        if nan_mask is not None:
+            labels = labels.astype(np.float32, copy=False)
+            labels[nan_mask] = -1.0
+        return labels.astype(np.int64, copy=False)
+    if arr.ndim >= 2 and arr.shape[-1] == 1:
+        arr = arr[..., 0]
+    if np.issubdtype(arr.dtype, np.floating):
+        arr = arr.astype(np.float32, copy=False)
+        arr[np.isnan(arr)] = -1.0
+    return arr.astype(np.int64, copy=False)
+
+
+class ModCogTrialDM:
+    """Trial-aligned Mod-Cog dataset to avoid slicing mid-trial."""
+
+    def __init__(
+        self,
+        env: str | Any,
+        T: int,
+        B: int,
+        *,
+        device: str = "cpu",
+        last_only: bool = False,
+        seed: int = 0,
+        env_kwargs: dict | None = None,
+        mask_fixation: bool = True,
+    ):
+        if last_only:
+            raise ValueError("Mod-Cog trial datasets do not support last_only=True.")
+        if gym is None and isinstance(env, str):
+            raise RuntimeError("Gym is required to instantiate Mod-Cog environments.")
+        self.T = int(T)
+        self.B = int(B)
+        self.device = device
+        self.last_only = bool(last_only)
+        self.mask_fixation = bool(mask_fixation)
+        self._trial_kwargs = dict(env_kwargs or {})
+
+        if isinstance(env, str):
+            self.envs = [gym.make(env, **(env_kwargs or {})) for _ in range(self.B)]
+        else:
+            self.envs = [copy.deepcopy(env) for _ in range(self.B)]
+
+        for idx, env_i in enumerate(self.envs):
+            _seed_env(env_i, seed + idx)
+
+        obs_shape = getattr(self.envs[0].observation_space, "shape", None)
+        if not obs_shape:
+            raise ValueError(f"Environment {env} has no observation shape.")
+        self.input_dim = int(np.prod(obs_shape))
+        action_space = self.envs[0].action_space
+        if hasattr(action_space, "n"):
+            self.n_classes = int(action_space.n)
+        else:
+            shape = getattr(action_space, "shape", None)
+            if not shape:
+                raise ValueError(f"Environment {env} has no action shape.")
+            self.n_classes = int(np.prod(shape))
+
+    def _sample_single(self, env) -> Tuple[np.ndarray, np.ndarray]:
+        try:
+            env.new_trial(**self._trial_kwargs)
+        except TypeError:
+            env.new_trial()
+        ob = np.asarray(env.ob)
+        gt = np.asarray(env.gt)
+        ob = ob.reshape(ob.shape[0], -1)
+        labels = _labels_from_targets(gt)
+        if labels.ndim > 1:
+            labels = labels.reshape(labels.shape[0], -1)
+            labels = labels[:, 0]
+        if self.mask_fixation:
+            labels = labels.astype(np.int64, copy=False)
+            labels[labels == 0] = -1
+        return ob, labels
+
+    def sample_batch(self):
+        T, B, I = self.T, self.B, self.input_dim
+        X = torch.zeros(T, B, I, device=self.device)
+        Y = torch.full((T, B), -1, dtype=torch.long, device=self.device)
+        for b, env in enumerate(self.envs):
+            ob, labels = self._sample_single(env)
+            t_len = min(T, ob.shape[0])
+            if t_len > 0:
+                X[:t_len, b] = torch.from_numpy(ob[:t_len]).float().to(self.device)
+                Y[:t_len, b] = torch.from_numpy(labels[:t_len]).to(torch.long).to(self.device)
         return X, Y

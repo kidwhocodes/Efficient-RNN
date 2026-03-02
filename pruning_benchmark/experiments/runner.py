@@ -18,6 +18,7 @@ import torch.nn as nn
 from ..analysis import compile_run_metrics, save_metrics, snapshot_model
 from ..config import ExperimentConfig
 from ..tasks import (
+    ModCogTrialDM,
     NeuroGymDM,
     NeuroGymDatasetDM,
     SynthCfg,
@@ -241,6 +242,10 @@ def fresh_model(
         from ..models import LSTMNet
 
         return LSTMNet(input_dim, hidden_size, output_dim).to(device)
+    if model_type == "rnn":
+        from ..models import RNNNet
+
+        return RNNNet(input_dim, hidden_size, output_dim).to(device)
     raise ValueError(f"Unknown model_type '{model_type}'")
 
 
@@ -306,8 +311,9 @@ def evaluate_on_fixed_batches(
             logits, _ = model(x_batch)
             decision_logits = logits[-1]
             decision_targets = y_batch[-1]
+            decision_valid = decision_targets >= 0
+            decision_N = int(decision_valid.sum().item())
             decision_loss = criterion(decision_logits, decision_targets)
-            decision_N = decision_targets.numel()
 
             if eval_last_only:
                 loss_val = decision_loss
@@ -316,19 +322,25 @@ def evaluate_on_fixed_batches(
                 seq_logits = logits.view(-1, logits.size(-1))
                 seq_targets = y_batch.view(-1)
                 loss_val = criterion(seq_logits, seq_targets)
-                loss_weight = seq_targets.numel()
+                loss_weight = int((seq_targets >= 0).sum().item())
 
-            total_loss += float(loss_val) * loss_weight
-            total_loss_weight += loss_weight
+            if loss_weight > 0:
+                total_loss += float(loss_val) * loss_weight
+                total_loss_weight += loss_weight
 
-            decision_correct = (decision_logits.argmax(dim=-1) == decision_targets).sum().item()
-            total_decision_correct += int(decision_correct)
-            total_decision_count += int(decision_N)
+            decision_pred = decision_logits.argmax(dim=-1)
+            if decision_N > 0:
+                decision_correct = ((decision_pred == decision_targets) & decision_valid).sum().item()
+                total_decision_correct += int(decision_correct)
+                total_decision_count += int(decision_N)
 
-            seq_correct = (logits.argmax(dim=-1) == y_batch).sum().item()
-            seq_total = y_batch.numel()
-            total_seq_correct += int(seq_correct)
-            total_seq_count += int(seq_total)
+            seq_pred = logits.argmax(dim=-1)
+            seq_valid = y_batch >= 0
+            seq_total = int(seq_valid.sum().item())
+            if seq_total > 0:
+                seq_correct = ((seq_pred == y_batch) & seq_valid).sum().item()
+                total_seq_correct += int(seq_correct)
+                total_seq_count += int(seq_total)
     if prev_mode:
         model.train()
     mean_loss = total_loss / max(1, total_loss_weight)
@@ -369,6 +381,8 @@ def run_prune_experiment(
     eval_steps_pre = kwargs.pop("eval_steps_pre", 100)
     eval_steps_post0 = kwargs.pop("eval_steps_post0", 100)
     eval_steps_post = kwargs.pop("eval_steps_post", 100)
+    lr = float(kwargs.pop("lr", 1e-3))
+    clip = float(kwargs.pop("clip", 1.0))
     hidden_size_override = kwargs.pop("hidden_size", None)
     model_kwargs = {}
     for key in ("use_dale", "ei_ratio", "no_self_connections", "activation"):
@@ -427,6 +441,8 @@ def run_prune_experiment(
     uses_modcog = task.startswith("modcog:")
     env_kwargs = _coerce_kwargs(ng_kwargs_raw, "ng_kwargs") if (uses_ng_env or uses_modcog) else None
     dataset_kwargs = _coerce_kwargs(ng_dataset_kwargs_raw, "ng_dataset_kwargs") if uses_modcog else None
+    if uses_modcog and last_only:
+        raise ValueError("Mod-Cog tasks do not support last_only=True; use full-sequence training/eval.")
 
     if task == "synthetic":
         cfg = SynthCfg(T=60, B=64, coh_levels=(0.0, 0.05, 0.1, 0.2), stim_std=0.6)
@@ -513,7 +529,7 @@ def run_prune_experiment(
             dataset_backend = "mod_cog_dataset"
             dataset_env_source = env_id
             dataset_env_kwargs = env_kwargs_copy
-        data = NeuroGymDatasetDM(
+        data = ModCogTrialDM(
             dataset_env_source,
             T=T,
             B=B,
@@ -521,7 +537,7 @@ def run_prune_experiment(
             last_only=last_only,
             seed=config.seed,
             env_kwargs=dataset_env_kwargs,
-            dataset_kwargs=dataset_kwargs,
+            mask_fixation=True,
         )
         task_meta.update({
             "env": env_label,
@@ -530,7 +546,6 @@ def run_prune_experiment(
             "B": B,
             "dataset_last_only": bool(last_only),
             "env_kwargs": env_kwargs_copy,
-            "dataset_kwargs": dataset_kwargs,
             "backend": dataset_backend,
         })
         input_dim = data.input_dim
@@ -595,8 +610,8 @@ def run_prune_experiment(
 
     enforce_constraints(model)
 
-    opt = torch.optim.Adam(model.parameters(), lr=1e-3)
-    criterion = nn.CrossEntropyLoss()
+    opt = torch.optim.Adam(model.parameters(), lr=lr)
+    criterion = nn.CrossEntropyLoss(ignore_index=-1)
     pruner = get_pruner(strategy) if pruned else None
 
     def sample_batches(num: int | None):
@@ -663,7 +678,16 @@ def run_prune_experiment(
     # Phase B: baseline training
     # ------------------------------------------------------------------
     if not skip_training and train_steps > 0:
-        train_epoch(model, data, device, opt, criterion, steps=train_steps, last_only=last_only)
+        train_epoch(
+            model,
+            data,
+            device,
+            opt,
+            criterion,
+            steps=train_steps,
+            last_only=last_only,
+            clip=clip,
+        )
         pre_metrics = run_eval(eval_steps_pre, 1)
         pre_loss = pre_metrics["loss"]
         pre_acc = pre_metrics["acc"]
@@ -711,7 +735,16 @@ def run_prune_experiment(
     # Phase D: optional fine-tuning
     # ------------------------------------------------------------------
     if ft_steps > 0:
-        train_epoch(model, data, device, opt, criterion, steps=ft_steps, last_only=last_only)
+        train_epoch(
+            model,
+            data,
+            device,
+            opt,
+            criterion,
+            steps=ft_steps,
+            last_only=last_only,
+            clip=clip,
+        )
     post_metrics = run_eval(eval_steps_post, 3)
     post_loss = post_metrics["loss"]
     post_acc = post_metrics["acc"]
@@ -778,6 +811,8 @@ def run_prune_experiment(
         "eval_steps_post0": eval_steps_post0,
         "eval_steps_post": eval_steps_post,
         "eval_last_only": bool(eval_last_only),
+        "lr": lr,
+        "clip": clip,
         "hidden_size_override": hidden_size_override,
         "movement_batches": movement_batches,
         "model_kwargs": model_kwargs,
