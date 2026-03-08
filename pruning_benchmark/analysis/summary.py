@@ -11,7 +11,7 @@ from typing import Dict, List, Sequence, Tuple
 def summarize_csv(
     csv_path: str,
     group_fields: Sequence[str] = ("strategy", "amount"),
-    metrics: Sequence[str] = ("post_acc", "post_loss"),
+    metrics: Sequence[str] = ("post_acc_sequence", "post_loss"),
     output_path: str | None = None,
     filters: Dict[str, str] | None = None,
 ) -> List[Dict[str, float]]:

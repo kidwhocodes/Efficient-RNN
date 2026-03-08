@@ -50,7 +50,7 @@ def plot_curves(agg, metric: str, amount_field: str, output_path: str):
 def main():
     parser = argparse.ArgumentParser(description="Plot average pruning performance across tasks.")
     parser.add_argument("--input_csv", required=True)
-    parser.add_argument("--metric", default="post_acc")
+    parser.add_argument("--metric", default="post_acc_sequence")
     parser.add_argument("--output", required=True)
     parser.add_argument("--group_field", default="strategy")
     parser.add_argument("--amount_field", default="amount")

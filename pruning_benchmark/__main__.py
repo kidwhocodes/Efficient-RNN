@@ -116,7 +116,7 @@ def main():
     parser.add_argument(
         "--metrics",
         type=str,
-        default="post_acc,post_loss",
+        default="post_acc_sequence,post_loss",
         help="Comma-separated metric columns to average",
     )
     parser.add_argument(

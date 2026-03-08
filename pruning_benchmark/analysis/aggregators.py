@@ -39,7 +39,7 @@ def load_experiment_records(csv_path: str) -> pd.DataFrame:
 
 def stats_by_strategy(
     df: pd.DataFrame,
-    metrics: Iterable[str] = ("post_acc", "delta_post_acc", "post_loss", "sparsity"),
+    metrics: Iterable[str] = ("post_acc_sequence", "delta_post_acc_sequence", "post_loss", "sparsity"),
     group_fields: Iterable[str] = ("task", "strategy", "amount"),
 ) -> pd.DataFrame:
     """Summaries of metrics grouped by task, strategy, amount."""
@@ -56,21 +56,22 @@ def stats_by_strategy(
 
 def pairwise_deltas(df: pd.DataFrame, baseline: str = "noise_prune") -> pd.DataFrame:
     """Compute delta vs. a baseline strategy per seed."""
-    required = ["task", "amount", "seed", "strategy", "post_acc"]
+    metric = "post_acc_sequence" if "post_acc_sequence" in df.columns else "post_acc"
+    required = ["task", "amount", "seed", "strategy", metric]
     missing = [col for col in required if col not in df.columns]
     if missing:
         raise ValueError(f"Missing required columns: {missing}")
-    filtered = df.dropna(subset=["post_acc"]).copy()
+    filtered = df.dropna(subset=[metric]).copy()
     base = filtered[filtered["strategy"] == baseline]
     non_baseline = filtered[filtered["strategy"] != baseline]
     if non_baseline.empty or base.empty:
         return pd.DataFrame()
     merged = non_baseline.merge(
-        base[["task", "amount", "seed", "post_acc"]].rename(columns={"post_acc": "baseline_post_acc"}),
+        base[["task", "amount", "seed", metric]].rename(columns={metric: "baseline_post_acc"}),
         on=["task", "amount", "seed"],
         suffixes=("", "_baseline"),
     )
-    merged["delta_vs_baseline"] = merged["post_acc"] - merged["baseline_post_acc"]
+    merged["delta_vs_baseline"] = merged[metric] - merged["baseline_post_acc"]
     return merged
 
 
@@ -102,7 +103,7 @@ __all__ = [
 def paired_ttest_vs_baseline(
     df: pd.DataFrame,
     *,
-    metric: str = "post_acc",
+    metric: str = "post_acc_sequence",
     baseline: str = "noise_prune",
 ) -> pd.DataFrame:
     """Compute paired t-tests (strategy vs baseline) across seeds for each task/amount."""

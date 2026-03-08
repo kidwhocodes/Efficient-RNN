@@ -10,7 +10,7 @@ from collections import defaultdict
 def main():
     parser = argparse.ArgumentParser(description="Rank pruning methods.")
     parser.add_argument("--input_csv", required=True)
-    parser.add_argument("--metric", default="post_acc")
+    parser.add_argument("--metric", default="post_acc_sequence")
     parser.add_argument("--group_field", default="strategy")
     parser.add_argument("--filter_task", default=None)
     args = parser.parse_args()
