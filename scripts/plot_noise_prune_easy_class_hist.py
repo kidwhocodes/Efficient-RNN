@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import sys
 import warnings
 from collections import defaultdict
 from pathlib import Path
@@ -16,6 +17,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from pruning_benchmark.analysis.replay import (
+    resolve_modcog_B,
+    resolve_modcog_T,
+    resolve_noise_prune_kwargs,
+    resolve_score_batch_setting,
+)
 from pruning_benchmark.experiments.runner import fresh_model, temporary_seed
 from pruning_benchmark.pruning import PruneContext, get_pruner
 from pruning_benchmark.tasks.modcog import ensure_modcog_env_id
@@ -55,13 +66,7 @@ def _is_easy_task(task: str) -> bool:
 
 
 def _extract_noise_kwargs(row: Dict[str, str]) -> Dict[str, object]:
-    out: Dict[str, object] = {
-        "sigma": _to_float(row.get("prune_sigma"), 1.0),
-        "eps": _to_float(row.get("prune_eps"), 0.3),
-        "leak_shift": _to_float(row.get("prune_leak_shift"), 0.0),
-        "matched_diagonal": True,
-    }
-    return out
+    return resolve_noise_prune_kwargs(row)
 
 
 def _sample_score_batches(
@@ -163,9 +168,15 @@ def main() -> None:
         env_id = ensure_modcog_env_id(task)
         if env_id is None:
             continue
-        T = _to_int(row.get("ng_T"), 40)
-        B = _to_int(row.get("ng_B"), 256)
+        T = resolve_modcog_T(row, task)
+        B = resolve_modcog_B(row)
         seed = _to_int(row.get("seed"), 0)
+        score_batch_max_resamples = resolve_score_batch_setting(
+            row, "score_batch_max_resamples", args.score_batch_max_resamples
+        )
+        score_batch_min_valid = resolve_score_batch_setting(
+            row, "score_batch_min_valid", args.score_batch_min_valid
+        )
         data = ModCogTrialDM(
             env_id,
             T=T,
@@ -216,8 +227,8 @@ def main() -> None:
                     data,
                     score_count,
                     args.device,
-                    max_resamples=args.score_batch_max_resamples,
-                    min_valid=args.score_batch_min_valid,
+                    max_resamples=score_batch_max_resamples,
+                    min_valid=score_batch_min_valid,
                 ) if score_count > 0 else None
 
             context = PruneContext(
@@ -231,8 +242,11 @@ def main() -> None:
             )
             prune_kwargs = _extract_noise_kwargs(row)
             if args.prune_rng_seed is not None:
-                base_seed = int(args.prune_rng_seed) + seed_idx
-                prune_kwargs["rng"] = np.random.default_rng(base_seed * 1009 + seed)
+                base_seed = int(args.prune_rng_seed)
+            else:
+                base_seed = _to_int(row.get("noise_rng_seed"), 0)
+            if base_seed > 0 or args.prune_rng_seed is not None:
+                prune_kwargs["rng"] = np.random.default_rng(base_seed + seed_idx)
             pruner.run(context, **prune_kwargs)
             seed_hists.append(_prediction_histogram(model_seed, eval_batches, data.n_classes))
 

@@ -1,0 +1,156 @@
+{
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "methods": [
+    "noise_prune",
+    "l1_unstructured",
+    "obd",
+    "random_unstructured"
+  ],
+  "raw_amounts": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9
+  ],
+  "ft_amounts": [
+    0.7,
+    0.8,
+    0.9
+  ],
+  "primary_metric": "post_acc_sequence",
+  "stratification": "task_family",
+  "noise_rng_seed_scheme": "seed*100000 + global_task_index*100 + amount_bucket",
+  "notes": [
+    "CTRNN-only benchmark.",
+    "Mod-Cog runs use last_only=false and explicit ng_T per task.",
+    "Raw post-prune suites omit unnecessary checkpoint saving.",
+    "Fine-tune suites save final post-prune/post-FT checkpoints.",
+    "Only top-4 comparison methods are included in the primary cloud benchmark."
+  ],
+  "tasks": [
+    {
+      "task": "modcog:ctxdlydm1",
+      "ng_T": 32,
+      "split": "easy_nonseq"
+    },
+    {
+      "task": "modcog:ctxdlydm1intl",
+      "ng_T": 32,
+      "split": "easy_nonseq"
+    },
+    {
+      "task": "modcog:ctxdlydm1intr",
+      "ng_T": 32,
+      "split": "easy_nonseq"
+    },
+    {
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "split": "hard_seq"
+    },
+    {
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "split": "hard_seq"
+    },
+    {
+      "task": "modcog:ctxdlydm1seqr",
+      "ng_T": 40,
+      "split": "hard_seq"
+    },
+    {
+      "task": "modcog:ctxdlydm2",
+      "ng_T": 32,
+      "split": "easy_nonseq"
+    },
+    {
+      "task": "modcog:ctxdlydm2intl",
+      "ng_T": 32,
+      "split": "easy_nonseq"
+    },
+    {
+      "task": "modcog:ctxdlydm2intr",
+      "ng_T": 32,
+      "split": "easy_nonseq"
+    },
+    {
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "split": "hard_seq"
+    },
+    {
+      "task": "modcog:ctxdlydm2seql",
+      "ng_T": 40,
+      "split": "hard_seq"
+    },
+    {
+      "task": "modcog:ctxdlydm2seqr",
+      "ng_T": 40,
+      "split": "hard_seq"
+    }
+  ],
+  "task_splits": {
+    "easy_nonseq": [
+      "modcog:ctxdlydm1",
+      "modcog:ctxdlydm1intl",
+      "modcog:ctxdlydm1intr",
+      "modcog:ctxdlydm2",
+      "modcog:ctxdlydm2intl",
+      "modcog:ctxdlydm2intr"
+    ],
+    "hard_seq": [
+      "modcog:ctxdlydm1intseq",
+      "modcog:ctxdlydm1seql",
+      "modcog:ctxdlydm1seqr",
+      "modcog:ctxdlydm2intseq",
+      "modcog:ctxdlydm2seql",
+      "modcog:ctxdlydm2seqr"
+    ]
+  },
+  "run_order": [
+    "configs/cloud/modcog_ctxdlydm12_ctrnn_cloud_baselines_5seed.json",
+    "configs/cloud/modcog_ctxdlydm12_ctrnn_cloud_raw_top4_easy_nonseq_5seed.json",
+    "configs/cloud/modcog_ctxdlydm12_ctrnn_cloud_raw_top4_hard_seq_5seed.json",
+    "configs/cloud/modcog_ctxdlydm12_ctrnn_cloud_ft100_top4_easy_nonseq_5seed.json",
+    "configs/cloud/modcog_ctxdlydm12_ctrnn_cloud_ft100_top4_hard_seq_5seed.json"
+  ],
+  "suites": {
+    "baseline": {
+      "config_path": "configs/cloud/modcog_ctxdlydm12_ctrnn_cloud_baselines_5seed.json",
+      "output_csv": "results/cloud/modcog_ctxdlydm12_ctrnn_cloud_baselines_5seed.csv",
+      "run_count": 60
+    },
+    "raw_easy_nonseq": {
+      "config_path": "configs/cloud/modcog_ctxdlydm12_ctrnn_cloud_raw_top4_easy_nonseq_5seed.json",
+      "output_csv": "results/cloud/modcog_ctxdlydm12_ctrnn_cloud_raw_top4_easy_nonseq_5seed.csv",
+      "run_count": 1080
+    },
+    "ft100_easy_nonseq": {
+      "config_path": "configs/cloud/modcog_ctxdlydm12_ctrnn_cloud_ft100_top4_easy_nonseq_5seed.json",
+      "output_csv": "results/cloud/modcog_ctxdlydm12_ctrnn_cloud_ft100_top4_easy_nonseq_5seed.csv",
+      "run_count": 360
+    },
+    "raw_hard_seq": {
+      "config_path": "configs/cloud/modcog_ctxdlydm12_ctrnn_cloud_raw_top4_hard_seq_5seed.json",
+      "output_csv": "results/cloud/modcog_ctxdlydm12_ctrnn_cloud_raw_top4_hard_seq_5seed.csv",
+      "run_count": 1080
+    },
+    "ft100_hard_seq": {
+      "config_path": "configs/cloud/modcog_ctxdlydm12_ctrnn_cloud_ft100_top4_hard_seq_5seed.json",
+      "output_csv": "results/cloud/modcog_ctxdlydm12_ctrnn_cloud_ft100_top4_hard_seq_5seed.csv",
+      "run_count": 360
+    }
+  },
+  "total_run_count": 2940
+}

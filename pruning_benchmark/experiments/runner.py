@@ -393,6 +393,8 @@ def run_prune_experiment(
     ng_T = kwargs.pop("ng_T", None)
     ng_B = kwargs.pop("ng_B", None)
     ng_dataset_kwargs_raw = kwargs.pop("ng_dataset_kwargs", None)
+    score_batch_max_resamples = int(kwargs.pop("score_batch_max_resamples", 10) or 10)
+    score_batch_min_valid = int(kwargs.pop("score_batch_min_valid", 1) or 1)
 
     prune_phase = kwargs.pop("prune_phase", "post")
     if prune_phase not in {"pre", "post"}:
@@ -571,17 +573,30 @@ def run_prune_experiment(
                 fixed_batches.append((x_batch.to(device), y_batch.to(device)))
 
     state_dict_cached = None
+    def _infer_hidden_from_state(state_dict: Dict[str, torch.Tensor]) -> Optional[int]:
+        hh_weight = state_dict.get("hidden_layer.weight")
+        if hh_weight is not None:
+            return int(hh_weight.shape[0])
+        gru_hh = state_dict.get("gru.weight_hh_l0")
+        if gru_hh is not None:
+            return int(gru_hh.shape[1])
+        lstm_hh = state_dict.get("lstm.weight_hh_l0")
+        if lstm_hh is not None:
+            return int(lstm_hh.shape[1])
+        rnn_hh = state_dict.get("rnn.weight_hh_l0")
+        if rnn_hh is not None:
+            return int(rnn_hh.shape[1])
+        return None
+
     if load_model_path is not None:
         try:
             state_dict_cached = torch.load(load_model_path, map_location=device, weights_only=True)
         except TypeError:
             state_dict_cached = torch.load(load_model_path, map_location=device)
         if hidden_size_override is None and state_dict_cached is not None:
-            hh_weight = state_dict_cached.get("hidden_layer.weight")
-            if hh_weight is None:
-                hh_weight = state_dict_cached.get("gru.weight_hh_l0")
-            if hh_weight is not None:
-                hidden_size_override = hh_weight.shape[0]
+            inferred = _infer_hidden_from_state(state_dict_cached)
+            if inferred is not None:
+                hidden_size_override = inferred
 
     # ------------------------------------------------------------------
     # Build model and optimiser
@@ -614,13 +629,28 @@ def run_prune_experiment(
     criterion = nn.CrossEntropyLoss(ignore_index=-1)
     pruner = get_pruner(strategy) if pruned else None
 
+    def _batch_valid_count(yb: torch.Tensor, use_last_only: bool) -> int:
+        if use_last_only:
+            return int((yb[-1] != -1).sum().item())
+        return int((yb != -1).sum().item())
+
     def sample_batches(num: int | None):
         if not num or num <= 0:
             return None
         batches: List[tuple[torch.Tensor, torch.Tensor]] = []
         for _ in range(num):
-            xb, yb = data.sample_batch()
-            batches.append((xb.to(device), yb.to(device)))
+            chosen_x = None
+            chosen_y = None
+            attempts = max(1, score_batch_max_resamples)
+            for _attempt in range(attempts):
+                xb, yb = data.sample_batch()
+                if _batch_valid_count(yb, last_only) >= score_batch_min_valid:
+                    chosen_x, chosen_y = xb, yb
+                    break
+                if chosen_x is None:
+                    # Keep first draw as a fallback to avoid infinite loops.
+                    chosen_x, chosen_y = xb, yb
+            batches.append((chosen_x.to(device), chosen_y.to(device)))
         return batches
 
     pre_prune_stats: Dict[str, Any] = {}
@@ -697,10 +727,6 @@ def run_prune_experiment(
         pre_loss, pre_acc = pre0_loss, pre0_acc
         pre_snapshot = dict(pre0_snapshot)
 
-    if save_model_path is not None:
-        os.makedirs(os.path.dirname(save_model_path) or ".", exist_ok=True)
-        torch.save(model.state_dict(), save_model_path, _use_new_zipfile_serialization=True)
-
     prune_stats_post: Dict[str, Any] = {}
 
     # ------------------------------------------------------------------
@@ -745,12 +771,22 @@ def run_prune_experiment(
             last_only=last_only,
             clip=clip,
         )
-    post_metrics = run_eval(eval_steps_post, 3)
-    post_loss = post_metrics["loss"]
-    post_acc = post_metrics["acc"]
-    post_snapshot = snapshot_model(model)
+        post_metrics = run_eval(eval_steps_post, 3)
+        post_loss = post_metrics["loss"]
+        post_acc = post_metrics["acc"]
+        post_snapshot = snapshot_model(model)
+    else:
+        # When no fine-tuning occurs, the post-prune model is identical to post0.
+        post_metrics = dict(post0_metrics)
+        post_loss = post0_loss
+        post_acc = post0_acc
+        post_snapshot = dict(post0_snapshot)
 
     finalize_pruning(model)
+
+    if save_model_path is not None:
+        os.makedirs(os.path.dirname(save_model_path) or ".", exist_ok=True)
+        torch.save(model.state_dict(), save_model_path, _use_new_zipfile_serialization=True)
 
     # ------------------------------------------------------------------
     # Assemble metrics and config snapshots
@@ -816,7 +852,27 @@ def run_prune_experiment(
         "hidden_size_override": hidden_size_override,
         "movement_batches": movement_batches,
         "model_kwargs": model_kwargs,
+        "ng_T": task_meta.get("T", ng_T),
+        "ng_B": task_meta.get("B", ng_B),
+        "ng_kwargs": ng_kwargs_raw,
+        "ng_dataset_kwargs": ng_dataset_kwargs_raw,
+        "score_batch_max_resamples": score_batch_max_resamples,
+        "score_batch_min_valid": score_batch_min_valid,
     })
+    if strategy == "noise_prune":
+        config_metadata.update({
+            "noise_sigma": prune_meta.get("sigma"),
+            "noise_eps": prune_meta.get("eps"),
+            "noise_leak_shift": prune_meta.get("leak_shift"),
+            "noise_matched_diagonal": prune_meta.get("matched_diagonal"),
+            "noise_rng_seed": prune_meta.get("rng_seed"),
+            # Keep compatibility with existing analysis scripts that read prune_* columns.
+            "prune_sigma": prune_meta.get("sigma"),
+            "prune_eps": prune_meta.get("eps"),
+            "prune_leak_shift": prune_meta.get("leak_shift"),
+            "prune_matched_diagonal": prune_meta.get("matched_diagonal"),
+            "prune_rng_seed": prune_meta.get("rng_seed"),
+        })
     if save_model_path is not None:
         config_metadata["save_model_path"] = save_model_path
     if load_model_path is not None:

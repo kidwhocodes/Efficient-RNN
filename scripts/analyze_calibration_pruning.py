@@ -13,6 +13,8 @@ from __future__ import annotations
 import argparse
 import csv
 import math
+import sys
+import time
 import warnings
 from collections import defaultdict
 from pathlib import Path
@@ -25,7 +27,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from pruning_benchmark.experiments.runner import fresh_model, temporary_seed
+from pruning_benchmark.analysis.replay import (
+    resolve_modcog_B,
+    resolve_modcog_T,
+    resolve_noise_prune_kwargs,
+    resolve_score_batch_setting,
+)
 from pruning_benchmark.pruning import PruneContext, get_pruner
 from pruning_benchmark.tasks.modcog import ensure_modcog_env_id
 from pruning_benchmark.tasks.neurogym import ModCogTrialDM
@@ -62,15 +74,7 @@ def _infer_hidden_size(state: Dict[str, torch.Tensor]) -> int:
 def _extract_prune_kwargs(row: Dict[str, str], strategy: str, prune_seed: Optional[int]) -> Dict[str, object]:
     if strategy != "noise_prune":
         return {}
-    kwargs: Dict[str, object] = {
-        "sigma": _to_float(row.get("prune_sigma"), 1.0),
-        "eps": _to_float(row.get("prune_eps"), 0.3),
-        "leak_shift": _to_float(row.get("prune_leak_shift"), 0.0),
-        "matched_diagonal": True,
-    }
-    if prune_seed is not None:
-        kwargs["rng"] = np.random.default_rng(int(prune_seed))
-    return kwargs
+    return resolve_noise_prune_kwargs(row, cli_prune_seed=prune_seed)
 
 
 def _sample_score_batches(
@@ -238,6 +242,12 @@ def main() -> None:
         default="",
         help="Optional comma-separated strategy whitelist.",
     )
+    parser.add_argument(
+        "--progress_every",
+        type=int,
+        default=10,
+        help="Print progress every N processed rows (default: 10). Set 0 to disable.",
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
 
@@ -249,10 +259,7 @@ def main() -> None:
     keep_strategies = tuple(s.strip() for s in args.strategies.split(",") if s.strip()) or None
 
     rows = list(csv.DictReader(Path(args.suite_csv).open()))
-    out_rows: List[Dict[str, str]] = []
-    grouped_post_ece: Dict[Tuple[str, float], List[float]] = defaultdict(list)
-    grouped_post_brier: Dict[Tuple[str, float], List[float]] = defaultdict(list)
-
+    selected_rows = []
     for row in rows:
         task = (row.get("task") or "").strip()
         strategy = (row.get("strategy") or "").strip()
@@ -262,18 +269,33 @@ def main() -> None:
             continue
         if not _strategy_matches(strategy, keep_strategies):
             continue
-
         ckpt = (row.get("load_model_path") or "").strip()
         if not ckpt or not Path(ckpt).exists():
             continue
-        env_id = ensure_modcog_env_id(task)
-        if env_id is None:
+        if ensure_modcog_env_id(task) is None:
             continue
+        selected_rows.append(row)
+
+    total_rows = len(selected_rows)
+    if total_rows == 0:
+        raise ValueError("No matching rows were found. Check filters and paths.")
+    print(f"Processing {total_rows} rows with eval_batches={args.eval_batches}, ece_bins={args.ece_bins}")
+
+    out_rows: List[Dict[str, str]] = []
+    grouped_post_ece: Dict[Tuple[str, float], List[float]] = defaultdict(list)
+    grouped_post_brier: Dict[Tuple[str, float], List[float]] = defaultdict(list)
+    start_time = time.time()
+
+    for idx, row in enumerate(selected_rows, start=1):
+        task = (row.get("task") or "").strip()
+        strategy = (row.get("strategy") or "").strip()
+        ckpt = (row.get("load_model_path") or "").strip()
+        env_id = ensure_modcog_env_id(task)
 
         amount = _to_float(row.get("amount"), 0.0)
         seed = _to_int(row.get("seed"), 0)
-        T = _to_int(row.get("ng_T"), 40)
-        B = _to_int(row.get("ng_B"), 256)
+        T = resolve_modcog_T(row, task)
+        B = resolve_modcog_B(row)
         data = ModCogTrialDM(
             env_id,
             T=T,
@@ -282,6 +304,13 @@ def main() -> None:
             last_only=False,
             seed=seed,
             mask_fixation=True,
+        )
+
+        score_batch_max_resamples = resolve_score_batch_setting(
+            row, "score_batch_max_resamples", args.score_batch_max_resamples
+        )
+        score_batch_min_valid = resolve_score_batch_setting(
+            row, "score_batch_min_valid", args.score_batch_min_valid
         )
 
         state = torch.load(ckpt, map_location=args.device)
@@ -308,8 +337,8 @@ def main() -> None:
                 data,
                 score_count,
                 args.device,
-                max_resamples=args.score_batch_max_resamples,
-                min_valid=args.score_batch_min_valid,
+                max_resamples=score_batch_max_resamples,
+                min_valid=score_batch_min_valid,
             ) if score_count > 0 else None
 
         context = PruneContext(
@@ -347,9 +376,18 @@ def main() -> None:
                 f"{task}\t{strategy}\t{amount:.1f}\t"
                 f"post_ece={post['ece']:.6f}\tpost_brier={post['brier']:.6f}"
             )
-
-    if not out_rows:
-        raise ValueError("No matching rows were processed. Check filters and paths.")
+        if args.progress_every > 0 and (idx == 1 or idx % args.progress_every == 0 or idx == total_rows):
+            elapsed = time.time() - start_time
+            per_row = elapsed / idx
+            remaining = max(0, total_rows - idx)
+            eta = per_row * remaining
+            print(
+                f"[progress] {idx}/{total_rows} "
+                f"({100.0 * idx / total_rows:.1f}%) "
+                f"elapsed={elapsed / 60.0:.1f}m "
+                f"eta={eta / 60.0:.1f}m "
+                f"current={strategy}:{amount:.1f}:{task}"
+            )
 
     raw_path = Path(args.output_raw_csv)
     raw_path.parent.mkdir(parents=True, exist_ok=True)
@@ -396,4 +434,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

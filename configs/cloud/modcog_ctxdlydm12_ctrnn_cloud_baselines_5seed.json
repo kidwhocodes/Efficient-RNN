@@ -1,0 +1,622 @@
+{
+  "run_id": "modcog_ctxdlydm12_ctrnn_cloud_baselines_5seed",
+  "output_csv": "results/cloud/modcog_ctxdlydm12_ctrnn_cloud_baselines_5seed.csv",
+  "defaults": {
+    "hidden_size": 256,
+    "train_steps": 8000,
+    "ft_steps": 0,
+    "last_only": false,
+    "device": "cuda",
+    "movement_batches": 20,
+    "model_type": "ctrnn",
+    "ng_T": 0,
+    "ng_B": 256,
+    "eval_sample_batches": 32,
+    "reset_results": false,
+    "resume": true,
+    "lr": 0.0007,
+    "clip": 1.0
+  },
+  "runs": [
+    {
+      "run_id": "baseline_ctxdlydm1_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm1",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm1",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm1",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm1",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1_seed4.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intl_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intl_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intl_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm1intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intl_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intl_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm1intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intl_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intl_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm1intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intl_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intl_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm1intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intl_seed4.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intr_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm1intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intr_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intr_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm1intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intr_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intr_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm1intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intr_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intr_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm1intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intr_seed4.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intseq_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intseq_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intseq_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intseq_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intseq_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intseq_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intseq_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intseq_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1intseq_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm1intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1intseq_seed4.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1seql_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1seql_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1seql_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1seql_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1seql_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1seql_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1seql_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1seql_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1seql_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm1seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1seql_seed4.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1seqr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm1seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1seqr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1seqr_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm1seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1seqr_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1seqr_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm1seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1seqr_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1seqr_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm1seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1seqr_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm1seqr_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm1seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm1seqr_seed4.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm2",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm2",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm2",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm2",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2_seed4.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intl_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intl_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intl_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm2intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intl_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intl_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm2intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intl_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intl_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm2intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intl_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intl_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm2intl",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intl_seed4.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intr_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm2intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intr_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intr_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm2intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intr_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intr_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm2intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intr_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intr_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm2intr",
+      "ng_T": 32,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intr_seed4.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intseq_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intseq_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intseq_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intseq_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intseq_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intseq_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intseq_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intseq_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2intseq_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm2intseq",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2intseq_seed4.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2seql_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2seql_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2seql_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm2seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2seql_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2seql_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm2seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2seql_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2seql_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm2seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2seql_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2seql_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm2seql",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2seql_seed4.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2seqr_seed0",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 0,
+      "task": "modcog:ctxdlydm2seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2seqr_seed0.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2seqr_seed1",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 1,
+      "task": "modcog:ctxdlydm2seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2seqr_seed1.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2seqr_seed2",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 2,
+      "task": "modcog:ctxdlydm2seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2seqr_seed2.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2seqr_seed3",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 3,
+      "task": "modcog:ctxdlydm2seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2seqr_seed3.pt"
+    },
+    {
+      "run_id": "baseline_ctxdlydm2seqr_seed4",
+      "strategy": "none",
+      "amount": 0.0,
+      "no_prune": true,
+      "seed": 4,
+      "task": "modcog:ctxdlydm2seqr",
+      "ng_T": 40,
+      "save_model_path": "checkpoints/cloud/modcog_ctxdlydm12_ctrnn_baselines_5seed/ctxdlydm2seqr_seed4.pt"
+    }
+  ]
+}
