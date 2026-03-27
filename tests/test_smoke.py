@@ -42,11 +42,16 @@ def test_suite_runner_smoke(tmp_path):
     cfg = {
         "run_id": "test_suite",
         "defaults": {
+            "hidden_size": 8,
             "train_steps": 1,
             "ft_steps": 0,
             "last_only": True,
-            "task": "synthetic",
-            "device": "cpu"
+            "device": "cpu",
+            "movement_batches": 1,
+            "ng_T": 20,
+            "ng_B": 2,
+            "eval_sample_batches": 2,
+            "resume": False,
         },
         "runs": [
             {"strategy": "none", "amount": 0.0, "no_prune": True, "seed": 0}
@@ -218,3 +223,39 @@ def test_modcog_task_resolution_smoke():
     except ImportError:
         pytest.skip("Mod_Cog is not installed in this environment.")
     assert row["run_id"] == "modcog_smoke"
+
+
+def test_lstm_wpr_smoke():
+    set_global_seed(0)
+    row = run_prune_experiment(
+        strategy="lstm_wpr",
+        amount=0.2,
+        train_steps=1,
+        ft_steps=0,
+        last_only=True,
+        seed=0,
+        device="cpu",
+        movement_batches=1,
+        task="synthetic",
+        model_type="lstm",
+        run_id="smoke_lstm_wpr",
+    )
+    assert row["strategy"] == "lstm_wpr"
+
+
+def test_rnn_smoke():
+    set_global_seed(0)
+    row = run_prune_experiment(
+        strategy="l1_unstructured",
+        amount=0.2,
+        train_steps=1,
+        ft_steps=0,
+        last_only=True,
+        seed=0,
+        device="cpu",
+        movement_batches=1,
+        task="synthetic",
+        model_type="rnn",
+        run_id="smoke_rnn",
+    )
+    assert "post_acc" in row

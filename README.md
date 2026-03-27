@@ -22,7 +22,11 @@ pruning_benchmark/
 ```
 python3 -m venv .venv
 source .venv/bin/activate
+pip install --upgrade pip wheel setuptools
 pip install -r requirements.txt
+pip install -e ./neurogym
+pip install -e ./Mod_Cog
+pip install -e .
 ```
 
 ## Quick start
@@ -54,15 +58,13 @@ PY
 
 Older suites/configs and their outputs are archived under `archives/`.
 
-### Mod_Cog NeuroGym tasks (optional setup)
+### Mod_Cog NeuroGym tasks
 
-Recent Mod_Cog environments register themselves with NeuroGym once `Mod_Cog.mod_cog_tasks` is imported. Install them alongside NeuroGym:
+This repo vendors the NeuroGym and Mod_Cog sources it depends on. After the
+editable installs above, recent Mod_Cog environments register themselves with
+NeuroGym once `Mod_Cog.mod_cog_tasks` is imported. To sanity-check the install:
 ```
-pip install gym
-git clone https://github.com/neurogym/neurogym.git
-cd neurogym && pip install -e .
-git clone https://github.com/mikailkhona/Mod_Cog.git
-cd Mod_Cog && pip install -e .
+MPLCONFIGDIR=/tmp/mpl python scripts/runpod_preflight.py
 ```
 
 After installation you can invoke Mod_Cog tasks via the new `modcog:` prefix. Pass the builder name from `Mod_Cog.mod_cog_tasks` (e.g., `go`, `dlygointr`, `ctxdlydm1intseq`) and optionally forward environment kwargs through `--ng_kwargs` plus Dataset controls through `--ng_dataset_kwargs`:
@@ -129,3 +131,12 @@ Strategies that are traditionally applied at initialization (e.g., `snip`, `synf
 For more detailed notes on experiment workflow see `docs/experiment_workflow.md`.
 
 Documentation index: `docs/README.md`.
+
+## Runpod bootstrap
+
+For a clean cloud machine, use the provided bootstrap script after cloning:
+
+```
+bash scripts/bootstrap_runpod.sh
+MPLCONFIGDIR=/tmp/mpl python scripts/runpod_preflight.py
+```

@@ -20,7 +20,7 @@ from .pruners import (
     register_pruner,
 )
 
-PRUNE_AMOUNT_STEP = 0.05
+PRUNE_AMOUNT_STEP = 0.1
 _STEP_EPS = 1e-6
 
 
@@ -103,7 +103,8 @@ def _weight_scores_to_mask(scores: torch.Tensor, amount: float) -> torch.Tensor:
         equal_indices = torch.nonzero(equal_mask, as_tuple=False).view(-1)
         needed = target_kept - current_kept
         if needed > 0 and equal_indices.numel() > 0:
-            keep_indices = equal_indices[:needed]
+            perm = torch.randperm(equal_indices.numel(), device=equal_indices.device)
+            keep_indices = equal_indices[perm[:needed]]
             flat_mask = mask.view(-1)
             flat_mask[keep_indices] = 1
             mask = flat_mask.view_as(scores)
@@ -755,6 +756,7 @@ class FisherPruner(BasePruner):
 
 class SynflowPruner(BasePruner):
     name = "synflow"
+    description = "SynFlow saliency (post-training adaptation of a pre-training method)."
     supports_pretrain = True
 
     def apply(self, context: PruneContext, state: Mapping[str, object], **kwargs) -> Mapping[str, float]:
@@ -770,6 +772,7 @@ class SynflowPruner(BasePruner):
 
 class GraspPruner(BasePruner):
     name = "grasp"
+    description = "GraSP saliency (post-training adaptation of a pre-training method)."
     requires_batches = True
     default_batch_count = 20
     supports_pretrain = True

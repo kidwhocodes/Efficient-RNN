@@ -1,0 +1,109 @@
+[build-system]
+requires = ["setuptools>=64.0.0", "setuptools-scm", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+authors = [
+    { name = "Giulia Crocioni", email = "g.crocioni@esciencecenter.nl" },
+    { name = "Dani Bodor", email = "d.bodor@esciencecenter.nl" },
+    { name = "Nathan Cloos", email = "cloosnathan@gmail.com" },
+    { name = "Alexander Hadjiivanov", email = "a.hadjiivanov@esciencecenter.nl" },
+    { name = "Guangyu Robert Yang", email = "gyyang.neuro@gmail.com" },
+    { name = "Jorge Mejias", email = "j.f.mejias@uva.nl" },
+    { name = "Manuel Molano Mazon", email = "manuelmolanomazon@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "pydantic-settings",
+    "loguru",
+    "tqdm",
+    "tomlkit",
+    "numpy==2.1.*",
+    "gymnasium==0.29.*",
+    "matplotlib==3.9.*",
+    "scipy==1.14.*",
+]
+description = "NeuroGym: Gymnasium-style Cognitive Neuroscience Tasks"
+keywords = [
+    "neuroscience",
+    "neural networks",
+    "supervised learning",
+    "reinforcement learning",
+    "synthetic data",
+]
+license = { text = "Apache-2.0 License" }
+name = "neurogym"
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.10"
+version = "2.2.0"
+
+[project.optional-dependencies]
+dev = [
+    # testing
+    "pytest",
+    "pytest-cov",
+    "coverage [toml]",
+    # code style
+    "ruff==0.11.*",
+    "mypy",
+    "types-docutils",
+    "scipy-stubs",
+    # docs
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocs-exclude",
+    "mkdocs-redirects",
+    "mkdocstrings-python",
+    "mike",
+    "mkdocs-jupyter",
+    "black",
+    # release
+    "bump-my-version",
+]
+publishing = ["build", "twine", "wheel"]
+rl = ["stable-baselines3>=2.3.2", "sb3-contrib"]
+notebooks = ["nbmake", "tensorflow"]
+
+[project.urls]
+Repository = "https://github.com/neurogym/neurogym"
+Issues = "https://github.com/neurogym/neurogym"
+Documentation = "https://neurogym.github.io/neurogym"
+Changelog = "https://github.com/neurogym/neurogym/CHANGELOG.md"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["neurogym"]
+command_line = "-m pytest"
+
+# For completeness, until we move to an src-based layouts
+[tool.setuptools.packages.find]
+include = ["neurogym*"]
+exclude = ["tests*"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+show_error_codes = true
+exclude = "build/.*"
+
+[[tool.mypy.overrides]]
+module = "psychopy"
+ignore_missing_imports = true
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "def __repr__",
+    "def __str__",
+    "raise NotImplementedError",
+]

@@ -1,0 +1,54 @@
+name: linting
+
+on:
+  push:
+    paths-ignore:
+      # specific folder locations
+      - ".vscode/**"
+      - "docs/**"
+      # filetypes
+      - "**.md"
+      - "**.rst"
+      - "**.ipynb"
+      - "**.cff"
+      - "**.png"
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      # specific folder locations
+      - ".vscode/**"
+      - "docs/**"
+      # filetypes
+      - "**.md"
+      - "**.rst"
+      - "**.ipynb"
+      - "**.cff"
+      - "**.png"
+
+jobs:
+  lint:
+    if: github.event.pull_request.draft == false
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+      - name: Python info
+        shell: bash -e {0}
+        run: |
+          which python
+          python --version
+      - name: Install ruff version as listed in pyproject.toml
+        run: |
+          python3 -m pip install pyproject-deplister
+          pyproject-deplister --extra dev --path pyproject.toml | grep ruff | sed 's/ //g' | xargs -I{} python3 -m pip install "{}"
+          echo "Installed ruff version: $(ruff -V)"
+      - name: Check linting using ruff
+        run: ruff check || (echo "Please ensure you have a matching version of ruff (`ruff -V`) installed locally." && (exit 1))
+      - name: Check formatting using ruff
+        run: ruff format --check || (echo "Please ensure you have a matching version of ruff (`ruff -V`) installed locally." && (exit 1))

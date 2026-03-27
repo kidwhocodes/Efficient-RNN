@@ -271,11 +271,23 @@ class ModCogTrialDM:
 
     def _sample_single(self, env) -> Tuple[np.ndarray, np.ndarray]:
         try:
-            env.new_trial(**self._trial_kwargs)
+            new_trial_fn = env.get_wrapper_attr("new_trial")
+        except Exception:
+            new_trial_fn = getattr(getattr(env, "unwrapped", env), "new_trial")
+        try:
+            new_trial_fn(**self._trial_kwargs)
         except TypeError:
-            env.new_trial()
-        ob = np.asarray(env.ob)
-        gt = np.asarray(env.gt)
+            new_trial_fn()
+        try:
+            ob = env.get_wrapper_attr("ob")
+        except Exception:
+            ob = getattr(getattr(env, "unwrapped", env), "ob")
+        ob = np.asarray(ob)
+        try:
+            gt = env.get_wrapper_attr("gt")
+        except Exception:
+            gt = getattr(getattr(env, "unwrapped", env), "gt")
+        gt = np.asarray(gt)
         ob = ob.reshape(ob.shape[0], -1)
         labels = _labels_from_targets(gt)
         if labels.ndim > 1:

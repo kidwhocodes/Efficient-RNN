@@ -55,6 +55,18 @@ def spectral_radius(W: torch.Tensor) -> float:
 
 
 @torch.no_grad()
+def spectral_abscissa(W: torch.Tensor) -> float:
+    """Return max real part of eigenvalues."""
+    W = W.detach().to("cpu", dtype=torch.float32)
+    W = torch.nan_to_num(W, nan=0.0, posinf=0.0, neginf=0.0)
+    try:
+        eigvals = np.linalg.eigvals(W.numpy())
+        return float(np.max(np.real(eigvals)))
+    except Exception:
+        return float("nan")
+
+
+@torch.no_grad()
 def ctrnn_stability_proxy(model: CTRNN):
     if not _has_ctrnn_layers(model):
         return float("nan")
@@ -156,10 +168,26 @@ def snapshot_model(model: CTRNN) -> Dict[str, float]:
             stats["rec_weight_abs_mean_nz"] = float("nan")
             stats["rec_weight_abs_std_nz"] = float("nan")
             stats["rec_weight_nz_count"] = 0.0
+        H = W.size(0)
+        eye = torch.eye(H, dtype=W.dtype, device=W.device)
+        # Discrete-time linearized Jacobian proxy for the Euler step.
+        J_lin = model.oneminusalpha * eye + model.alpha * W
+        rho_lin = spectral_radius(J_lin)
+        stats["rec_linear_rho"] = float(rho_lin)
+        stats["rec_linear_margin"] = float(1.0 - rho_lin)
+        # Continuous-time operator proxy: v_dot ≈ (-I + W) v.
+        A_ct = W - eye
+        abscissa = spectral_abscissa(A_ct)
+        stats["rec_ct_abscissa"] = float(abscissa)
+        stats["rec_ct_margin"] = float(-abscissa)
     else:
         stats["rec_weight_abs_mean"] = float("nan")
         stats["rec_weight_abs_std"] = float("nan")
         stats["rec_weight_l2"] = float("nan")
+        stats["rec_linear_rho"] = float("nan")
+        stats["rec_linear_margin"] = float("nan")
+        stats["rec_ct_abscissa"] = float("nan")
+        stats["rec_ct_margin"] = float("nan")
 
     if hasattr(model, "readout_layer"):
         readout_abs = model.readout_layer.weight.detach().abs()
@@ -228,5 +256,6 @@ __all__ = [
     "neuron_pruning_stats",
     "recurrent_sparsity",
     "save_metrics",
+    "spectral_abscissa",
     "snapshot_model",
 ]
